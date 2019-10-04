@@ -28,7 +28,7 @@ header{
 footer{
 	margin-bottom: 0px;
 	border: 2px solid black;
-	position: absolute;
+	position: relative;
 	bottom: 0;
 	width: 100%;
 	height: 10%;
@@ -38,37 +38,6 @@ main{
 	background-image: url('../images/defaultBackground.jpg');
 	background-size: cover;
 	background-position: center;
-}
-
-#combat-block > h2{
-	background-color: white;
-	height: 100%;
-	width: 100%;
-	text-align: center;
-	vertical-align: 100%;
-	margin: 0;
-	place-items: center;
-	justify-content: center;
-	font-size: 25px;
-}
-
-#enemy-container{
-	grid-area: enemy;
-	height: 300px;
-	width: 100%;
-	justify-content: center;
-	text-align: center;
-}
-
-#player-container{
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	grid-template-rows: 1fr;
-	justify-content: center;
-	/* height: 200px; */
-	/* width: 100%; */
-	/* align-items: center;
-	place-items: center; */
 }
 
 #combat-block{
@@ -90,6 +59,43 @@ main{
 	align-items: center;
 }
 
+#combat-block > h2{
+	background-color: white;
+	height: 100%;
+	width: 100%;
+	text-align: center;
+	vertical-align: 100%;
+	margin: 0;
+	place-items: center;
+	justify-content: center;
+	font-size: 25px;
+}
+
+#combat-block > button{
+	width: 100%;
+	height: 100%;
+	font-size: 100%;
+}
+
+#enemy-container{
+	grid-area: enemy;
+	height: 300px;
+	width: 100%;
+	justify-content: center;
+	text-align: center;
+}
+
+#player-container{
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 1fr;
+	justify-content: center;
+	/* height: 200px; */
+	/* width: 100%; */
+	/* align-items: center;
+	place-items: center; */
+}
+
 #player-stats{
 	display: grid;
 	grid-template-columns: 1fr 3fr;
@@ -100,7 +106,7 @@ main{
 	place-items: center;
 	background-image: url('../images/statsBackground.jpg');
 	background-position: center;
-	background-size: cover;
+	background-size: auto;
 }
 
 #player-stats > h6{
@@ -127,7 +133,7 @@ main{
 #log{
 	text-align: left;
 	border: 2px solid black;
-	height: 612px;
+	height: 600px;
 	background-image: url('../images/logBackground.jpeg');
 	background-position: center;
 	background-size: cover;
@@ -137,6 +143,15 @@ main{
 	text-align: center;
 	width: 100%;
 	border-bottom: 2px solid white;
+	margin-bottom: 4px;
+}
+
+#log > button{
+	width: 100%;
+	/* display: flex; */
+	justify-self: center;
+	text-align: center;
+	height: 30px;
 }
 
 .progress{
@@ -146,7 +161,26 @@ main{
 	justify-self: start;
 }
 
+#updates{
+	/* align-self: center end; */
+	max-height: 558px;
+	width: 100%;
+	height: 500px;
+	text-align: left;
+	flex-direction: column-reverse;
+	overflow: scroll;
+	display: flex;
+	margin-top: 10px;
+}
 
+#updates > p{
+	width: 100%;
+	/* vertical-align: bottom; */
+	align-self: bottom;
+	margin-left: 5px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+}
 
 
 

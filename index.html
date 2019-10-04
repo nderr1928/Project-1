@@ -4,6 +4,7 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<title>Wizard's Journey</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
 </head>
 <body>
 	<!-- General current information -->
@@ -17,6 +18,9 @@
 		<!-- Battle log -->
 		<aside id="log">
 			<h1>Log</h1>
+			<button id='clearlog'>Clear Log</button>
+			<div id="updates">
+			</div>
 		</aside>	
 		<!-- Enemy zone -->
 		<main>
@@ -40,10 +44,10 @@
 			</div>
 		</div>
 		<div id="combat-block">
-			<h2>Attack</h2>
-			<h2>Magic</h2>
-			<h2>Item</h2>
-			<h2>Escape</h2>
+			<button id="attack-button">Attack</button>
+			<button id="magic-button">Magic</button>
+			<button id="item-button">Item</button>
+			<button id="escape-button">Escape</button>
 		</div>
 	</footer>
 	<script type="text/javascript" src="js/app.js"></script>
