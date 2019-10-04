@@ -27,6 +27,7 @@ const player = {
 	defense: 3,
 	attack(){
 		$($update).prepend('<p>You attack the enemy!</p>');
+		
 	}
 }
 
