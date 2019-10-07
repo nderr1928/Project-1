@@ -1,38 +1,70 @@
 const $clearLogButton = $('#clearlog');
 const $update = $('#updates'); 
-const $attackButton = $('#attack-button');
-const $magicButton = $('#magic-button');
-const $itemButton = $('#item-button');
-const $escapeButton = $('#escape-button');
+const $upperLeftButton = $('#upperleft-button');
+const $upperRightButton = $('#upperright-button');
+const $lowerLeftButton = $('#lowerleft-button');
+const $lowerRightButton = $('#lowerright-button');
 const $commandDescription = $('#commandDescription');
+let magicToggle = false;
 
-$($attackButton).on('click', () => {
+$($upperLeftButton).on('click', () => {
 	console.log('player attacks');
 	player.attack();
 })
 
-$($attackButton).hover(function(){
+$($upperRightButton).on('click', () => {
+	console.log('magic');
+	if(magicToggle === false){
+		console.log('open spell selection');
+		magicToggle = true;
+		$upperLeftButton.text('Fire');
+		$upperRightButton.text('Return');
+		$lowerLeftButton.text('Ice');
+		$lowerRightButton.text('Lightning');
+	}
+})
+
+$($upperRightButton).on('dblclick', () => {
+	console.log('magic');
+	if(magicToggle === true){
+		console.log('switch to full command list');
+		magicToggle = false;
+		$upperLeftButton.text('Attack');
+		$upperRightButton.text('Magic');
+		$lowerLeftButton.text('Item');
+		$lowerRightButton.text('Escape');
+	}
+})
+
+$($upperLeftButton).hover(function(){
 	console.log('attackhover');
 	$($commandDescription).text('Attack the enemy');
 	}, function(){
 		$($commandDescription).text('-');
-  });
+  }
+);
 
-  $($magicButton).hover(function(){
+$($upperRightButton).hover(function(){
 	console.log('magichover');
-	$($commandDescription).text('Choose a spell to cast');
-	}, function(){
-		$($commandDescription).text('-');
-  });
+	if(magicToggle === false){
+		$($commandDescription).text('Choose a spell to cast');
+	}
+	if(magicToggle === true){
+		$($commandDescription).text('Double click to return to main command screen');
+	}
+		}, function(){
+			$($commandDescription).text('-');
+		}
+);
 
-  $($itemButton).hover(function(){
+  $($lowerLeftButton).hover(function(){
 	console.log('itemhover');
 	$($commandDescription).text('Use an item');
 	}, function(){
 		$($commandDescription).text('-');
   });
 
-  $($escapeButton).hover(function(){
+  $($lowerRightButton).hover(function(){
 	console.log('escapehover');
 	$($commandDescription).text('Run from battle');
 	}, function(){
@@ -71,9 +103,8 @@ const player = {
 	defense: 3,
 	currentEXP: 0,
 	levelUpEXP: 5,
-	attack(){
+	playerTurn(){
 		$($update).prepend('<p>You attack the enemy!</p>');
-		
 	},
 	levelUp(){
 		$($update).prepend('<p>You have leveled up!</p>');
