@@ -12,14 +12,26 @@ let itemToggle = false;
 //Commands for upper left button 
 	//Attack or fire
 	$($upperLeftButton).on('click', () => {
-		console.log('player attacks');
-		// player.attack();
+		if(magicToggle === true && itemToggle === false){
+			$($update).prepend('<p>You used the fire spell</p>');
+			//fire function
+		}
+		if(magicToggle === false && itemToggle === false){
+			$($update).prepend('<p>You attack the enemy</p>');
+			// attack function
+		}
 	});
 
 	//Command description when hovering over upper left button
 	$($upperLeftButton).hover(function(){
-		console.log('attackhover');
-		$($commandDescription).text('Attack the enemy');
+		if(magicToggle === false && itemToggle === false){
+			console.log('attackhover');
+			$($commandDescription).text('Attack the enemy');
+		}
+		if(magicToggle === true && itemToggle === false){
+			console.log('fire');
+			$($commandDescription).text('Use fire to attack the enemy - 25% chance for burn (-1hp per turn for 2-5 turns)');
+		}
 		}, function(){
 			$($commandDescription).text('-');
 		}
@@ -30,20 +42,23 @@ let itemToggle = false;
 	//to magic menu
 	$($upperRightButton).on('click', () => {
 		console.log('magic');
-		if(magicToggle === false){
-			console.log('open spell selection');
+		if(magicToggle === false && itemToggle === false){
+			console.log('<p>open spell selection</p>');
 			magicToggle = true;
 			$upperLeftButton.text('Fire');
 			$upperRightButton.text('Return');
 			$lowerLeftButton.text('Ice');
 			$lowerRightButton.text('Lightning');
 		}
+		if(magicToggle === false && itemToggle === true){
+			$($update).prepend('<p>You used a health potion</p>');
+		}
 	});
 
 	//Commands to return to main command screen from magic menu
 	$($upperRightButton).on('dblclick', () => {
 		console.log('magic');
-		if(magicToggle === true){
+		if(magicToggle === true && itemToggle === false){
 			console.log('switch to full command list');
 			magicToggle = false;
 			$upperLeftButton.text('Attack');
@@ -56,11 +71,14 @@ let itemToggle = false;
 	//Command description when hovering over upper right button
 	$($upperRightButton).hover(function(){
 		console.log('magichover');
-		if(magicToggle === false){
+		if(magicToggle === false && itemToggle === false){
 			$($commandDescription).text('Choose a spell to cast');
 		}
-		if(magicToggle === true){
+		if(magicToggle === true && itemToggle === false){
 			$($commandDescription).text('Double click to return to main command screen');
+		}
+		if(magicToggle === false && itemToggle === true){
+			$($commandDescription).text('Use a health potion');
 		}
 		}, function(){
 			$($commandDescription).text('-');
@@ -71,11 +89,14 @@ let itemToggle = false;
 	//Hover over the lower left button
 	$($lowerLeftButton).hover(function(){
 		console.log('itemhover');
-		if(itemToggle === false){
+		if(itemToggle === false && magicToggle === false){
 			$($commandDescription).text('Use an item');
 		}
-		if(itemToggle === true){
+		if(magicToggle === false && itemToggle === true){
 			$($commandDescription).text('Double click to return to main command screen');
+		}
+		if(magicToggle === true && itemToggle === false){
+			$($commandDescription).text('Use ice attack - 25% chance of frostbite (enemy atk reduced by 10% for 2-5 turns)');
 		}
 		}, function(){
 			$($commandDescription).text('-');
@@ -85,13 +106,16 @@ let itemToggle = false;
 	//to item menu
 	$($lowerLeftButton).on('click', () => {
 		console.log('item');
-		if(itemToggle === false){
+		if(magicToggle === false && itemToggle === false){
 			console.log('open item selection');
 			itemToggle = true;
 			$upperLeftButton.text('');
 			$upperRightButton.text(`Health Potion (x${player.healthPotions})`);
 			$lowerLeftButton.text('Return');
 			$lowerRightButton.text(`Mana Potion (x${player.manaPotions})`);
+		}
+		if(magicToggle === true && itemToggle === false){
+			$($update).prepend('<p>You used the ice spell</p>');
 		}
 	});
 
@@ -111,12 +135,35 @@ let itemToggle = false;
 //Commands for lower right button
 	//Hover for lower right button
 	$($lowerRightButton).hover(function(){
-		console.log('escapehover');
-		$($commandDescription).text('Run from battle');
+		if(magicToggle === false && itemToggle === false){
+			console.log('escapehover');
+			$($commandDescription).text('Run from battle');
+		}
+		if(magicToggle === true && itemToggle === false){
+			$($commandDescription).text('Use lightning spell - 10% chance of shock (enemy cannot attack next turn)');
+		}
+		if(magicToggle === false && itemToggle === true){
+			$($commandDescription).text('Use mana potion');
+		}
 		}, function(){
 			$($commandDescription).text('-');
 		}
 	);
+
+	$lowerRightButton.click(function() {
+		if(magicToggle === false && itemToggle === false){
+			console.log('escapehover');
+			$($update).prepend('<p>You attempt to run from the battle</p>');
+		}
+		if(magicToggle === true && itemToggle === false){
+			$($update).prepend('<p>You used the lightning spell</p>');
+		}
+		if(magicToggle === false && itemToggle === true){
+			$($update).prepend('<p>You used a mana potion</p>');
+		}
+	}
+
+	)
 
 class enemies{
 	constructor(name, HP, attack, defense){
