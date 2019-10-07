@@ -1,7 +1,7 @@
 const $clearLogButton = $('#clearlog');
 const $update = $('#updates'); 
 const $attackButton = $('#attack-button');
-const $magicButton = $('#magicbutton');
+const $magicButton = $('#magic-button');
 const $itemButton = $('#item-button');
 const $escapeButton = $('#escape-button');
 const $commandDescription = $('#commandDescription');
@@ -18,13 +18,26 @@ $($attackButton).hover(function(){
 		$($commandDescription).text('-');
   });
 
-// $($attackButton).on('hover', () => {
-// 	console.log('attackhover');
-// 	$($commandDescription).text('Attack the enemy');
-// 	}, () => {
-// 		$($commandDescription).text('-');
-// 	}
-// )
+  $($magicButton).hover(function(){
+	console.log('magichover');
+	$($commandDescription).text('Choose a spell to cast');
+	}, function(){
+		$($commandDescription).text('-');
+  });
+
+  $($itemButton).hover(function(){
+	console.log('itemhover');
+	$($commandDescription).text('Use an item');
+	}, function(){
+		$($commandDescription).text('-');
+  });
+
+  $($escapeButton).hover(function(){
+	console.log('escapehover');
+	$($commandDescription).text('Run from battle');
+	}, function(){
+		$($commandDescription).text('-');
+  });
 
 class enemies{
 	constructor(name, HP, attack, defense){
