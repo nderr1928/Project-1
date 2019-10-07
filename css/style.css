@@ -278,5 +278,7 @@ main{
 	margin-right: 5px;
 }
 
-
+#currentHP, #currentMP{
+	margin:0;
+}
 

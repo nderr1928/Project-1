@@ -25,11 +25,11 @@ let itemToggle = false;
 	//Command description when hovering over upper left button
 	$($upperLeftButton).hover(function(){
 		if(magicToggle === false && itemToggle === false){
-			console.log('attackhover');
+			//console.log('attackhover');
 			$($commandDescription).text('Attack the enemy');
 		}
 		if(magicToggle === true && itemToggle === false){
-			console.log('fire');
+			//console.log('fire');
 			$($commandDescription).text('Use fire to attack the enemy - 25% chance for burn (-1hp per turn for 2-5 turns)');
 		}
 		}, function(){
@@ -41,9 +41,9 @@ let itemToggle = false;
 //Commands for the upper right button 
 	//to magic menu
 	$($upperRightButton).on('click', () => {
-		console.log('magic');
+		//console.log('magic');
 		if(magicToggle === false && itemToggle === false){
-			console.log('<p>open spell selection</p>');
+			//console.log('<p>open spell selection</p>');
 			magicToggle = true;
 			$upperLeftButton.text('Fire');
 			$upperRightButton.text('Return');
@@ -51,15 +51,31 @@ let itemToggle = false;
 			$lowerRightButton.text('Lightning');
 		}
 		if(magicToggle === false && itemToggle === true){
-			$($update).prepend('<p>You used a health potion</p>');
+			player.healthPotion();
 		}
 	});
 
+	//Command description when hovering over upper right button
+	$($upperRightButton).hover(function(){
+		if(magicToggle === false && itemToggle === false){
+			$($commandDescription).text('Choose a spell to cast');
+		}
+		if(magicToggle === true && itemToggle === false){
+			$($commandDescription).text('Double click to return to main command screen');
+		}
+		if(magicToggle === false && itemToggle === true){
+			$($commandDescription).text(`Restore 50% of max health (${Math.ceil(player.maxHP/2)} points)`);
+		}
+		}, function(){
+			$($commandDescription).text('-');
+		}
+	);
+
 	//Commands to return to main command screen from magic menu
 	$($upperRightButton).on('dblclick', () => {
-		console.log('magic');
+		//console.log('magic');
 		if(magicToggle === true && itemToggle === false){
-			console.log('switch to full command list');
+			//console.log('switch to full command list');
 			magicToggle = false;
 			$upperLeftButton.text('Attack');
 			$upperRightButton.text('Magic');
@@ -68,27 +84,26 @@ let itemToggle = false;
 		}
 	});
 
-	//Command description when hovering over upper right button
-	$($upperRightButton).hover(function(){
-		console.log('magichover');
-		if(magicToggle === false && itemToggle === false){
-			$($commandDescription).text('Choose a spell to cast');
-		}
-		if(magicToggle === true && itemToggle === false){
-			$($commandDescription).text('Double click to return to main command screen');
-		}
-		if(magicToggle === false && itemToggle === true){
-			$($commandDescription).text('Use a health potion');
-		}
-		}, function(){
-			$($commandDescription).text('-');
-		}
-	);
 
 //Commands for lower left button
+	//to item menu
+	$($lowerLeftButton).on('click', () => {
+		//console.log('item');
+		if(magicToggle === false && itemToggle === false){
+			//console.log('open item selection');
+			itemToggle = true;
+			$upperLeftButton.text('');
+			$upperRightButton.text(`Health Potion (x${player.healthPotions})`);
+			$lowerLeftButton.text('Return');
+			$lowerRightButton.text(`Mana Potion (x${player.manaPotions})`);
+		}
+		if(magicToggle === true && itemToggle === false){
+			$($update).prepend('<p>You used the ice spell</p>');
+		}
+	});
+
 	//Hover over the lower left button
 	$($lowerLeftButton).hover(function(){
-		console.log('itemhover');
 		if(itemToggle === false && magicToggle === false){
 			$($commandDescription).text('Use an item');
 		}
@@ -103,27 +118,11 @@ let itemToggle = false;
 		}
 	);
 
-	//to item menu
-	$($lowerLeftButton).on('click', () => {
-		console.log('item');
-		if(magicToggle === false && itemToggle === false){
-			console.log('open item selection');
-			itemToggle = true;
-			$upperLeftButton.text('');
-			$upperRightButton.text(`Health Potion (x${player.healthPotions})`);
-			$lowerLeftButton.text('Return');
-			$lowerRightButton.text(`Mana Potion (x${player.manaPotions})`);
-		}
-		if(magicToggle === true && itemToggle === false){
-			$($update).prepend('<p>You used the ice spell</p>');
-		}
-	});
-
 	//Commands to return to main command screen from item menu
 	$($lowerLeftButton).on('dblclick', () => {
-		console.log('item');
+		//console.log('item');
 		if(itemToggle === true){
-			console.log('switch to full command list');
+			//console.log('switch to full command list');
 			itemToggle = false;
 			$upperLeftButton.text('Attack');
 			$upperRightButton.text('Magic');
@@ -133,37 +132,36 @@ let itemToggle = false;
 	});
 
 //Commands for lower right button
-	//Hover for lower right button
-	$($lowerRightButton).hover(function(){
-		if(magicToggle === false && itemToggle === false){
-			console.log('escapehover');
-			$($commandDescription).text('Run from battle');
-		}
-		if(magicToggle === true && itemToggle === false){
-			$($commandDescription).text('Use lightning spell - 10% chance of shock (enemy cannot attack next turn)');
-		}
-		if(magicToggle === false && itemToggle === true){
-			$($commandDescription).text('Use mana potion');
-		}
-		}, function(){
-			$($commandDescription).text('-');
-		}
-	);
-
+	//click functions for lower right
 	$lowerRightButton.click(function() {
 		if(magicToggle === false && itemToggle === false){
-			console.log('escapehover');
 			$($update).prepend('<p>You attempt to run from the battle</p>');
 		}
 		if(magicToggle === true && itemToggle === false){
 			$($update).prepend('<p>You used the lightning spell</p>');
 		}
 		if(magicToggle === false && itemToggle === true){
-			$($update).prepend('<p>You used a mana potion</p>');
+			player.manaPotion();
 		}
 	}
+	);
 
-	)
+	//Hover for lower right button
+	$($lowerRightButton).hover(function(){
+		if(magicToggle === false && itemToggle === false){
+			$($commandDescription).text('Run from battle');
+		}
+		if(magicToggle === true && itemToggle === false){
+			$($commandDescription).text('Use lightning spell - 10% chance of shock (enemy cannot attack next turn)');
+		}
+		if(magicToggle === false && itemToggle === true){
+			$($commandDescription).text(`Restore 50% of max MP (${Math.ceil(player.maxMP/2)} points)`);
+		}
+		}, function(){
+			$($commandDescription).text('-');
+		}
+	);
+
 
 class enemies{
 	constructor(name, HP, attack, defense){
@@ -179,13 +177,16 @@ class enemies{
 	}
 }
 
-class potion{
-	constructor(name, health, mana){
-		this.name = name;
-		this.health = health;
-		this.mana = mana; 
-	}
+const healthPotion = {
+	name: 'Health Potion',
+	recovery: 0.5,
+};
+
+const manaPotion = {
+	name: 'Mana Potion',
+	recovery: 0.5,
 }
+
 
 const player = {
 	maxHP: 20,
@@ -218,8 +219,49 @@ const player = {
 		$($update).prepend(`<p>Defense = ${player.defense}</p>`);
 		$($update).prepend(`<p>EXP to next level: ${player.levelUpEXP - player.currentEXP}</p>`);
 	},
-	magic(){
+	fireSpell(){
 
+	},
+	iceSpell(){
+
+	},
+	lightningSpell(){
+
+	},
+	healthPotion(){
+		if(this.healthPotions > 0 && this.currentHP < this.maxHP){
+			if(Math.ceil(healthPotion.recovery * this.maxHP) + this.currentHP >= this.maxHP){
+				this.currentHP = this.maxHP;
+			} else{
+				this.currentHP += Math.ceil(healthPotion.recovery * this.maxHP);
+			}
+			console.log(player.currentHP);
+			$('#currentHP').text(player.currentHP);
+			$('#hpBar').css('width', `${(this.currentHP/this.maxHP)*100}%`);
+			this.healthPotions--;
+		} else{
+			if(this.healthPotions = 0){
+				$($update).prepend('<p>You have no health potions left</p>')
+			} else{
+				$($update).prepend('<p>Health is already at max</p>');
+			}
+		}
+	},
+	manaPotion(){
+		if(this.manaPotions > 0 && this.currentMP < this.maxMP){
+			if(Math.ceil(manaPotion.recovery * this.maxMP) + this.currentMP >= this.maxMP){
+				this.currentMP = this.maxMP;
+			} else{
+				this.currentMP += Math.ceil(healthPotion.recovery * this.maxMP);
+			}
+			$('#currentMP').text(player.currentMP);
+			$('#manaBar').css('width', `${(this.currentMP/this.maxMP)*100}%`);
+			this.manaPotions--;
+		} else if(this.manaPotions = 0){
+				$($update).prepend('<p>You have no mana potions left</p>')
+		} else{
+			$($update).prepend('<p>Mana is already at max</p>');
+		}
 	}
 }
 
@@ -227,3 +269,19 @@ $($clearLogButton).on('click', (e) => {
 	console.log('clear');
 	$($update).empty();
 });
+
+const game = {
+	currentEnemy: {
+		name: null,
+		strength: null,
+		HP: null,
+		fireWeakness: null,
+		iceWeakness: null,
+		lightningWeakness: null,
+		burn: null,
+		frostbite: null,
+		shock: null
+	},
+	battleRound: 1,
+	zone: "fields"
+}
