@@ -99,6 +99,7 @@
 		}
 		if(magicToggle === true && itemToggle === false){
 			$($update).prepend('<p>You used the ice spell</p>');
+			player.iceSpell();
 		}
 	});
 
@@ -139,6 +140,7 @@
 		}
 		if(magicToggle === true && itemToggle === false){
 			$($update).prepend('<p>You used the lightning spell</p>');
+			player.lightningSpell();
 		}
 		if(magicToggle === false && itemToggle === true){
 			player.manaPotion();
@@ -239,31 +241,31 @@
 			let dmg = 5;
 			const burnChance = .25;
 			game.currentEnemy.HP -= dmg;
+			$('#attack-animation').css('background-image', 'url(images/attacks/fireball.gif)');
 			if(Math.random() < burnChance){
 				game.currentEnemy.burn = true;
-				$($update).prepend(`${game.currentEnemy.name} has been burned.`);
+				$($update).prepend(`<p>${game.currentEnemy.name} has been burned.</p>`);
 			}
-			$('#attack-animation').css('background-image', 'url(../images/attacks/fireball.gif)');
 		},
 		iceSpell(){
 			let dmg = 5;
 			const frostbiteChance = .25;
 			game.currentEnemy.HP -= dmg;
+			$('#attack-animation').css('background-image', 'url(images/attacks/ice.gif)');
 			if(Math.random() < frostbiteChance){
 				game.currentEnemy.frostbite = true;
-				$($update).prepend(`${game.currentEnemy.name} has been frostbitten.`);
+				$($update).prepend(`<p>${game.currentEnemy.name} has been frostbitten.</p>`);
 			}
-			$('#attack-animation').css('background-image', 'url(../images/attacks/ice.gif)');
 		},
 		lightningSpell(){
 			let dmg = 5;
 			const shockChance = .1;
 			game.currentEnemy.HP -= dmg;
+			$('#attack-animation').css('background-image', 'url(images/attacks/lightning.gif)');
 			if(Math.random() < shockChance){
 				game.currentEnemy.shock = true;
-				$($update).prepend(`${game.currentEnemy.name} is in shock.`);
+				$($update).prepend(`<p>${game.currentEnemy.name} is in shock.</p>`);
 			}
-			$('#attack-animation').css('background-image', 'url(../images/attacks/lightning.gif)');
 		},
 		healthPotion(){
 			if(this.healthPotions > 0 && this.currentHP < this.maxHP){
@@ -322,9 +324,9 @@ const game = {
 		exp: null
 	},
 	battleRound: 1,
-	zone: "fields",
+	zone: "Cave",
 	selectEnemy(){
-		if(game.zone === 'fields'){
+		if(game.zone === 'Fields'){
 			const randomIndex = Math.floor(Math.random()*field.length);
 			game.currentEnemy.name = field[randomIndex].name;
 			game.currentEnemy.strength = field[randomIndex].strength;
@@ -348,6 +350,38 @@ const game = {
 			if(game.currentEnemy.lightningWeakness === true){
 				$('#enemyWeakness').append('<p style="color: Purple">Lightning</p>');
 			}
+			$($update).prepend(`<p>An enemy ${fields[randomIndex].name} has appeared!`);
+		}
+		if(game.zone === 'Cave'){
+			const randomIndex = Math.floor(Math.random()*cave.length);
+			game.currentEnemy.name = cave[randomIndex].name;
+			game.currentEnemy.strength = cave[randomIndex].strength;
+			game.currentEnemy.HP = cave[randomIndex].HP;
+			game.currentEnemy.fireWeakness = cave[randomIndex].fireWeakness;
+			game.currentEnemy.iceWeakness = cave[randomIndex].iceWeakness;
+			game.currentEnemy.lightningWeakness = cave[randomIndex].lightningWeakness;
+			game.currentEnemy.burn = cave[randomIndex].burn;
+			game.currentEnemy.frostbite = cave[randomIndex].frostbite;
+			game.currentEnemy.shock = cave[randomIndex].shock;
+			game.currentEnemy.imageURL = cave[randomIndex].imageURL;
+			game.currentEnemy.exp = cave[randomIndex].expPts;
+			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
+			$('#enemyHealth').append(`<h6>${game.currentEnemy.HP}`);
+			if(game.currentEnemy.fireWeakness === true){
+				$('#enemyWeakness').append('<p style="color: orange">Fire</p>');
+			}
+			if(game.currentEnemy.iceWeakness === true){
+				$('#enemyWeakness').append('<p style="color: teal">Ice</p>');
+			}
+			if(game.currentEnemy.lightningWeakness === true){
+				$('#enemyWeakness').append('<p style="color: Purple">Lightning</p>');
+			}
+			$($update).prepend(`<p>An enemy ${cave[randomIndex].name} has appeared!`);
+		}
+	},
+	battle(){
+		if(player.currentHP > 0 && game.currentEnemy.HP > 0){
+			
 		}
 	}
 }
