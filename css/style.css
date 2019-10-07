@@ -101,11 +101,19 @@ main{
 	position: relative;
 	height: 150px;
 	width: 150px;
-	background-image: url('../images/enemies/bat.gif');
+	background-image: null;
 	background-size: cover;
 	margin: auto;
 	margin-top: 160px;
 	/* align-self: center; */
+}
+
+#attack-animation{
+	height: 100%;
+	width: 100%;
+	background-size: cover;
+	margin: 0;
+	background-image: null;
 }
 
 #enemy-info{

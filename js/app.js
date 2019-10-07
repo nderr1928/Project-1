@@ -164,18 +164,27 @@ let itemToggle = false;
 
 
 class enemies{
-	constructor(name, HP, attack, defense){
+	constructor(name, strength, attack, hp, defense, fireWeakness, iceWeakness, lightningWeakness, imageURL, exp){
 		this.name = name;
-		this.health = HP;
+		this.strength = strength;
 		this.attack = attack;
-		this.defense = defense;
-		this.weakness = [];
-		this.attacks = [];
+		this.HP = hp;
+		this.defense = defense
+		this.fireWeakness = fireWeakness;
+		this.iceWeakness = iceWeakness;
+		this.lightningWeakness = lightningWeakness;
+		this.burn = false;
+		this.frostbite = false;
+		this.shock = false;
+		this.imageURL = imageURL;
+		this.expPts = exp;
 	}
 	attack(){
 		$($update).prepend(`<p>The enemy attacks you!</p>`);
 	}
 }
+
+const bat = new enemies('Bat', 2, "bite", 10, 2, false, false, false, 'url(../images/enemies/bat.gif)', 2);
 
 const healthPotion = {
 	name: 'Health Potion',
@@ -280,7 +289,8 @@ const game = {
 		lightningWeakness: null,
 		burn: null,
 		frostbite: null,
-		shock: null
+		shock: null,
+		imageURL: null
 	},
 	battleRound: 1,
 	zone: "fields"
