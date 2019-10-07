@@ -79,10 +79,56 @@ main{
 
 #enemy-container{
 	grid-area: enemy;
-	height: 300px;
+	height: 571px;
 	width: 100%;
 	justify-content: center;
 	text-align: center;
+	display: grid;
+	grid-template-rows: 1fr 100px;
+	grid-template-columns: 1fr;
+	grid-template-areas:
+		"enemyPic"
+		"enemyStats";
+}
+
+#enemy-image-zone{
+	grid-area: enemyPic;
+	/* align-items: center; */
+	/* justify-items: center; */
+}
+
+#enemy-image{
+	position: relative;
+	height: 150px;
+	width: 150px;
+	background-image: url('../images/enemies/bat.gif');
+	background-size: cover;
+	margin: auto;
+	margin-top: 160px;
+	/* align-self: center; */
+}
+
+#enemy-info{
+	grid-area: enemyStats;
+	background-color: rgba(225, 225, 225, 0.4);
+	border: 2px black solid;
+	display: grid;
+	grid-template-columns: 1fr 1.5fr 1.5fr 2fr;
+	grid-template-rows:	40px 60px;
+	grid-template-areas: 
+		"HP weak resist command"
+		"value element element2 description";
+}
+
+#enemy-info > h6{
+	text-align: center;
+	width: 100%;
+	height: 100%;
+	line-height: 100%;
+	margin: 0;
+	border: black 1px solid;
+	display: flexbox;
+	align-content: center;
 }
 
 #player-container{
