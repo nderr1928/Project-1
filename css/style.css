@@ -84,7 +84,7 @@ main{
 	justify-content: center;
 	text-align: center;
 	display: grid;
-	grid-template-rows: 1fr 100px;
+	grid-template-rows: 1fr 120px;
 	grid-template-columns: 1fr;
 	grid-template-areas:
 		"enemyPic"
@@ -113,7 +113,7 @@ main{
 	width: 100%;
 	background-size: cover;
 	margin: 0;
-	background-image: null;
+	/* background-image: null; */
 }
 
 #enemy-info{
@@ -122,10 +122,14 @@ main{
 	border: 2px black solid;
 	display: grid;
 	grid-template-columns: 1fr 1.5fr 1.5fr 2fr;
-	grid-template-rows:	40px 60px;
+	grid-template-rows:	40px 80px;
 	grid-template-areas: 
 		"HP weak resist command"
 		"value element element2 description";
+}
+
+#enemyWeakness > p{
+	margin: 0;
 }
 
 #enemy-info > div{
