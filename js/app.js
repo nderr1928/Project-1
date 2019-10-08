@@ -567,5 +567,17 @@ const game = {
 		battleToggle = true;
 		playerToggle = true;
 		$($update).prepend(`<p style="border-top: 1px black solid">An enemy ${game.currentEnemy.name} has appeared!`)
+	},
+	checkDeath(){
+		if(game.currentEnemy.HP <= 0){
+			$($update).prepend(`<p>You have defeated the enemy.</p>`)
+			$lowerRightButton.text('Start');
+			$lowerRightButton.css('visibility', 'visible');
+			battleToggle = false;
+			playerToggle = false;
+		}
+		if(player.currentHP <= 0){
+			
+		}
 	}
 }
