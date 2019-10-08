@@ -45,10 +45,10 @@
 		if(magicToggle === false && itemToggle === false){
 			//console.log('<p>open spell selection</p>');
 			magicToggle = true;
-			$upperLeftButton.text('Fire');
+			$upperLeftButton.text('Fire (MP: 5)');
 			$upperRightButton.text('Return');
-			$lowerLeftButton.text('Ice');
-			$lowerRightButton.text('Lightning');
+			$lowerLeftButton.text('Ice (MP: 3)');
+			$lowerRightButton.text('Lightning (MP: 4)');
 		}
 		if(magicToggle === false && itemToggle === true){
 			player.healthPotion();
@@ -239,8 +239,27 @@
 			$($update).prepend(`<p>Defense = ${player.defense}</p>`);
 			$($update).prepend(`<p>EXP to next level: ${player.levelUpEXP - player.currentEXP}</p>`);
 		},
+		attack(){
+			$($update).prepend(`<p>You attack the enemy</p>`)
+			const dmg = Math.ceil(player.strength - Math.floor(game.currentEnemy.defense/2));
+			if(dmg <= 1){
+				game.currentEnemy.HP--;
+				$('#enemyHealth').text(game.currentEnemy.HP);
+				$($update).prepend(`<p>You deal 1 point of damage.</p>`);
+			} else if(game.currentEnemy.HP - dmg <= 0){
+				game.currentEnemy.HP = 0;
+				$('#enemyHealth').text(game.currentEnemy.HP);
+				$($update).prepend(`<p>You deal ${dmg} points of damage.</p>`);
+				$($update).prepend(`<p>You have defeated the enemy!</p>`);
+			} 
+			else{
+				game.currentEnemy.HP -= dmg;
+				$('#enemyHealth').text(game.currentEnemy.HP);
+				$($update).prepend(`<p>You deal ${dmg} points of damage.</p>`);
+			}
+		},
 		fireSpell(){
-			let dmg = 5;
+			let dmg = 4;
 			const burnChance = .25;
 			game.currentEnemy.HP -= dmg;
 			$('#attack-animation').css('background-image', 'url(images/attacks/fireball.gif)');
@@ -250,7 +269,7 @@
 			}
 		},
 		iceSpell(){
-			let dmg = 5;
+			let dmg = 4;
 			const frostbiteChance = .25;
 			game.currentEnemy.HP -= dmg;
 			$('#attack-animation').css('background-image', 'url(images/attacks/ice.gif)');
@@ -260,7 +279,7 @@
 			}
 		},
 		lightningSpell(){
-			let dmg = 5;
+			let dmg = 4;
 			const shockChance = .1;
 			game.currentEnemy.HP -= dmg;
 			$('#attack-animation').css('background-image', 'url(images/attacks/lightning.gif)');
@@ -335,6 +354,7 @@ const game = {
 			game.currentEnemy.strength = field[randomIndex].strength;
 			game.currentEnemy.attack = field[randomIndex].attack;
 			game.currentEnemy.HP = field[randomIndex].HP;
+			game.currentEnemy.defense = field[randomIndex].defense;
 			game.currentEnemy.fireWeakness = field[randomIndex].fireWeakness;
 			game.currentEnemy.iceWeakness = field[randomIndex].iceWeakness;
 			game.currentEnemy.lightningWeakness = field[randomIndex].lightningWeakness;
@@ -362,6 +382,7 @@ const game = {
 			game.currentEnemy.strength = cave[randomIndex].strength;
 			game.currentEnemy.attack = cave[randomIndex].attack;
 			game.currentEnemy.HP = cave[randomIndex].HP;
+			game.currentEnemy.defense = cave[randomIndex].defense;
 			game.currentEnemy.fireWeakness = cave[randomIndex].fireWeakness;
 			game.currentEnemy.iceWeakness = cave[randomIndex].iceWeakness;
 			game.currentEnemy.lightningWeakness = cave[randomIndex].lightningWeakness;
