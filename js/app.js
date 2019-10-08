@@ -182,9 +182,6 @@
 			this.imageURL = imageURL;
 			this.expPts = exp;
 		}
-		attack(){
-			$($update).prepend(`<p>The enemy attacks you!</p>`);
-		}
 	}
 
 	const bat = new enemies('Bat', 2, "bite", 15, 2, false, false, true, 'url(images/enemies/bat.gif)', 2);
@@ -211,9 +208,10 @@
 		maxMP: 8,
 		currentHP: 20,
 		currentMP: 8,
+		manaRegen: 1,
 		level: 1,
 		strength: 6,
-		defense: 3,
+		defense: 1,
 		currentEXP: 0,
 		levelUpEXP: 5,
 		healthPotions: 3,
@@ -317,6 +315,7 @@ const game = {
 	currentEnemy: {
 		name: null,
 		strength: null,
+		attack: null,
 		HP: null,
 		fireWeakness: null,
 		iceWeakness: null,
@@ -334,6 +333,7 @@ const game = {
 			const randomIndex = Math.floor(Math.random()*field.length);
 			game.currentEnemy.name = field[randomIndex].name;
 			game.currentEnemy.strength = field[randomIndex].strength;
+			game.currentEnemy.attack = field[randomIndex].attack;
 			game.currentEnemy.HP = field[randomIndex].HP;
 			game.currentEnemy.fireWeakness = field[randomIndex].fireWeakness;
 			game.currentEnemy.iceWeakness = field[randomIndex].iceWeakness;
@@ -360,6 +360,7 @@ const game = {
 			const randomIndex = Math.floor(Math.random()*cave.length);
 			game.currentEnemy.name = cave[randomIndex].name;
 			game.currentEnemy.strength = cave[randomIndex].strength;
+			game.currentEnemy.attack = cave[randomIndex].attack;
 			game.currentEnemy.HP = cave[randomIndex].HP;
 			game.currentEnemy.fireWeakness = cave[randomIndex].fireWeakness;
 			game.currentEnemy.iceWeakness = cave[randomIndex].iceWeakness;
@@ -386,6 +387,28 @@ const game = {
 	battle(){
 		if(player.currentHP > 0 && game.currentEnemy.HP > 0){
 			
+		}
+	},
+	enemyAttack(){
+		$($update).prepend(`<p>The enemy attacks you with a ${game.currentEnemy.attack}!</p>`);
+		const dmg = Math.ceil(game.currentEnemy.strength - Math.floor(player.defense/2));
+		if(dmg <= 1){
+			player.currentHP--;
+			$('#currentHP').text(player.currentHP);
+			$('#hpBar').css('width', `${(player.currentHP/player.maxHP)*100}%`);
+			$($update).prepend(`<p>You take 1 point of damage.</p>`);
+		} else if(player.currentHP - dmg <= 0){
+			player.currentHP = 0;
+			$('#currentHP').text(player.currentHP);
+			$('#hpBar').css('width', `${(player.currentHP/player.maxHP)*100}%`);
+			$($update).prepend(`<p>You take ${dmg} points of damage.</p>`);
+			$($update).prepend(`<p>You have been defeated by the enemy!</p>`);
+		} 
+		else{
+			player.currentHP -= dmg;
+			$('#currentHP').text(player.currentHP);
+			$('#hpBar').css('width', `${(player.currentHP/player.maxHP)*100}%`);
+			$($update).prepend(`<p>You take ${dmg} points of damage.</p>`);
 		}
 	}
 }
