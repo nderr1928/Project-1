@@ -8,6 +8,8 @@
 	const $commandDescription = $('#commandDescription');
 	let magicToggle = false;
 	let itemToggle = false;
+	let battleToggle = false;
+	let playerToggle = false;
 
 //Commands for upper left button 
 	//Attack or fire
@@ -18,7 +20,7 @@
 		}
 		if(magicToggle === false && itemToggle === false){
 			$($update).prepend('<p>You attack the enemy</p>');
-			// attack function
+			player.attack();
 		}
 	});
 
@@ -263,7 +265,7 @@
 			if(player.currentMP < spellCost){
 				$($update).prepend(`<p>Not enough MP to cast</p>`);
 			} else{
-				$('#attack-animation').css('background-image', 'url(images/attacks/fireball.gif)');
+				game.battleAnimation('url(images/attacks/fireball.gif)');
 				player.currentMP -= spellCost;
 				$('#currentMP').text(player.currentMP);
 				$('#manaBar').css('width', `${(this.currentMP/this.maxMP)*100}%`);
@@ -294,7 +296,7 @@
 			if(player.currentMP < spellCost){
 				$($update).prepend(`<p>Not enough MP to cast</p>`);
 			} else{
-				$('#attack-animation').css('background-image', 'url(images/attacks/ice.gif)');
+				game.battleAnimation('url(images/attacks/ice.gif)');
 				player.currentMP -= spellCost;
 				$('#currentMP').text(player.currentMP);
 				$('#manaBar').css('width', `${(this.currentMP/this.maxMP)*100}%`);
@@ -324,7 +326,7 @@
 			if(player.currentMP < spellCost){
 				$($update).prepend(`<p>Not enough MP to cast</p>`);
 			} else{
-				$('#attack-animation').css('background-image', 'url(images/attacks/lightning.gif)');
+				game.battleAnimation('url(images/attacks/lightning.gif)');
 				player.currentMP -= spellCost;
 				$('#currentMP').text(player.currentMP);
 				$('#manaBar').css('width', `${(this.currentMP/this.maxMP)*100}%`);
@@ -492,5 +494,26 @@ const game = {
 			$('#hpBar').css('width', `${(player.currentHP/player.maxHP)*100}%`);
 			$($update).prepend(`<p>You take ${dmg} points of damage.</p>`);
 		}
+	},
+	textPause(timeDelay){
+		let timer = 0;
+		const pause = setInterval(function(){
+			if(timer >= timeDelay){
+				clearInterval(pause);
+			}
+			timer++;
+		}, 1000);
+	},
+	battleAnimation(imageURL){
+		let timer = 0;
+		$('#attack-animation').css('background-image', imageURL);
+		const pause = setInterval(function(){
+			if(timer = 1){
+				$('#attack-animation').css('background-image', '');
+				clearInterval(pause);
+			}
+			console.log(timer);
+			timer++;
+		}, 1500);
 	}
 }
