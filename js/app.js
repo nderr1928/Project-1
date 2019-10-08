@@ -186,7 +186,7 @@
 		}
 	}
 
-	const bat = new enemies('Bat', 2, "bite", 15, 2, false, false, true, 'url(images/enemies/bat.gif)', 2);
+	const bat = new enemies('Bat', 2, "bite", 15, 2, false, false, true, 'url(images/enemies/bat_fast.gif)', 2);
 	const snake = new enemies('Snake', 3, "bite", 10, 2, true, true, false, 'url(images/enemies/snake.gif)', 2);
 
 	const cave = [bat];
@@ -244,6 +244,7 @@
 		attack(){
 			$($update).prepend(`<p>You attack the enemy</p>`)
 			const dmg = Math.ceil(player.strength - Math.floor(game.currentEnemy.defense/2));
+			game.battleAnimation('url(images/attacks/slash_slow.gif)')
 			if(dmg <= 1){
 				game.currentEnemy.HP--;
 				$('#enemyHealth').text(game.currentEnemy.HP);
@@ -512,7 +513,6 @@ const game = {
 				$('#attack-animation').css('background-image', '');
 				clearInterval(pause);
 			}
-			console.log(timer);
 			timer++;
 		}, 1500);
 	}
