@@ -14,13 +14,14 @@
 //Commands for upper left button 
 	//Attack or fire
 	$($upperLeftButton).on('click', () => {
-		if(magicToggle === true && itemToggle === false){
-			$($update).prepend('<p>You used the fire spell</p>');
-			player.fireSpell();
-		}
-		if(magicToggle === false && itemToggle === false){
-			$($update).prepend('<p>You attack the enemy</p>');
-			player.attack();
+		if(playerToggle === true){
+			if(magicToggle === true && itemToggle === false){
+				$($update).prepend('<p>You used the fire spell</p>');
+				player.fireSpell();
+			}
+			if(magicToggle === false && itemToggle === false){
+				player.attack();
+			}
 		}
 	});
 
@@ -44,16 +45,18 @@
 	//to magic menu
 	$($upperRightButton).on('click', () => {
 		//console.log('magic');
-		if(magicToggle === false && itemToggle === false){
-			//console.log('<p>open spell selection</p>');
-			magicToggle = true;
-			$upperLeftButton.text('Fire (MP: 5)');
-			$upperRightButton.text('Return');
-			$lowerLeftButton.text('Ice (MP: 3)');
-			$lowerRightButton.text('Lightning (MP: 4)');
-		}
-		if(magicToggle === false && itemToggle === true){
-			player.healthPotion();
+		if(playerToggle === true){
+			if(magicToggle === false && itemToggle === false){
+				//console.log('<p>open spell selection</p>');
+				magicToggle = true;
+				$upperLeftButton.text('Fire (MP: 5)');
+				$upperRightButton.text('Return');
+				$lowerLeftButton.text('Ice (MP: 3)');
+				$lowerRightButton.text('Lightning (MP: 4)');
+			}
+			if(magicToggle === false && itemToggle === true){
+				player.healthPotion();
+			}
 		}
 	});
 
@@ -91,17 +94,19 @@
 	//to item menu
 	$($lowerLeftButton).on('click', () => {
 		//console.log('item');
-		if(magicToggle === false && itemToggle === false){
-			//console.log('open item selection');
-			itemToggle = true;
-			$upperLeftButton.text('');
-			$upperRightButton.text(`Health Potion (x${player.healthPotions})`);
-			$lowerLeftButton.text('Return');
-			$lowerRightButton.text(`Mana Potion (x${player.manaPotions})`);
-		}
-		if(magicToggle === true && itemToggle === false){
-			$($update).prepend('<p>You used the ice spell</p>');
-			player.iceSpell();
+		if(playerToggle === true){
+			if(magicToggle === false && itemToggle === false){
+				//console.log('open item selection');
+				itemToggle = true;
+				$upperLeftButton.text('');
+				$upperRightButton.text(`Health Potion (x${player.healthPotions})`);
+				$lowerLeftButton.text('Return');
+				$lowerRightButton.text(`Mana Potion (x${player.manaPotions})`);
+			}
+			if(magicToggle === true && itemToggle === false){
+				$($update).prepend('<p>You used the ice spell</p>');
+				player.iceSpell();
+			}
 		}
 	});
 
@@ -137,18 +142,19 @@
 //Commands for lower right button
 	//click functions for lower right
 	$lowerRightButton.click(function() {
-		if(magicToggle === false && itemToggle === false){
-			$($update).prepend('<p>You attempt to run from the battle</p>');
+		if(playerToggle === true){
+			if(magicToggle === false && itemToggle === false){
+				$($update).prepend('<p>You attempt to run from the battle</p>');
+			}
+			if(magicToggle === true && itemToggle === false){
+				$($update).prepend('<p>You used the lightning spell</p>');
+				player.lightningSpell();
+			}
+			if(magicToggle === false && itemToggle === true){
+				player.manaPotion();
+			}
 		}
-		if(magicToggle === true && itemToggle === false){
-			$($update).prepend('<p>You used the lightning spell</p>');
-			player.lightningSpell();
-		}
-		if(magicToggle === false && itemToggle === true){
-			player.manaPotion();
-		}
-	}
-	);
+	});
 
 	//Hover for lower right button
 	$($lowerRightButton).hover(function(){
@@ -212,7 +218,8 @@
 		currentMP: 8,
 		manaRegen: 1,
 		level: 1,
-		strength: 6,
+		weaponAtk: 3,
+		strength: 2,
 		defense: 1,
 		currentEXP: 0,
 		levelUpEXP: 5,
@@ -243,7 +250,7 @@
 		},
 		attack(){
 			$($update).prepend(`<p>You attack the enemy</p>`)
-			const dmg = Math.ceil(player.strength - Math.floor(game.currentEnemy.defense/2));
+			const dmg = Math.ceil(player.strength + player.weaponAtk - Math.floor(game.currentEnemy.defense/2));
 			game.battleAnimation('url(images/attacks/slash_slow.gif)')
 			if(dmg <= 1){
 				game.currentEnemy.HP--;
@@ -252,13 +259,17 @@
 			} else if(game.currentEnemy.HP - dmg <= 0){
 				game.currentEnemy.HP = 0;
 				$('#enemyHealth').text(game.currentEnemy.HP);
-				$($update).prepend(`<p>You deal ${dmg} points of damage.</p>`);
-				$($update).prepend(`<p>You have defeated the enemy!</p>`);
+				$($update).prepend(`<p>You deal ${dmg} points of damage.</p>`)
 			} 
 			else{
 				game.currentEnemy.HP -= dmg;
 				$('#enemyHealth').text(game.currentEnemy.HP);
 				$($update).prepend(`<p>You deal ${dmg} points of damage.</p>`);
+			}
+			playerToggle = false;
+			this.textPause(1);
+			if(this.currentEnemy.HP > 0){
+				this.enemyAttack();
 			}
 		},
 		fireSpell(){
@@ -278,7 +289,6 @@
 					game.currentEnemy.HP = 0;
 					$('#enemyHealth').text(game.currentEnemy.HP);
 					$($update).prepend(`<p>You deal ${dmg} points of damage.</p>`);
-					$($update).prepend(`<p>You have defeated the enemy!</p>`);
 				} else{
 					game.currentEnemy.HP -= dmg;
 					$('#enemyHealth').text(game.currentEnemy.HP);
@@ -289,6 +299,11 @@
 				if(Math.random() < burnChance){
 					game.currentEnemy.burn = true;
 					$($update).prepend(`<p>${game.currentEnemy.name} has been burned.</p>`);
+				}
+				playerToggle = false;
+				this.textPause(1);
+				if(this.currentEnemy.HP > 0){
+					this.enemyAttack();
 				}
 			}
 		},
@@ -309,7 +324,6 @@
 					game.currentEnemy.HP = 0;
 					$('#enemyHealth').text(game.currentEnemy.HP);
 					$($update).prepend(`<p>You deal ${dmg} points of damage.</p>`);
-					$($update).prepend(`<p>You have defeated the enemy!</p>`);
 				} else{
 					game.currentEnemy.HP -= dmg;
 					$('#enemyHealth').text(game.currentEnemy.HP);
@@ -319,6 +333,11 @@
 				if(Math.random() < frostbiteChance){
 					game.currentEnemy.frostbite = true;
 					$($update).prepend(`<p>${game.currentEnemy.name} has been frostbitten.</p>`);
+				}
+				playerToggle = false;
+				this.textPause(1);
+				if(this.currentEnemy.HP > 0){
+					this.enemyAttack();
 				}
 			}
 		},
@@ -339,7 +358,6 @@
 					game.currentEnemy.HP = 0;
 					$('#enemyHealth').text(game.currentEnemy.HP);
 					$($update).prepend(`<p>You deal ${dmg} points of damage.</p>`);
-					$($update).prepend(`<p>You have defeated the enemy!</p>`);
 				} else{
 					game.currentEnemy.HP -= dmg;
 					$('#enemyHealth').text(game.currentEnemy.HP);
@@ -349,6 +367,11 @@
 				if(Math.random() < shockChance){
 					game.currentEnemy.shock = true;
 					$($update).prepend(`<p>${game.currentEnemy.name} is in shock.</p>`);
+				}
+				playerToggle = false;
+				this.textPause(1);
+				if(this.currentEnemy.HP > 0){
+					this.enemyAttack();
 				}
 			}
 		},
@@ -363,6 +386,7 @@
 				$('#currentHP').text(player.currentHP);
 				$('#hpBar').css('width', `${(this.currentHP/this.maxHP)*100}%`);
 				this.healthPotions--;
+				playerToggle = false;
 			} else{
 				if(this.healthPotions = 0){
 					$($update).prepend('<p>You have no health potions left</p>')
@@ -381,6 +405,7 @@
 				$('#currentMP').text(player.currentMP);
 				$('#manaBar').css('width', `${(this.currentMP/this.maxMP)*100}%`);
 				this.manaPotions--;
+				playerToggle = false;
 			} else if(this.manaPotions = 0){
 					$($update).prepend('<p>You have no mana potions left</p>')
 			} else{
@@ -466,12 +491,19 @@ const game = {
 			if(game.currentEnemy.lightningWeakness === true){
 				$('#enemyWeakness').append('<p style="color: Purple">Lightning</p>');
 			}
-			$($update).prepend(`<p>An enemy ${cave[randomIndex].name} has appeared!`);
 		}
 	},
 	battle(){
+		game.selectEnemy();
+		$($update).prepend(`<p style="border-top: 2px black solid">An enemy ${game.currentEnemy.name} has appeared!`);
 		if(player.currentHP > 0 && game.currentEnemy.HP > 0){
-			
+			playerToggle = true;
+			$($update).prepend(`<p>Select a command</p>`);
+		}
+		if(player.currentHP === 0){
+			$($update).prepend(`</h5 style="color": red>GAME OVER</h5>`);
+		} else{
+			$($update).prepend(`<p style="border-bottom: 1px black solid">You have defeated the enemy!</p>`);
 		}
 	},
 	enemyAttack(){
@@ -487,7 +519,7 @@ const game = {
 			$('#currentHP').text(player.currentHP);
 			$('#hpBar').css('width', `${(player.currentHP/player.maxHP)*100}%`);
 			$($update).prepend(`<p>You take ${dmg} points of damage.</p>`);
-			$($update).prepend(`<p>You have been defeated by the enemy!</p>`);
+			$($update).prepend(`<p style:"border-bottom:1px black solid">You have been defeated by the enemy!</p>`);
 		} 
 		else{
 			player.currentHP -= dmg;
