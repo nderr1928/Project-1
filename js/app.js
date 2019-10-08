@@ -259,33 +259,94 @@
 			}
 		},
 		fireSpell(){
-			let dmg = 4;
-			const burnChance = .25;
-			game.currentEnemy.HP -= dmg;
-			$('#attack-animation').css('background-image', 'url(images/attacks/fireball.gif)');
-			if(Math.random() < burnChance){
-				game.currentEnemy.burn = true;
-				$($update).prepend(`<p>${game.currentEnemy.name} has been burned.</p>`);
+			const spellCost = 5;
+			if(player.currentMP < spellCost){
+				$($update).prepend(`<p>Not enough MP to cast</p>`);
+			} else{
+				$('#attack-animation').css('background-image', 'url(images/attacks/fireball.gif)');
+				player.currentMP -= spellCost;
+				$('#currentMP').text(player.currentMP);
+				$('#manaBar').css('width', `${(this.currentMP/this.maxMP)*100}%`);
+				let dmg = 4;
+				if(game.currentEnemy.fireWeakness === true){
+					dmg = Math.floor(dmg * 1.5);
+				}
+				if(game.currentEnemy.HP - dmg <= 0){
+					game.currentEnemy.HP = 0;
+					$('#enemyHealth').text(game.currentEnemy.HP);
+					$($update).prepend(`<p>You deal ${dmg} points of damage.</p>`);
+					$($update).prepend(`<p>You have defeated the enemy!</p>`);
+				} else{
+					game.currentEnemy.HP -= dmg;
+					$('#enemyHealth').text(game.currentEnemy.HP);
+					$($update).prepend(`<p>You deal ${dmg} points of damage.</p>`);
+				}
+				const burnChance = .25;
+				game.currentEnemy.HP -= dmg;
+				if(Math.random() < burnChance){
+					game.currentEnemy.burn = true;
+					$($update).prepend(`<p>${game.currentEnemy.name} has been burned.</p>`);
+				}
 			}
 		},
 		iceSpell(){
-			let dmg = 4;
-			const frostbiteChance = .25;
-			game.currentEnemy.HP -= dmg;
-			$('#attack-animation').css('background-image', 'url(images/attacks/ice.gif)');
-			if(Math.random() < frostbiteChance){
-				game.currentEnemy.frostbite = true;
-				$($update).prepend(`<p>${game.currentEnemy.name} has been frostbitten.</p>`);
+			const spellCost = 3;
+			if(player.currentMP < spellCost){
+				$($update).prepend(`<p>Not enough MP to cast</p>`);
+			} else{
+				$('#attack-animation').css('background-image', 'url(images/attacks/ice.gif)');
+				player.currentMP -= spellCost;
+				$('#currentMP').text(player.currentMP);
+				$('#manaBar').css('width', `${(this.currentMP/this.maxMP)*100}%`);
+				let dmg = 4;
+				if(game.currentEnemy.iceWeakness === true){
+					dmg = Math.floor(dmg * 1.5);
+				}
+				if(game.currentEnemy.HP - dmg <= 0){
+					game.currentEnemy.HP = 0;
+					$('#enemyHealth').text(game.currentEnemy.HP);
+					$($update).prepend(`<p>You deal ${dmg} points of damage.</p>`);
+					$($update).prepend(`<p>You have defeated the enemy!</p>`);
+				} else{
+					game.currentEnemy.HP -= dmg;
+					$('#enemyHealth').text(game.currentEnemy.HP);
+					$($update).prepend(`<p>You deal ${dmg} points of damage.</p>`);
+				}
+				const frostbiteChance = .25;
+				if(Math.random() < frostbiteChance){
+					game.currentEnemy.frostbite = true;
+					$($update).prepend(`<p>${game.currentEnemy.name} has been frostbitten.</p>`);
+				}
 			}
 		},
 		lightningSpell(){
-			let dmg = 4;
-			const shockChance = .1;
-			game.currentEnemy.HP -= dmg;
-			$('#attack-animation').css('background-image', 'url(images/attacks/lightning.gif)');
-			if(Math.random() < shockChance){
-				game.currentEnemy.shock = true;
-				$($update).prepend(`<p>${game.currentEnemy.name} is in shock.</p>`);
+			const spellCost = 4;
+			if(player.currentMP < spellCost){
+				$($update).prepend(`<p>Not enough MP to cast</p>`);
+			} else{
+				$('#attack-animation').css('background-image', 'url(images/attacks/lightning.gif)');
+				player.currentMP -= spellCost;
+				$('#currentMP').text(player.currentMP);
+				$('#manaBar').css('width', `${(this.currentMP/this.maxMP)*100}%`);
+				let dmg = 4;
+				if(game.currentEnemy.lightningWeakness === true){
+					dmg = Math.floor(dmg * 1.5);
+				}
+				if(game.currentEnemy.HP - dmg <= 0){
+					game.currentEnemy.HP = 0;
+					$('#enemyHealth').text(game.currentEnemy.HP);
+					$($update).prepend(`<p>You deal ${dmg} points of damage.</p>`);
+					$($update).prepend(`<p>You have defeated the enemy!</p>`);
+				} else{
+					game.currentEnemy.HP -= dmg;
+					$('#enemyHealth').text(game.currentEnemy.HP);
+					$($update).prepend(`<p>You deal ${dmg} points of damage.</p>`);
+				}
+				const shockChance = .1;
+				if(Math.random() < shockChance){
+					game.currentEnemy.shock = true;
+					$($update).prepend(`<p>${game.currentEnemy.name} is in shock.</p>`);
+				}
 			}
 		},
 		healthPotion(){
