@@ -231,6 +231,10 @@
 			player.strength++;
 			player.defense++;
 			player.levelUpEXP += Math.floor(5*0.75*player.level);
+			$('#currentHP').text(player.currentHP);
+			$('#hpBar').css('width', `${(this.currentHP/this.maxHP)*100}%`);
+			$('#currentMP').text(player.currentMP);
+			$('#manaBar').css('width', `${(this.currentMP/this.maxMP)*100}%`);
 			$($update).prepend(`<p>Max HP = ${player.maxHP}</p>`);
 			$($update).prepend(`<p>Max MP = ${player.maxMP}</p>`);
 			$($update).prepend(`<p>Strength = ${player.strength}</p>`);
