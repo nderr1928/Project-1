@@ -169,9 +169,9 @@ main{
 	align-items: center;
 	text-align: center;
 	place-items: center;
-	background-image: url('../images/statsBackground.jpg');
+	background-image: url('../images/logBackground3.gif');
 	background-position: center;
-	background-size: auto;
+	background-size: cover;
 }
 
 #player-stats > h6{
@@ -228,7 +228,7 @@ main{
 	text-align: left;
 	border: 2px solid black;
 	height: 600px;
-	background-image: url('../images/logBackground3.gif');
+	background-image: url('../images/logBackground5.jpg');
 	background-position: center;
 	background-size: cover;
 	display: grid;
