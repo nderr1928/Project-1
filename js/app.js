@@ -300,7 +300,7 @@
 				$upperLeftButton.text('Attack');
 				$upperRightButton.text('Magic');
 				$lowerLeftButton.text('Item');
-				$lowerRightButton.css('display', 'none');
+				$lowerRightButton.css('visibility', 'hidden');
 				$lowerRightButton.text('');
 				if(game.currentEnemy.HP > 0){
 					game.enemyAttack();
@@ -346,7 +346,7 @@
 				$upperLeftButton.text('Attack');
 				$upperRightButton.text('Magic');
 				$lowerLeftButton.text('Item');
-				$lowerRightButton.css('display', 'none');
+				$lowerRightButton.css('visibility', 'hidden');
 				$lowerRightButton.text('');
 				if(game.currentEnemy.HP > 0){
 					game.enemyAttack();
@@ -392,7 +392,7 @@
 				$upperLeftButton.text('Attack');
 				$upperRightButton.text('Magic');
 				$lowerLeftButton.text('Item');
-				$lowerRightButton.css('display', 'none');
+				$lowerRightButton.css('visibility', 'hidden');
 				$lowerRightButton.text('');
 				if(game.currentEnemy.HP > 0){
 					game.enemyAttack();
