@@ -118,7 +118,7 @@ main{
 
 #enemy-info{
 	grid-area: enemyStats;
-	background-color: rgba(225, 225, 225, 0.4);
+	background-color: rgba(245, 245, 245, 0.95);
 	border: 2px black solid;
 	display: grid;
 	grid-template-columns: 1fr 1.5fr 1.5fr 2fr;
@@ -228,7 +228,7 @@ main{
 	text-align: left;
 	border: 2px solid black;
 	height: 600px;
-	background-image: url('../images/logBackground.jpeg');
+	background-image: url('../images/logBackground3.gif');
 	background-position: center;
 	background-size: cover;
 	display: grid;

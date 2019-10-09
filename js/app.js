@@ -227,7 +227,7 @@
 		healthPotions: 3,
 		manaPotions: 3,
 		levelUp(){
-			$($update).prepend('<p style="border-top: 1px black solid">You have leveled up!</p>');
+			$($update).prepend('<p style="border-top: 1px white solid; color: green">You have leveled up!</p>');
 			player.level++;
 			player.maxHP +=3;
 			player.maxMP +=2;
@@ -240,29 +240,28 @@
 			$('#hpBar').css('width', `${(this.currentHP/this.maxHP)*100}%`);
 			$('#currentMP').text(player.currentMP);
 			$('#manaBar').css('width', `${(this.currentMP/this.maxMP)*100}%`);
-			$($update).prepend(`<p>Max HP = ${player.maxHP}</p>`);
-			$($update).prepend(`<p>Max MP = ${player.maxMP}</p>`);
-			$($update).prepend(`<p>Strength = ${player.strength}</p>`);
-			$($update).prepend(`<p>Defense = ${player.defense}</p>`);
-			$($update).prepend(`<p style="border-bottom: 1px black solid">EXP to next level: ${player.levelUpEXP - player.currentEXP}</p>`);
+			$($update).prepend(`<p style="color: rgb(135,206,235)">Max HP = ${player.maxHP}</p>`);
+			$($update).prepend(`<p style="color: rgb(135,206,235)">Max MP = ${player.maxMP}</p>`);
+			$($update).prepend(`<p style="color: rgb(135,206,235)">Strength = ${player.strength}</p>`);
+			$($update).prepend(`<p style="color: rgb(135,206,235)">Defense = ${player.defense}</p>`);
+			$($update).prepend(`<p style="border-bottom: 1px white solid; color: green">EXP to next level: ${player.levelUpEXP - player.currentEXP}</p>`);
 		},
 		attack(){
-			$($update).prepend(`<p style="color: blue">You attack the enemy</p>`)
 			const dmg = Math.ceil(player.strength + player.weaponAtk - Math.floor(game.currentEnemy.defense/2));
 			game.battleAnimation('url(images/attacks/slash_slow.gif)')
 			if(dmg <= 1){
 				game.currentEnemy.HP--;
 				$('#enemyHealth').text(game.currentEnemy.HP);
-				$($update).prepend(`<p style="color: blue">You deal 1 point of damage.</p>`);
+				$($update).prepend(`<p style="color: rgb(135,206,235)">You attack the enemy and deal 1 point of damage.</p>`);
 			} else if(game.currentEnemy.HP - dmg <= 0){
 				game.currentEnemy.HP = 0;
 				$('#enemyHealth').text(game.currentEnemy.HP);
-				$($update).prepend(`<p style="color: blue">You deal ${dmg} points of damage.</p>`)
+				$($update).prepend(`<p style="color: rgb(135,206,235)">You attack the enemy and deal ${dmg} points of damage.</p>`)
 			} 
 			else{
 				game.currentEnemy.HP -= dmg;
 				$('#enemyHealth').text(game.currentEnemy.HP);
-				$($update).prepend(`<p style="color: blue">You deal ${dmg} points of damage.</p>`);
+				$($update).prepend(`<p style="color: rgb(135,206,235)">You attack the enemy and deal ${dmg} points of damage.</p>`);
 			}
 			playerToggle = false;
 			//this.textPause(1);
@@ -276,7 +275,6 @@
 			if(player.currentMP < spellCost){
 				$($update).prepend(`<p>Not enough MP to cast</p>`);
 			} else{
-				$($update).prepend('<p style="color: blue">You used the fire spell</p>');
 				game.battleAnimation('url(images/attacks/fireball.gif)');
 				player.currentMP -= spellCost;
 				$('#currentMP').text(player.currentMP);
@@ -292,19 +290,19 @@
 					console.log(game.currentEnemy.HP - dmg, "3");
 					game.currentEnemy.HP = 0;
 					$('#enemyHealth').text(game.currentEnemy.HP);
-					$($update).prepend(`<p style="color: blue">You deal ${dmg} points of damage.</p>`);
+					$($update).prepend(`<p style="color: orange">You used the fire spell and deal ${dmg} points of damage.</p>`);
 				} else{
 					//console.log(dmg, "dmg");
 					game.currentEnemy.HP -= dmg;
 					//console.log(game.currentEnemy.HP, "enemy hp");
 					//console.log(game.currentEnemy.HP - dmg, "4");
 					$('#enemyHealth').text(game.currentEnemy.HP);
-					$($update).prepend(`<p style="color: blue">You deal ${dmg} points of damage.</p>`);
+					$($update).prepend(`<p style="color: orange">You used the fire spell and deal ${dmg} points of damage.</p>`);
 				}
-				const burnChance = .25;
+				const burnChance = 1;
 				if(Math.random() < burnChance){
 					game.currentEnemy.burn = true;
-					$($update).prepend(`<p>${game.currentEnemy.name} has been burned.</p>`);
+					$($update).prepend(`<p style="color: gold">The ${game.currentEnemy.name} has been burned.</p>`);
 				}
 				playerToggle = false;
 				// this.textPause(1);
@@ -326,7 +324,6 @@
 			if(player.currentMP < spellCost){
 				$($update).prepend(`<p>Not enough MP to cast</p>`);
 			} else{
-				$($update).prepend('<p style="color: blue">You used the ice spell</p>');
 				game.battleAnimation('url(images/attacks/ice.gif)');
 				player.currentMP -= spellCost;
 				$('#currentMP').text(player.currentMP);
@@ -339,16 +336,16 @@
 				if(game.currentEnemy.HP - dmg <= 0){
 					game.currentEnemy.HP = 0;
 					$('#enemyHealth').text(game.currentEnemy.HP);
-					$($update).prepend(`<p style="color: blue">You deal ${dmg} points of damage.</p>`);
+					$($update).prepend(`<p style="color: teal">You used the ice spell and deal ${dmg} points of damage.</p>`);
 				} else{
 					game.currentEnemy.HP -= dmg;
 					$('#enemyHealth').text(game.currentEnemy.HP);
-					$($update).prepend(`<p style="color: blue">You deal ${dmg} points of damage.</p>`);
+					$($update).prepend(`<p style="color: teal">You used the ice spell and deal ${dmg} points of damage.</p>`);
 				}
-				const frostbiteChance = .25;
+				const frostbiteChance = 1;
 				if(Math.random() < frostbiteChance){
 					game.currentEnemy.frostbite = true;
-					$($update).prepend(`<p>${game.currentEnemy.name} has been frostbitten.</p>`);
+					$($update).prepend(`<p style="color: yellow">The ${game.currentEnemy.name} has been frostbitten.</p>`);
 				}
 				playerToggle = false;
 				// this.textPause(1);
@@ -370,7 +367,6 @@
 			if(player.currentMP < spellCost){
 				$($update).prepend(`<p>Not enough MP to cast</p>`);
 			} else{
-				$($update).prepend('<p style="color: blue">You used the lightning spell</p>');
 				game.battleAnimation('url(images/attacks/lightning.gif)');
 				player.currentMP -= spellCost;
 				$('#currentMP').text(player.currentMP);
@@ -383,16 +379,16 @@
 				if(game.currentEnemy.HP - dmg <= 0){
 					game.currentEnemy.HP = 0;
 					$('#enemyHealth').text(game.currentEnemy.HP);
-					$($update).prepend(`<pstyle="color: blue">You deal ${dmg} points of damage.</p>`);
+					$($update).prepend(`<pstyle="color: purple">You used the lightning spell and deal ${dmg} points of damage.</p>`);
 				} else{
 					game.currentEnemy.HP -= dmg;
 					$('#enemyHealth').text(game.currentEnemy.HP);
-					$($update).prepend(`<p style="color: blue">You deal ${dmg} points of damage.</p>`);
+					$($update).prepend(`<p style="color: purple">You used the lightning spell and deal ${dmg} points of damage.</p>`);
 				}
-				const shockChance = .1;
+				const shockChance = 1;
 				if(Math.random() < shockChance){
 					game.currentEnemy.shock = true;
-					$($update).prepend(`<p>${game.currentEnemy.name} is in shock.</p>`);
+					$($update).prepend(`<p style="color: yellow">The ${game.currentEnemy.name} is in shock.</p>`);
 				}
 				playerToggle = false;
 				// this.textPause(1);
@@ -808,25 +804,24 @@ const game = {
 		const pause = setInterval(function(){
 			if(timer >= 1){
 				clearInterval(pause);
-				$($update).prepend(`<p style="color: red">The enemy attacks you with a ${game.currentEnemy.attack}!</p>`);
 				const dmg = Math.ceil(game.currentEnemy.strength - Math.floor(player.defense/2));
 				if(dmg <= 1){
 					player.currentHP--;
 					$('#currentHP').text(player.currentHP);
 					$('#hpBar').css('width', `${(player.currentHP/player.maxHP)*100}%`);
-					$($update).prepend(`<p style="color: red">You take 1 point of damage.</p>`);
+					$($update).prepend(`<p style="color: rgb(240,128,128)">The enemy attacks you with a ${game.currentEnemy.attack}! You take 1 point of damage.</p>`);
 				} else if(player.currentHP - dmg <= 0){
 					player.currentHP = 0;
 					$('#currentHP').text(player.currentHP);
 					$('#hpBar').css('width', `${(player.currentHP/player.maxHP)*100}%`);
-					$($update).prepend(`<p style="color: red">You take ${dmg} points of damage.</p>`);
-					$($update).prepend(`<p style:"border-bottom:1px black solid">You have been defeated by the enemy!</p>`);
+					$($update).prepend(`<p style="color: rgb(240,128,128)">The enemy attacks you with a ${game.currentEnemy.attack}! You take ${dmg} points of damage.</p>`);
+					$($update).prepend(`<p style:"border-bottom:1px white solid">You have been defeated by the enemy!</p>`);
 				} 
 				else{
 					player.currentHP -= dmg;
 					$('#currentHP').text(player.currentHP);
 					$('#hpBar').css('width', `${(player.currentHP/player.maxHP)*100}%`);
-					$($update).prepend(`<p style="color: red">You take ${dmg} points of damage.</p>`);
+					$($update).prepend(`<p style="color: rgb(240,128,128)">The enemy attacks you with a ${game.currentEnemy.attack}! You take ${dmg} points of damage.</p>`);
 				}
 				if(player.currentMP < player.maxMP){
 					player.currentMP += player.manaRegen;
@@ -836,7 +831,7 @@ const game = {
 				playerToggle = true;
 			}
 			timer++;
-		}, 1000);
+		}, 800);
 	},
 	textPause(){
 		let timer = 0;
@@ -869,38 +864,45 @@ const game = {
 		$lowerRightButton.text('');
 		battleToggle = true;
 		playerToggle = true;
-		$($update).prepend(`<p style="border-top: 1px black solid">An enemy ${game.currentEnemy.name} has appeared!`)
+		$($update).prepend(`<p style="border-top: 1px white solid; color: white">An enemy ${game.currentEnemy.name} has appeared!`)
 	},
 	checkDeath(){
-		if(game.currentEnemy.HP <= 0){
-			$lowerRightButton.text('Start');
-			$lowerRightButton.css('visibility', 'visible');
-			$('#enemy-image').css('background-image', 'url(images/enemies/defeated.png)');
-			battleToggle = false;
-			playerToggle = false;
-			player.currentEXP += game.currentEnemy.exp;
-			if(player.currentEXP >= player.levelUpEXP){
-				$($update).prepend(`<p style="border-bottom: 1px black solid">You have defeated the enemy and gained ${game.currentEnemy.exp} experience points.</p>`);
-				player.levelUp();
-			} else{
-				$($update).prepend(`<p>You have defeated the enemy and gained ${game.currentEnemy.exp} experience points.</p>`);
-				$($update).prepend(`<p style="border-bottom: 1px black solid"> ${player.levelUpEXP - player.currentEXP} point(s) until level up.</p>`);
+		let timer = 0;
+		const pause = setInterval(function(){
+			if(timer >= 1){
+				clearInterval(pause);
+				if(game.currentEnemy.HP <= 0){
+					$lowerRightButton.text('Start');
+					$lowerRightButton.css('visibility', 'visible');
+					$('#enemy-image').css('background-image', 'url(images/enemies/defeated.png)');
+					battleToggle = false;
+					playerToggle = false;
+					player.currentEXP += game.currentEnemy.exp;
+					if(player.currentEXP >= player.levelUpEXP){
+						$($update).prepend(`<p style="border-bottom: 1px black solid; color: green">You have defeated the enemy and gained ${game.currentEnemy.exp} experience points.</p>`);
+						player.levelUp();
+					} else{
+						$($update).prepend(`<p style="color: green">You have defeated the enemy and gained ${game.currentEnemy.exp} experience points.</p>`);
+						$($update).prepend(`<p style="border-bottom: 1px black solid; color: green"> ${player.levelUpEXP - player.currentEXP} point(s) until level up.</p>`);
+					}
+				}
+				if(player.currentHP <= 0){
+					$($update).prepend(`<p style="border-bottom: 1px black solid">You have been slain.</p>`);
+					$('#enemy-image').css('background-image', 'url(images/gameover.gif)');
+					$('#enemy-image').css('height', '300px');
+					$('#enemy-image').css('width', '300px');
+					gameOverToggle = true;
+					battleToggle = false;
+					playerToggle = false;
+					$lowerRightButton.css('visibility', 'visible');
+					$lowerRightButton.text('Start Over');
+					$lowerLeftButton.css('visibility', 'hidden');
+					$upperLeftButton.css('visibility', 'hidden');
+					$upperRightButton.css('visibility', 'hidden');
+				}	
 			}
-		}
-		if(player.currentHP <= 0){
-			$($update).prepend(`<p style="border-bottom: 1px black solid">You have been slain.</p>`);
-			$('#enemy-image').css('background-image', 'url(images/gameover.gif)');
-			$('#enemy-image').css('height', '300px');
-			$('#enemy-image').css('width', '300px');
-			gameOverToggle = true;
-			battleToggle = false;
-			playerToggle = false;
-			$lowerRightButton.css('visibility', 'visible');
-			$lowerRightButton.text('Start Over');
-			$lowerLeftButton.css('visibility', 'hidden');
-			$upperLeftButton.css('visibility', 'hidden');
-			$upperRightButton.css('visibility', 'hidden');
-		}
+			timer++;
+		}, 800);
 	},
 	startOver(){
 		gameOverToggle = false;
