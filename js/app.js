@@ -594,6 +594,33 @@ const game = {
 				$('#enemyWeakness').append('<p style="color: Purple">Lightning</p>');
 			}
 		}
+		if(game.zone === zones.caveEntrance.name){
+			const randomIndex = Math.floor(Math.random()*zones.caveEntrance.enemies.length);
+			game.currentEnemy.name = zones.caveEntrance.enemies[randomIndex].name;
+			game.currentEnemy.strength = zones.caveEntrance.enemies[randomIndex].strength;
+			game.currentEnemy.attack = zones.caveEntrance.enemies[randomIndex].attack;
+			game.currentEnemy.HP = zones.caveEntrance.enemies[randomIndex].HP;
+			game.currentEnemy.defense = zones.caveEntrance.enemies[randomIndex].defense;
+			game.currentEnemy.fireWeakness = zones.caveEntrance.enemies[randomIndex].fireWeakness;
+			game.currentEnemy.iceWeakness = zones.caveEntrance.enemies[randomIndex].iceWeakness;
+			game.currentEnemy.lightningWeakness = zones.caveEntrance.enemies[randomIndex].lightningWeakness;
+			game.currentEnemy.burn = zones.caveEntrance.enemies[randomIndex].burn;
+			game.currentEnemy.frostbite = zones.caveEntrance.enemies[randomIndex].frostbite;
+			game.currentEnemy.shock = zones.caveEntrance.enemies[randomIndex].shock;
+			game.currentEnemy.imageURL = zones.caveEntrance.enemies[randomIndex].imageURL;
+			game.currentEnemy.exp = zones.caveEntrance.enemies[randomIndex].expPts;
+			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
+			$('#enemyHealth').append(`<h6>${game.currentEnemy.HP}`);
+			if(game.currentEnemy.fireWeakness === true){
+				$('#enemyWeakness').append('<p style="color: orange">Fire</p>');
+			}
+			if(game.currentEnemy.iceWeakness === true){
+				$('#enemyWeakness').append('<p style="color: teal">Ice</p>');
+			}
+			if(game.currentEnemy.lightningWeakness === true){
+				$('#enemyWeakness').append('<p style="color: Purple">Lightning</p>');
+			}
+		}
 		if(game.zone === zones.cave.name){
 			const randomIndex = Math.floor(Math.random()*zones.cave.enemies.length);
 			game.currentEnemy.name = zones.cave.enemies[randomIndex].name;
@@ -609,6 +636,141 @@ const game = {
 			game.currentEnemy.shock = zones.cave.enemies[randomIndex].shock;
 			game.currentEnemy.imageURL = zones.cave.enemies[randomIndex].imageURL;
 			game.currentEnemy.exp = zones.cave.enemies[randomIndex].expPts;
+			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
+			$('#enemyHealth').append(`<h6>${game.currentEnemy.HP}`);
+			if(game.currentEnemy.fireWeakness === true){
+				$('#enemyWeakness').append('<p style="color: orange">Fire</p>');
+			}
+			if(game.currentEnemy.iceWeakness === true){
+				$('#enemyWeakness').append('<p style="color: teal">Ice</p>');
+			}
+			if(game.currentEnemy.lightningWeakness === true){
+				$('#enemyWeakness').append('<p style="color: Purple">Lightning</p>');
+			}
+		}
+		if(game.zone === zones.caveExit.name){
+			const randomIndex = Math.floor(Math.random()*zones.caveExit.enemies.length);
+			game.currentEnemy.name = zones.caveExit.enemies[randomIndex].name;
+			game.currentEnemy.strength = zones.caveExit.enemies[randomIndex].strength;
+			game.currentEnemy.attack = zones.caveExit.enemies[randomIndex].attack;
+			game.currentEnemy.HP = zones.caveExit.enemies[randomIndex].HP;
+			game.currentEnemy.defense = zones.caveExit.enemies[randomIndex].defense;
+			game.currentEnemy.fireWeakness = zones.caveExit.enemies[randomIndex].fireWeakness;
+			game.currentEnemy.iceWeakness = zones.caveExit.enemies[randomIndex].iceWeakness;
+			game.currentEnemy.lightningWeakness = zones.caveExit.enemies[randomIndex].lightningWeakness;
+			game.currentEnemy.burn = zones.caveExit.enemies[randomIndex].burn;
+			game.currentEnemy.frostbite = zones.caveExit.enemies[randomIndex].frostbite;
+			game.currentEnemy.shock = zones.caveExit.enemies[randomIndex].shock;
+			game.currentEnemy.imageURL = zones.caveExit.enemies[randomIndex].imageURL;
+			game.currentEnemy.exp = zones.caveExit.enemies[randomIndex].expPts;
+			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
+			$('#enemyHealth').append(`<h6>${game.currentEnemy.HP}`);
+			if(game.currentEnemy.fireWeakness === true){
+				$('#enemyWeakness').append('<p style="color: orange">Fire</p>');
+			}
+			if(game.currentEnemy.iceWeakness === true){
+				$('#enemyWeakness').append('<p style="color: teal">Ice</p>');
+			}
+			if(game.currentEnemy.lightningWeakness === true){
+				$('#enemyWeakness').append('<p style="color: Purple">Lightning</p>');
+			}
+		}
+		if(game.zone === zones.graveyard.name){
+			const randomIndex = Math.floor(Math.random()*zones.graveyard.enemies.length);
+			game.currentEnemy.name = zones.graveyard.enemies[randomIndex].name;
+			game.currentEnemy.strength = zones.graveyard.enemies[randomIndex].strength;
+			game.currentEnemy.attack = zones.graveyard.enemies[randomIndex].attack;
+			game.currentEnemy.HP = zones.graveyard.enemies[randomIndex].HP;
+			game.currentEnemy.defense = zones.graveyard.enemies[randomIndex].defense;
+			game.currentEnemy.fireWeakness = zones.graveyard.enemies[randomIndex].fireWeakness;
+			game.currentEnemy.iceWeakness = zones.graveyard.enemies[randomIndex].iceWeakness;
+			game.currentEnemy.lightningWeakness = zones.graveyard.enemies[randomIndex].lightningWeakness;
+			game.currentEnemy.burn = zones.graveyard.enemies[randomIndex].burn;
+			game.currentEnemy.frostbite = zones.graveyard.enemies[randomIndex].frostbite;
+			game.currentEnemy.shock = zones.graveyard.enemies[randomIndex].shock;
+			game.currentEnemy.imageURL = zones.graveyard.enemies[randomIndex].imageURL;
+			game.currentEnemy.exp = zones.graveyard.enemies[randomIndex].expPts;
+			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
+			$('#enemyHealth').append(`<h6>${game.currentEnemy.HP}`);
+			if(game.currentEnemy.fireWeakness === true){
+				$('#enemyWeakness').append('<p style="color: orange">Fire</p>');
+			}
+			if(game.currentEnemy.iceWeakness === true){
+				$('#enemyWeakness').append('<p style="color: teal">Ice</p>');
+			}
+			if(game.currentEnemy.lightningWeakness === true){
+				$('#enemyWeakness').append('<p style="color: Purple">Lightning</p>');
+			}
+		}
+		if(game.zone === zones.castleEntrance.name){
+			const randomIndex = Math.floor(Math.random()*zones.castleEntrance.enemies.length);
+			game.currentEnemy.name = zones.castleEntrance.enemies[randomIndex].name;
+			game.currentEnemy.strength = zones.castleEntrance.enemies[randomIndex].strength;
+			game.currentEnemy.attack = zones.castleEntrance.enemies[randomIndex].attack;
+			game.currentEnemy.HP = zones.castleEntrance.enemies[randomIndex].HP;
+			game.currentEnemy.defense = zones.castleEntrance.enemies[randomIndex].defense;
+			game.currentEnemy.fireWeakness = zones.castleEntrance.enemies[randomIndex].fireWeakness;
+			game.currentEnemy.iceWeakness = zones.castleEntrance.enemies[randomIndex].iceWeakness;
+			game.currentEnemy.lightningWeakness = zones.castleEntrance.enemies[randomIndex].lightningWeakness;
+			game.currentEnemy.burn = zones.castleEntrance.enemies[randomIndex].burn;
+			game.currentEnemy.frostbite = zones.castleEntrance.enemies[randomIndex].frostbite;
+			game.currentEnemy.shock = zones.castleEntrance.enemies[randomIndex].shock;
+			game.currentEnemy.imageURL = zones.castleEntrance.enemies[randomIndex].imageURL;
+			game.currentEnemy.exp = zones.castleEntrance.enemies[randomIndex].expPts;
+			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
+			$('#enemyHealth').append(`<h6>${game.currentEnemy.HP}`);
+			if(game.currentEnemy.fireWeakness === true){
+				$('#enemyWeakness').append('<p style="color: orange">Fire</p>');
+			}
+			if(game.currentEnemy.iceWeakness === true){
+				$('#enemyWeakness').append('<p style="color: teal">Ice</p>');
+			}
+			if(game.currentEnemy.lightningWeakness === true){
+				$('#enemyWeakness').append('<p style="color: Purple">Lightning</p>');
+			}
+		}
+		if(game.zone === zones.castleInterior.name){
+			const randomIndex = Math.floor(Math.random()*zones.castleInterior.enemies.length);
+			game.currentEnemy.name = zones.castleInterior.enemies[randomIndex].name;
+			game.currentEnemy.strength = zones.castleInterior.enemies[randomIndex].strength;
+			game.currentEnemy.attack = zones.castleInterior.enemies[randomIndex].attack;
+			game.currentEnemy.HP = zones.castleInterior.enemies[randomIndex].HP;
+			game.currentEnemy.defense = zones.castleInterior.enemies[randomIndex].defense;
+			game.currentEnemy.fireWeakness = zones.castleInterior.enemies[randomIndex].fireWeakness;
+			game.currentEnemy.iceWeakness = zones.castleInterior.enemies[randomIndex].iceWeakness;
+			game.currentEnemy.lightningWeakness = zones.castleInterior.enemies[randomIndex].lightningWeakness;
+			game.currentEnemy.burn = zones.castleInterior.enemies[randomIndex].burn;
+			game.currentEnemy.frostbite = zones.castleInterior.enemies[randomIndex].frostbite;
+			game.currentEnemy.shock = zones.castleInterior.enemies[randomIndex].shock;
+			game.currentEnemy.imageURL = zones.castleInterior.enemies[randomIndex].imageURL;
+			game.currentEnemy.exp = zones.castleInterior.enemies[randomIndex].expPts;
+			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
+			$('#enemyHealth').append(`<h6>${game.currentEnemy.HP}`);
+			if(game.currentEnemy.fireWeakness === true){
+				$('#enemyWeakness').append('<p style="color: orange">Fire</p>');
+			}
+			if(game.currentEnemy.iceWeakness === true){
+				$('#enemyWeakness').append('<p style="color: teal">Ice</p>');
+			}
+			if(game.currentEnemy.lightningWeakness === true){
+				$('#enemyWeakness').append('<p style="color: Purple">Lightning</p>');
+			}
+		}
+		if(game.zone === zones.castleThroneRoom.name){
+			const randomIndex = Math.floor(Math.random()*zones.fields.enemies.length);
+			game.currentEnemy.name = zones.fields.enemies[randomIndex].name;
+			game.currentEnemy.strength = zones.fields.enemies[randomIndex].strength;
+			game.currentEnemy.attack = zones.fields.enemies[randomIndex].attack;
+			game.currentEnemy.HP = zones.fields.enemies[randomIndex].HP;
+			game.currentEnemy.defense = zones.fields.enemies[randomIndex].defense;
+			game.currentEnemy.fireWeakness = zones.fields.enemies[randomIndex].fireWeakness;
+			game.currentEnemy.iceWeakness = zones.fields.enemies[randomIndex].iceWeakness;
+			game.currentEnemy.lightningWeakness = zones.fields.enemies[randomIndex].lightningWeakness;
+			game.currentEnemy.burn = zones.fields.enemies[randomIndex].burn;
+			game.currentEnemy.frostbite = zones.fields.enemies[randomIndex].frostbite;
+			game.currentEnemy.shock = zones.fields.enemies[randomIndex].shock;
+			game.currentEnemy.imageURL = zones.fields.enemies[randomIndex].imageURL;
+			game.currentEnemy.exp = zones.fields.enemies[randomIndex].expPts;
 			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
 			$('#enemyHealth').append(`<h6>${game.currentEnemy.HP}`);
 			if(game.currentEnemy.fireWeakness === true){
