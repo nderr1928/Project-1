@@ -13,14 +13,18 @@
 	let gameOverToggle = false;
 	let startingZone = true;
 	
+	let fireDmg;
+	let iceDmg;
+	let lightningDmg;
+	
 //Hover functions for all buttons
 	//Top left
 	$($upperLeftButton).hover(function(){
-		if(magicToggle === false && itemToggle === false){
-			$($commandDescription).text('Attack the enemy');
+		if(magicToggle === false && itemToggle === false && battleToggle === true){
+			$($commandDescription).text(`Attack the enemy`);
 		}
-		if(magicToggle === true && itemToggle === false){
-			$($commandDescription).text('Use fire to attack the enemy - 25% chance for burn (-1hp per turn for 2-5 turns)');
+		if(magicToggle === true && itemToggle === false && battleToggle === true){
+			$($commandDescription).text(`Use fire to deal damage - 25% chance for burn (-1hp per turn for 2-5 turns)`);
 		}
 		}, function(){
 			$($commandDescription).text('');
@@ -29,13 +33,13 @@
 	
 	//Top right
 	$($upperRightButton).hover(function(){
-		if(magicToggle === false && itemToggle === false){
+		if(magicToggle === false && itemToggle === false && battleToggle === true){
 			$($commandDescription).text('Choose a spell to cast');
 		}
-		if(magicToggle === true && itemToggle === false){
+		if(magicToggle === true && itemToggle === false && battleToggle === true){
 			$($commandDescription).text('Double click to return to main command screen');
 		}
-		if(magicToggle === false && itemToggle === true){
+		if(magicToggle === false && itemToggle === true && battleToggle === true){
 			$($commandDescription).text(`Restore 50% of max health (${Math.ceil(player.maxHP/2)} points)`);
 		}
 		}, function(){
@@ -45,14 +49,14 @@
 
 	//Bottom left
 	$($lowerLeftButton).hover(function(){
-		if(itemToggle === false && magicToggle === false){
+		if(itemToggle === false && magicToggle === false && battleToggle === true){
 			$($commandDescription).text('Use an item');
 		}
-		if(magicToggle === false && itemToggle === true){
+		if(magicToggle === false && itemToggle === true && battleToggle === true){
 			$($commandDescription).text('Double click to return to main command screen');
 		}
-		if(magicToggle === true && itemToggle === false){
-			$($commandDescription).text('Use ice attack - 25% chance of frostbite (enemy atk reduced by 10% for 2-5 turns)');
+		if(magicToggle === true && itemToggle === false && battleToggle === true){
+			$($commandDescription).text(`Use ice to deal damage - 25% chance of frostbite (enemy atk reduced by 10% for 2-5 turns)`);
 		}
 		}, function(){
 			$($commandDescription).text('');
@@ -64,14 +68,14 @@
 		if(magicToggle === false && itemToggle === false && battleToggle === false && playerToggle === false){
 			$($commandDescription).text('Begin the battle');
 		}
-		if(magicToggle === true && itemToggle === false){
-			$($commandDescription).text('Use lightning spell - 10% chance of shock (enemy cannot attack next turn)');
+		if(magicToggle === true && itemToggle === false && battleToggle === true){
+			$($commandDescription).text(`Use lightning to deal damage - 10% chance of shock (enemy cannot attack next turn)`);
 		}
-		if(magicToggle === false && itemToggle === true){
+		if(magicToggle === false && itemToggle === true && battleToggle === true){
 			$($commandDescription).text(`Restore 50% of max MP (${Math.ceil(player.maxMP/2)} points)`);
 		}
 		if(gameOverToggle === true){
-			$($commandDescription).text(`Start over with current stats`);
+			$($commandDescription).text(`Start over with current level`);
 		}
 		}, function(){
 			$($commandDescription).text('');
@@ -242,22 +246,22 @@
 			$($update).prepend(`<p style="border-bottom: 1px white solid; color: green">EXP to next level: ${player.levelUpEXP - player.currentEXP}</p>`);
 		},
 		attack(){
-			const dmg = Math.ceil(player.strength + player.weaponAtk - Math.floor(game.currentEnemy.defense/2));
+			atkDmg = Math.ceil(player.strength + player.weaponAtk - Math.floor(game.currentEnemy.defense/2));
 			game.battleAnimation('url(images/attacks/slash_slow.gif)')
-			if(dmg <= 1){
+			if(atkDmg <= 1){
 				game.currentEnemy.HP--;
 				$('#enemyHealth').text(game.currentEnemy.HP);
 				$($update).prepend(`<p style="color: rgb(135,206,235)">You attack the enemy and deal 1 point of damage.</p>`);
-			} else if(game.currentEnemy.HP - dmg <= 0){
+			} else if(game.currentEnemy.HP - atkDmg <= 0){
 				game.currentEnemy.HP = 0;
 				$('#enemyHealth').text(game.currentEnemy.HP);
-				$($update).prepend(`<p style="color: rgb(135,206,235)">You attack the enemy and deal ${dmg} points of damage.</p>`);
+				$($update).prepend(`<p style="color: rgb(135,206,235)">You attack the enemy and deal ${atkDmg} points of damage.</p>`);
 				game.checkDeath();
 			} 
 			else{
-				game.currentEnemy.HP -= dmg;
+				game.currentEnemy.HP -= atkDmg;
 				$('#enemyHealth').text(game.currentEnemy.HP);
-				$($update).prepend(`<p style="color: rgb(135,206,235)">You attack the enemy and deal ${dmg} points of damage.</p>`);
+				$($update).prepend(`<p style="color: rgb(135,206,235)">You attack the enemy and deal ${atkDmg} points of damage.</p>`);
 			}
 			playerToggle = false;
 			if(game.currentEnemy.HP > 0){
@@ -273,20 +277,19 @@
 				player.currentMP -= spellCost;
 				$('#currentMP').text(player.currentMP);
 				$('#manaBar').css('width', `${(this.currentMP/this.maxMP)*100}%`);
-				let dmg = 4;
+				fireDmg = 4;
 				if(game.currentEnemy.fireWeakness === true){
-					dmg = Math.floor(dmg * 1.5);
+					fireDmg = Math.floor(fireDmg * 1.5);
 				}
-				if(game.currentEnemy.HP - dmg <= 0){
-					console.log(game.currentEnemy.HP - dmg, "3");
+				if(game.currentEnemy.HP - fireDmg <= 0){
 					game.currentEnemy.HP = 0;
 					$('#enemyHealth').text(game.currentEnemy.HP);
-					$($update).prepend(`<p style="color: orange">You used the fire spell and deal ${dmg} points of damage.</p>`);
+					$($update).prepend(`<p style="color: orange">You used the fire spell and deal ${fireDmg} points of damage.</p>`);
 					game.checkDeath();
 				} else{
-					game.currentEnemy.HP -= dmg;
+					game.currentEnemy.HP -= fireDmg;
 					$('#enemyHealth').text(game.currentEnemy.HP);
-					$($update).prepend(`<p style="color: orange">You used the fire spell and deal ${dmg} points of damage.</p>`);
+					$($update).prepend(`<p style="color: orange">You used the fire spell and deal ${fireDmg} points of damage.</p>`);
 				}
 				const burnChance = 0.25;
 				if(Math.random() < burnChance){
@@ -315,19 +318,19 @@
 				player.currentMP -= spellCost;
 				$('#currentMP').text(player.currentMP);
 				$('#manaBar').css('width', `${(this.currentMP/this.maxMP)*100}%`);
-				let dmg = 4;
+				iceDmg = 4;
 				if(game.currentEnemy.iceWeakness === true){
-					dmg = Math.floor(dmg * 1.5);
+					iceDmg = Math.floor(iceDmg * 1.5);
 				}
-				if(game.currentEnemy.HP - dmg <= 0){
+				if(game.currentEnemy.HP - iceDmg <= 0){
 					game.currentEnemy.HP = 0;
 					$('#enemyHealth').text(game.currentEnemy.HP);
-					$($update).prepend(`<p style="color: teal">You used the ice spell and deal ${dmg} points of damage.</p>`);
+					$($update).prepend(`<p style="color: teal">You used the ice spell and deal ${iceDmg} points of damage.</p>`);
 					game.checkDeath();
 				} else{
-					game.currentEnemy.HP -= dmg;
+					game.currentEnemy.HP -= iceDmg;
 					$('#enemyHealth').text(game.currentEnemy.HP);
-					$($update).prepend(`<p style="color: teal">You used the ice spell and deal ${dmg} points of damage.</p>`);
+					$($update).prepend(`<p style="color: teal">You used the ice spell and deal ${iceDmg} points of damage.</p>`);
 				}
 				const frostbiteChance = 0.25;
 				if(Math.random() < frostbiteChance){
@@ -356,19 +359,19 @@
 				player.currentMP -= spellCost;
 				$('#currentMP').text(player.currentMP);
 				$('#manaBar').css('width', `${(this.currentMP/this.maxMP)*100}%`);
-				let dmg = 4;
+				lightningDmg = 4;
 				if(game.currentEnemy.lightningWeakness === true){
-					dmg = Math.floor(dmg * 1.5);
+					lightningDmg = Math.floor(lightningDmg * 1.5);
 				}
-				if(game.currentEnemy.HP - dmg <= 0){
+				if(game.currentEnemy.HP - lightningDmg <= 0){
 					game.currentEnemy.HP = 0;
 					$('#enemyHealth').text(game.currentEnemy.HP);
-					$($update).prepend(`<pstyle="color: purple">You used the lightning spell and deal ${dmg} points of damage.</p>`);
+					$($update).prepend(`<pstyle="color: purple">You used the lightning spell and deal ${lightningDmg} points of damage.</p>`);
 					game.checkDeath();
 				} else{
-					game.currentEnemy.HP -= dmg;
+					game.currentEnemy.HP -= lightningDmg;
 					$('#enemyHealth').text(game.currentEnemy.HP);
-					$($update).prepend(`<p style="color: purple">You used the lightning spell and deal ${dmg} points of damage.</p>`);
+					$($update).prepend(`<p style="color: purple">You used the lightning spell and deal ${lightningDmg} points of damage.</p>`);
 				}
 				const shockChance = 0.1;
 				if(Math.random() < shockChance){
@@ -395,7 +398,6 @@
 				} else{
 					this.currentHP += Math.ceil(healthPotion.recovery * this.maxHP);
 				}
-				console.log(player.currentHP);
 				$('#currentHP').text(player.currentHP);
 				$('#hpBar').css('width', `${(this.currentHP/this.maxHP)*100}%`);
 				this.healthPotions--;
@@ -830,6 +832,9 @@ const game = {
 	gameStart(){
 		$('#enemyHealth').empty();
 		$('#enemyWeakness').empty();
+		$($upperLeftButton).css('visibility', 'visible');
+		$($upperRightButton).css('visibility', 'visible');
+		$($lowerLeftButton).css('visibility', 'visible');
 		if(startingZone === true || game.battleRound > game.totalNumBattleRounds){
 			zones.changeZones();
 			game.battleRound = 1
@@ -843,10 +848,10 @@ const game = {
 		$($update).prepend(`<p style="border-top: 1px white solid; color: white">An enemy ${game.currentEnemy.name} has appeared!`)
 	},
 	checkDeath(){
-		// let timer = 0;
-		// const pause = setInterval(function(){
-		// 	if(timer >= 1){
-				// clearInterval(pause);
+		let timer = 0;
+		const pause = setInterval(function(){
+			if(timer >= 1){
+				clearInterval(pause);
 				if(game.currentEnemy.HP <= 0){
 					$lowerRightButton.text('Start');
 					$lowerRightButton.css('visibility', 'visible');
@@ -866,6 +871,9 @@ const game = {
 						$('#currentMP').text(player.currentMP);
 						$('#manaBar').css('width', `${(player.currentMP/player.maxMP)*100}%`);
 					}
+					$($upperLeftButton).css('visibility', 'hidden');
+					$($upperRightButton).css('visibility', 'hidden');
+					$($lowerLeftButton).css('visibility', 'hidden');
 					game.battleRound++;
 				}
 				if(player.currentHP <= 0){
@@ -882,10 +890,10 @@ const game = {
 					$upperLeftButton.css('visibility', 'hidden');
 					$upperRightButton.css('visibility', 'hidden');
 				}	
-			},
-		// 	timer++;
-		// }, 800);
-	// },
+			}
+			timer++;
+		}, 800);
+	},
 	startOver(){
 		let timer = 0;
 		const pause = setInterval(function(){
@@ -913,4 +921,6 @@ const game = {
 		}, 500);
 	}
 }
+
+
 

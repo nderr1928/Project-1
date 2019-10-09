@@ -51,7 +51,9 @@ main{
 	grid-template-columns: 1fr 1fr;
 	grid-template-rows: 1fr 1fr;
 	justify-content: center;
-	background: black;
+	background-image: url(../images/statsBackground.jpg);
+	background-size: cover;
+	background-position: center;
 	opacity: 1;
 	border-left: 2px solid black;
 	color: black;
@@ -292,5 +294,9 @@ main{
 
 #currentHP, #currentMP{
 	margin:0;
+}
+
+#upperleft-button, #upperright-button, #lowerleft-button{
+	visibility: hidden;
 }
 
