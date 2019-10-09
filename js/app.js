@@ -10,6 +10,7 @@
 	let itemToggle = false;
 	let battleToggle = false;
 	let playerToggle = false;
+	let gameOverToggle = false;
 	
 //Hover functions for all buttons
 	//Top left
@@ -67,6 +68,9 @@
 		}
 		if(magicToggle === false && itemToggle === true){
 			$($commandDescription).text(`Restore 50% of max MP (${Math.ceil(player.maxMP/2)} points)`);
+		}
+		if(gameOverToggle === true){
+			$($commandDescription).text(`Start over with current stats`);
 		}
 		}, function(){
 			$($commandDescription).text('');
@@ -127,6 +131,9 @@
 			player.manaPotion();
 			game.enemyAttack();
 		}
+		if(gameOverToggle === true){
+			game.startOver();
+		}
 	});
 
 //dblclcik return commands
@@ -153,11 +160,6 @@
 			$lowerRightButton.text('');
 		}
 	});
-
-
-
-	
-
 
 //Enemies
 	class enemies{
@@ -215,7 +217,7 @@
 			$($update).prepend('<p>You attack the enemy!</p>');
 		},
 		levelUp(){
-			$($update).prepend('<p>You have leveled up!</p>');
+			$($update).prepend('<p style="border-top: 1px black solid">You have leveled up!</p>');
 			player.level++;
 			player.maxHP +=3;
 			player.maxMP +=2;
@@ -232,7 +234,7 @@
 			$($update).prepend(`<p>Max MP = ${player.maxMP}</p>`);
 			$($update).prepend(`<p>Strength = ${player.strength}</p>`);
 			$($update).prepend(`<p>Defense = ${player.defense}</p>`);
-			$($update).prepend(`<p>EXP to next level: ${player.levelUpEXP - player.currentEXP}</p>`);
+			$($update).prepend(`<p style="border-bottom: 1px black solid">EXP to next level: ${player.levelUpEXP - player.currentEXP}</p>`);
 		},
 		attack(){
 			$($update).prepend(`<p>You attack the enemy</p>`)
@@ -257,6 +259,10 @@
 			if(game.currentEnemy.HP > 0){
 				game.enemyAttack();
 			}
+			if(player.currentMP < player.maxMP){
+				player.currentMP += player.manaRegen;
+			}
+			game.checkDeath();
 		},
 		fireSpell(){
 			const spellCost = 5;
@@ -299,6 +305,10 @@
 				if(game.currentEnemy.HP > 0){
 					game.enemyAttack();
 				}
+				if(player.currentMP < player.maxMP){
+					player.currentMP += player.manaRegen;
+				}
+				game.checkDeath();
 			}
 		},
 		iceSpell(){
@@ -341,6 +351,10 @@
 				if(game.currentEnemy.HP > 0){
 					game.enemyAttack();
 				}
+				if(player.currentMP < player.maxMP){
+					player.currentMP += player.manaRegen;
+				}
+				game.checkDeath();
 			}
 		},
 		lightningSpell(){
@@ -383,6 +397,10 @@
 				if(game.currentEnemy.HP > 0){
 					game.enemyAttack();
 				}
+				if(player.currentMP < player.maxMP){
+					player.currentMP += player.manaRegen;
+				}
+				game.checkDeath();
 			}
 		},
 		healthPotion(){
@@ -411,6 +429,7 @@
 					$($update).prepend('<p>Health is already at max</p>');
 				}
 			}
+			game.checkDeath();
 		},
 		manaPotion(){
 			if(this.manaPotions > 0 && this.currentMP < this.maxMP){
@@ -435,6 +454,7 @@
 			} else{
 				$($update).prepend('<p>Mana is already at max</p>');
 			}
+			game.checkDeath();
 		}
 	}
 
@@ -561,6 +581,8 @@ const game = {
 		}, 1500);
 	},
 	gameStart(){
+		$('#enemyHealth').empty();
+		$('#enemyWeakness').empty();
 		this.selectEnemy();
 		$lowerRightButton.css('visibility', 'hidden');
 		$lowerRightButton.text('');
@@ -570,14 +592,46 @@ const game = {
 	},
 	checkDeath(){
 		if(game.currentEnemy.HP <= 0){
-			$($update).prepend(`<p>You have defeated the enemy.</p>`)
 			$lowerRightButton.text('Start');
 			$lowerRightButton.css('visibility', 'visible');
+			$('#enemy-image').css('background-image', 'url(images/enemies/defeated.png)');
 			battleToggle = false;
 			playerToggle = false;
+			player.currentEXP += game.currentEnemy.exp;
+			if(player.currentEXP >= player.levelUpEXP){
+				$($update).prepend(`<p style="border-bottom: 1px black solid">You have defeated the enemy and gained ${game.currentEnemy.exp} experience points.</p>`);
+				player.levelUp();
+			} else{
+				$($update).prepend(`<p>You have defeated the enemy and gained ${game.currentEnemy.exp} experience points.</p>`);
+				$($update).prepend(`<p style="border-bottom: 1px black solid"> ${player.levelUpEXP - player.currentEXP} point(s) until level up.</p>`);
+			}
 		}
 		if(player.currentHP <= 0){
-			
+			$($update).prepend(`<p style="border-bottom: 1px black solid">You have been slain.</p>`);
+			$('#enemy-image').css('background-image', 'url(images/gameover.gif)');
+			$('#enemy-image').css('height', '300px');
+			$('#enemy-image').css('width', '300px');
+			gameOverToggle = true;
+			battleToggle = false;
+			playerToggle = false;
+			$lowerRightButton.css('visibility', 'visible');
+			$lowerRightButton.text('Start Over');
+			$lowerLeftButton.css('visibility', 'hidden');
+			$upperLeftButton.css('visibility', 'hidden');
+			$upperRightButton.css('visibility', 'hidden');
 		}
+	},
+	startOver(){
+		gameOverToggle = false;
+		player.currentHP = player.maxHP;
+		$('#hpBar').css('width', `${(player.currentHP/player.maxHP)*100}%`);
+		player.currentMP = player.maxMP;
+		$('#manaBar').css('width', `${(this.currentMP/this.maxMP)*100}%`);
+		$lowerRightButton.text('');
+		$lowerRightButton.css('visibility', 'hidden');
+		$lowerLeftButton.css('visibility', 'visible');
+		$upperLeftButton.css('visibility', 'visible');
+		$upperRightButton.css('visibility', 'visible');
+		game.gameStart();
 	}
 }
