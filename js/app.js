@@ -90,21 +90,16 @@
 	//Top left - Attack or fire
 	$($upperLeftButton).click( () => {
 		if(magicToggle === true && itemToggle === false && battleToggle === true && playerToggle === true){
-			console.log("magicToggle: ", magicToggle, "itemToggle: ", itemToggle);
 			player.fireSpell();
-			console.log('fire');
 		}
 		if(magicToggle === false && itemToggle === false && battleToggle === true && playerToggle === true){
-			console.log("magicToggle: ", magicToggle, "itemToggle: ", itemToggle);
 			player.attack();
-			console.log('attack');
 		}
 	});
 
 	//Top right - Magic menu or health potion
 	$($upperRightButton).click( () => {
 		if(magicToggle === false && itemToggle === false && battleToggle === true && playerToggle === true){
-			console.log("magicToggle: ", magicToggle, "itemToggle: ", itemToggle);
 			magicToggle = true;
 			$upperLeftButton.text('Fire (MP: 5)');
 			$upperRightButton.text('Return');
@@ -113,7 +108,6 @@
 			$lowerRightButton.text('Lightning (MP: 4)');
 		}
 		if(magicToggle === false && itemToggle === true && battleToggle === true && playerToggle === true){
-			console.log("magicToggle: ", magicToggle, "itemToggle: ", itemToggle);
 			player.healthPotion();
 			game.enemyAttack();
 		}
@@ -122,7 +116,6 @@
 	//Bottom left - to item menu or ice
 	$($lowerLeftButton).click( () => {
 		if(magicToggle === false && itemToggle === false && battleToggle === true && playerToggle === true){
-			console.log("magicToggle: ", magicToggle, "itemToggle: ", itemToggle);
 			itemToggle = true;
 			$upperRightButton.text(`Health Potion (x${player.healthPotions})`);
 			$lowerLeftButton.text('Return');
@@ -131,28 +124,23 @@
 			$lowerRightButton.text(`Mana Potion (x${player.manaPotions})`);
 		}
 		if(magicToggle === true && itemToggle === false && battleToggle === true && playerToggle === true){
-			console.log("magicToggle: ", magicToggle, "itemToggle: ", itemToggle);
 			player.iceSpell();
 		}
 	});
 
 	//Bottom right - start battle or lightning or mana potion
 	$lowerRightButton.click(function() {
-		if(magicToggle === false && itemToggle === false && battleToggle === false && playerToggle === false){
+		if(magicToggle === false && itemToggle === false && battleToggle === false && playerToggle === false && gameOverToggle === false){
 			game.gameStart();
-			console.log("magicToggle: ", magicToggle, "itemToggle: ", itemToggle);
 		}
 		if(magicToggle === true && itemToggle === false && battleToggle === true && playerToggle === true){
-			console.log("magicToggle: ", magicToggle, "itemToggle: ", itemToggle);
 			player.lightningSpell();
 		}
 		if(magicToggle === false && itemToggle === true && battleToggle === true && playerToggle === true){
-			console.log("magicToggle: ", magicToggle, "itemToggle: ", itemToggle);
 			player.manaPotion();
 			game.enemyAttack();
 		}
 		if(gameOverToggle === true){
-			console.log("magicToggle: ", magicToggle, "itemToggle: ", itemToggle);
 			game.startOver();
 		}
 	});
@@ -161,7 +149,6 @@
 	//Commands to return to main command screen from magic menu
 	$($upperRightButton).on('dblclick', () => {
 		if(magicToggle === true && itemToggle === false ){
-			console.log("magicToggle: ", magicToggle, "itemToggle: ", itemToggle);
 			magicToggle = false;
 			$upperLeftButton.text('Attack');
 			$upperRightButton.text('Magic');
@@ -174,7 +161,6 @@
 	//Commands to return to main command screen from item menu
 	$($lowerLeftButton).on('dblclick', () => {
 		if(magicToggle === false && itemToggle === true){
-			console.log("magicToggle: ", magicToggle, "itemToggle: ", itemToggle);
 			itemToggle = false;
 			$upperLeftButton.css('visibility', 'visible');
 			$upperRightButton.text('Magic');
@@ -812,7 +798,6 @@ const game = {
 					$('#currentHP').text(player.currentHP);
 					$('#hpBar').css('width', `${(player.currentHP/player.maxHP)*100}%`);
 					$($update).prepend(`<p style="color: rgb(240,128,128)">The enemy attacks you with a ${game.currentEnemy.attack}! You take ${dmg} points of damage.</p>`);
-					$($update).prepend(`<p style:"border-bottom:1px white solid">You have been defeated by the enemy!</p>`);
 				} 
 				else{
 					player.currentHP -= dmg;
@@ -820,7 +805,7 @@ const game = {
 					$('#hpBar').css('width', `${(player.currentHP/player.maxHP)*100}%`);
 					$($update).prepend(`<p style="color: rgb(240,128,128)">The enemy attacks you with a ${game.currentEnemy.attack}! You take ${dmg} points of damage.</p>`);
 				}
-				if(player.currentMP < player.maxMP){
+				if(player.currentMP < player.maxMP && player.currentHP > 0){
 					player.currentMP += player.manaRegen;
 					$('#currentMP').text(player.currentMP);
 					$('#manaBar').css('width', `${(player.currentMP/player.maxMP)*100}%`);
@@ -848,13 +833,14 @@ const game = {
 				clearInterval(pause);
 			}
 			timer++;
-		}, 1500);
+		}, 1200);
 	},
 	gameStart(){
 		$('#enemyHealth').empty();
 		$('#enemyWeakness').empty();
-		if(startingZone === true || game.battleRound === game.totalNumBattleRounds){
+		if(startingZone === true || game.battleRound > game.totalNumBattleRounds){
 			zones.changeZones();
+			game.battleRound = 1
 		}
 		this.selectEnemy();
 		$lowerRightButton.css('visibility', 'hidden');
@@ -882,14 +868,15 @@ const game = {
 						$($update).prepend(`<p style="color: green">You have defeated the enemy and gained ${game.currentEnemy.exp} experience points.</p>`);
 						$($update).prepend(`<p style="border-bottom: 1px black solid; color: green"> ${player.levelUpEXP - player.currentEXP} point(s) until level up.</p>`);
 					}
-					game.battleRound++;
-					if(game.battleRound > game.totalNumBattleRounds){
-						zones.changeZones();
-						game.battleRound = 1;
+					if(player.currentMP < player.maxMP && player.currentHP > 0){
+						player.currentMP += player.manaRegen;
+						$('#currentMP').text(player.currentMP);
+						$('#manaBar').css('width', `${(player.currentMP/player.maxMP)*100}%`);
 					}
+					game.battleRound++;
 				}
 				if(player.currentHP <= 0){
-					$($update).prepend(`<p style="border-bottom: 1px black solid">You have been slain.</p>`);
+					$($update).prepend(`<p style="border-bottom:1px white solid; color: red">You have been slain.</p>`);
 					$('#enemy-image').css('background-image', 'url(images/gameover.gif)');
 					$('#enemy-image').css('height', '300px');
 					$('#enemy-image').css('width', '300px');
@@ -907,18 +894,30 @@ const game = {
 		}, 800);
 	},
 	startOver(){
-		gameOverToggle = false;
-		player.currentHP = player.maxHP;
-		$('#hpBar').css('width', `${(player.currentHP/player.maxHP)*100}%`);
-		player.currentMP = player.maxMP;
-		$('#manaBar').css('width', `${(this.currentMP/this.maxMP)*100}%`);
-		$lowerRightButton.text('');
-		$lowerRightButton.css('visibility', 'hidden');
-		$lowerLeftButton.css('visibility', 'visible');
-		$upperLeftButton.css('visibility', 'visible');
-		$upperRightButton.css('visibility', 'visible');
-		startingZone = true;
-		game.gameStart();
+		let timer = 0;
+		const pause = setInterval(function(){
+			if(timer >= 1){
+				gameOverToggle = false;
+				player.currentHP = player.maxHP;
+				$('#hpBar').text(player.currentHP);
+				$('#hpBar').css('width', `${(player.currentHP/player.maxHP)*100}%`);
+				player.currentMP = player.maxMP;
+				$('#manaBar').text(player.currentMP);
+				$('#manaBar').css('width', `${(this.currentMP/this.maxMP)*100}%`);
+				$('#enemy-image').css('height', '300px');
+				$('#enemy-image').css('width', '300px');
+				$lowerRightButton.text('');
+				$lowerRightButton.css('visibility', 'hidden');
+				$lowerLeftButton.css('visibility', 'visible');
+				$upperLeftButton.css('visibility', 'visible');
+				$upperRightButton.css('visibility', 'visible');
+				startingZone = true;
+				game.battleRound = 1
+				game.gameStart();
+				clearInterval(pause);
+			}
+			timer++;
+		}, 500);
 	}
 }
 
