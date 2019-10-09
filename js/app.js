@@ -226,9 +226,6 @@
 		levelUpEXP: 5,
 		healthPotions: 3,
 		manaPotions: 3,
-		playerTurn(){
-			$($update).prepend('<p>You attack the enemy!</p>');
-		},
 		levelUp(){
 			$($update).prepend('<p style="border-top: 1px black solid">You have leveled up!</p>');
 			player.level++;
@@ -250,22 +247,22 @@
 			$($update).prepend(`<p style="border-bottom: 1px black solid">EXP to next level: ${player.levelUpEXP - player.currentEXP}</p>`);
 		},
 		attack(){
-			$($update).prepend(`<p>You attack the enemy</p>`)
+			$($update).prepend(`<p style="color: blue">You attack the enemy</p>`)
 			const dmg = Math.ceil(player.strength + player.weaponAtk - Math.floor(game.currentEnemy.defense/2));
 			game.battleAnimation('url(images/attacks/slash_slow.gif)')
 			if(dmg <= 1){
 				game.currentEnemy.HP--;
 				$('#enemyHealth').text(game.currentEnemy.HP);
-				$($update).prepend(`<p>You deal 1 point of damage.</p>`);
+				$($update).prepend(`<p style="color: blue">You deal 1 point of damage.</p>`);
 			} else if(game.currentEnemy.HP - dmg <= 0){
 				game.currentEnemy.HP = 0;
 				$('#enemyHealth').text(game.currentEnemy.HP);
-				$($update).prepend(`<p>You deal ${dmg} points of damage.</p>`)
+				$($update).prepend(`<p style="color: blue">You deal ${dmg} points of damage.</p>`)
 			} 
 			else{
 				game.currentEnemy.HP -= dmg;
 				$('#enemyHealth').text(game.currentEnemy.HP);
-				$($update).prepend(`<p>You deal ${dmg} points of damage.</p>`);
+				$($update).prepend(`<p style="color: blue">You deal ${dmg} points of damage.</p>`);
 			}
 			playerToggle = false;
 			//this.textPause(1);
@@ -279,7 +276,7 @@
 			if(player.currentMP < spellCost){
 				$($update).prepend(`<p>Not enough MP to cast</p>`);
 			} else{
-				$($update).prepend('<p>You used the fire spell</p>');
+				$($update).prepend('<p style="color: blue">You used the fire spell</p>');
 				game.battleAnimation('url(images/attacks/fireball.gif)');
 				player.currentMP -= spellCost;
 				$('#currentMP').text(player.currentMP);
@@ -295,14 +292,14 @@
 					console.log(game.currentEnemy.HP - dmg, "3");
 					game.currentEnemy.HP = 0;
 					$('#enemyHealth').text(game.currentEnemy.HP);
-					$($update).prepend(`<p>You deal ${dmg} points of damage.</p>`);
+					$($update).prepend(`<p style="color: blue">You deal ${dmg} points of damage.</p>`);
 				} else{
 					//console.log(dmg, "dmg");
 					game.currentEnemy.HP -= dmg;
 					//console.log(game.currentEnemy.HP, "enemy hp");
 					//console.log(game.currentEnemy.HP - dmg, "4");
 					$('#enemyHealth').text(game.currentEnemy.HP);
-					$($update).prepend(`<p>You deal ${dmg} points of damage.</p>`);
+					$($update).prepend(`<p style="color: blue">You deal ${dmg} points of damage.</p>`);
 				}
 				const burnChance = .25;
 				if(Math.random() < burnChance){
@@ -329,7 +326,7 @@
 			if(player.currentMP < spellCost){
 				$($update).prepend(`<p>Not enough MP to cast</p>`);
 			} else{
-				$($update).prepend('<p>You used the ice spell</p>');
+				$($update).prepend('<p style="color: blue">You used the ice spell</p>');
 				game.battleAnimation('url(images/attacks/ice.gif)');
 				player.currentMP -= spellCost;
 				$('#currentMP').text(player.currentMP);
@@ -342,11 +339,11 @@
 				if(game.currentEnemy.HP - dmg <= 0){
 					game.currentEnemy.HP = 0;
 					$('#enemyHealth').text(game.currentEnemy.HP);
-					$($update).prepend(`<p>You deal ${dmg} points of damage.</p>`);
+					$($update).prepend(`<p style="color: blue">You deal ${dmg} points of damage.</p>`);
 				} else{
 					game.currentEnemy.HP -= dmg;
 					$('#enemyHealth').text(game.currentEnemy.HP);
-					$($update).prepend(`<p>You deal ${dmg} points of damage.</p>`);
+					$($update).prepend(`<p style="color: blue">You deal ${dmg} points of damage.</p>`);
 				}
 				const frostbiteChance = .25;
 				if(Math.random() < frostbiteChance){
@@ -373,7 +370,7 @@
 			if(player.currentMP < spellCost){
 				$($update).prepend(`<p>Not enough MP to cast</p>`);
 			} else{
-				$($update).prepend('<p>You used the lightning spell</p>');
+				$($update).prepend('<p style="color: blue">You used the lightning spell</p>');
 				game.battleAnimation('url(images/attacks/lightning.gif)');
 				player.currentMP -= spellCost;
 				$('#currentMP').text(player.currentMP);
@@ -386,11 +383,11 @@
 				if(game.currentEnemy.HP - dmg <= 0){
 					game.currentEnemy.HP = 0;
 					$('#enemyHealth').text(game.currentEnemy.HP);
-					$($update).prepend(`<p>You deal ${dmg} points of damage.</p>`);
+					$($update).prepend(`<pstyle="color: blue">You deal ${dmg} points of damage.</p>`);
 				} else{
 					game.currentEnemy.HP -= dmg;
 					$('#enemyHealth').text(game.currentEnemy.HP);
-					$($update).prepend(`<p>You deal ${dmg} points of damage.</p>`);
+					$($update).prepend(`<p style="color: blue">You deal ${dmg} points of damage.</p>`);
 				}
 				const shockChance = .1;
 				if(Math.random() < shockChance){
@@ -811,25 +808,25 @@ const game = {
 		const pause = setInterval(function(){
 			if(timer >= 1){
 				clearInterval(pause);
-				$($update).prepend(`<p>The enemy attacks you with a ${game.currentEnemy.attack}!</p>`);
+				$($update).prepend(`<p style="color: red">The enemy attacks you with a ${game.currentEnemy.attack}!</p>`);
 				const dmg = Math.ceil(game.currentEnemy.strength - Math.floor(player.defense/2));
 				if(dmg <= 1){
 					player.currentHP--;
 					$('#currentHP').text(player.currentHP);
 					$('#hpBar').css('width', `${(player.currentHP/player.maxHP)*100}%`);
-					$($update).prepend(`<p>You take 1 point of damage.</p>`);
+					$($update).prepend(`<p style="color: red">You take 1 point of damage.</p>`);
 				} else if(player.currentHP - dmg <= 0){
 					player.currentHP = 0;
 					$('#currentHP').text(player.currentHP);
 					$('#hpBar').css('width', `${(player.currentHP/player.maxHP)*100}%`);
-					$($update).prepend(`<p>You take ${dmg} points of damage.</p>`);
+					$($update).prepend(`<p style="color: red">You take ${dmg} points of damage.</p>`);
 					$($update).prepend(`<p style:"border-bottom:1px black solid">You have been defeated by the enemy!</p>`);
 				} 
 				else{
 					player.currentHP -= dmg;
 					$('#currentHP').text(player.currentHP);
 					$('#hpBar').css('width', `${(player.currentHP/player.maxHP)*100}%`);
-					$($update).prepend(`<p>You take ${dmg} points of damage.</p>`);
+					$($update).prepend(`<p style="color: red">You take ${dmg} points of damage.</p>`);
 				}
 				if(player.currentMP < player.maxMP){
 					player.currentMP += player.manaRegen;
