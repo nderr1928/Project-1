@@ -130,6 +130,9 @@
 
 	//Bottom right - start battle or lightning or mana potion
 	$lowerRightButton.click(function() {
+		if(gameOverToggle === true){
+			game.startOver();
+		}
 		if(magicToggle === false && itemToggle === false && battleToggle === false && playerToggle === false && gameOverToggle === false){
 			game.gameStart();
 		}
@@ -139,9 +142,6 @@
 		if(magicToggle === false && itemToggle === true && battleToggle === true && playerToggle === true){
 			player.manaPotion();
 			game.enemyAttack();
-		}
-		if(gameOverToggle === true){
-			game.startOver();
 		}
 	});
 
@@ -251,7 +251,8 @@
 			} else if(game.currentEnemy.HP - dmg <= 0){
 				game.currentEnemy.HP = 0;
 				$('#enemyHealth').text(game.currentEnemy.HP);
-				$($update).prepend(`<p style="color: rgb(135,206,235)">You attack the enemy and deal ${dmg} points of damage.</p>`)
+				$($update).prepend(`<p style="color: rgb(135,206,235)">You attack the enemy and deal ${dmg} points of damage.</p>`);
+				game.checkDeath();
 			} 
 			else{
 				game.currentEnemy.HP -= dmg;
@@ -262,7 +263,6 @@
 			if(game.currentEnemy.HP > 0){
 				game.enemyAttack();
 			}
-			game.checkDeath();
 		},
 		fireSpell(){
 			const spellCost = 5;
@@ -282,6 +282,7 @@
 					game.currentEnemy.HP = 0;
 					$('#enemyHealth').text(game.currentEnemy.HP);
 					$($update).prepend(`<p style="color: orange">You used the fire spell and deal ${dmg} points of damage.</p>`);
+					game.checkDeath();
 				} else{
 					game.currentEnemy.HP -= dmg;
 					$('#enemyHealth').text(game.currentEnemy.HP);
@@ -303,7 +304,6 @@
 				if(game.currentEnemy.HP > 0){
 					game.enemyAttack();
 				}
-				game.checkDeath();
 			}
 		},
 		iceSpell(){
@@ -323,6 +323,7 @@
 					game.currentEnemy.HP = 0;
 					$('#enemyHealth').text(game.currentEnemy.HP);
 					$($update).prepend(`<p style="color: teal">You used the ice spell and deal ${dmg} points of damage.</p>`);
+					game.checkDeath();
 				} else{
 					game.currentEnemy.HP -= dmg;
 					$('#enemyHealth').text(game.currentEnemy.HP);
@@ -344,7 +345,6 @@
 				if(game.currentEnemy.HP > 0){
 					game.enemyAttack();
 				}
-				game.checkDeath();
 			}
 		},
 		lightningSpell(){
@@ -364,6 +364,7 @@
 					game.currentEnemy.HP = 0;
 					$('#enemyHealth').text(game.currentEnemy.HP);
 					$($update).prepend(`<pstyle="color: purple">You used the lightning spell and deal ${dmg} points of damage.</p>`);
+					game.checkDeath();
 				} else{
 					game.currentEnemy.HP -= dmg;
 					$('#enemyHealth').text(game.currentEnemy.HP);
@@ -385,7 +386,6 @@
 				if(game.currentEnemy.HP > 0){
 					game.enemyAttack();
 				}
-				game.checkDeath();
 			}
 		},
 		healthPotion(){
@@ -798,6 +798,7 @@ const game = {
 					$('#currentHP').text(player.currentHP);
 					$('#hpBar').css('width', `${(player.currentHP/player.maxHP)*100}%`);
 					$($update).prepend(`<p style="color: rgb(240,128,128)">The enemy attacks you with a ${game.currentEnemy.attack}! You take ${dmg} points of damage.</p>`);
+					game.checkDeath();
 				} 
 				else{
 					player.currentHP -= dmg;
@@ -814,15 +815,6 @@ const game = {
 			}
 			timer++;
 		}, 800);
-	},
-	textPause(){
-		let timer = 0;
-		const pause = setInterval(function(){
-			if(timer >= timeDelay){
-				clearInterval(pause);
-			}
-			timer++;
-		}, 1000);
 	},
 	battleAnimation(imageURL){
 		let timer = 0;
@@ -850,10 +842,10 @@ const game = {
 		$($update).prepend(`<p style="border-top: 1px white solid; color: white">An enemy ${game.currentEnemy.name} has appeared!`)
 	},
 	checkDeath(){
-		let timer = 0;
-		const pause = setInterval(function(){
-			if(timer >= 1){
-				clearInterval(pause);
+		// let timer = 0;
+		// const pause = setInterval(function(){
+		// 	if(timer >= 1){
+				// clearInterval(pause);
 				if(game.currentEnemy.HP <= 0){
 					$lowerRightButton.text('Start');
 					$lowerRightButton.css('visibility', 'visible');
@@ -889,23 +881,24 @@ const game = {
 					$upperLeftButton.css('visibility', 'hidden');
 					$upperRightButton.css('visibility', 'hidden');
 				}	
-			}
-			timer++;
-		}, 800);
-	},
+			},
+		// 	timer++;
+		// }, 800);
+	// },
 	startOver(){
 		let timer = 0;
 		const pause = setInterval(function(){
 			if(timer >= 1){
 				gameOverToggle = false;
+				clearInterval(pause);
 				player.currentHP = player.maxHP;
-				$('#hpBar').text(player.currentHP);
+				$('#currentHP').text(player.currentHP);
 				$('#hpBar').css('width', `${(player.currentHP/player.maxHP)*100}%`);
 				player.currentMP = player.maxMP;
-				$('#manaBar').text(player.currentMP);
-				$('#manaBar').css('width', `${(this.currentMP/this.maxMP)*100}%`);
-				$('#enemy-image').css('height', '300px');
-				$('#enemy-image').css('width', '300px');
+				$('#currentMP').text(player.currentMP);
+				$('#manaBar').css('width', `${(player.currentMP/player.maxMP)*100}%`);
+				$('#enemy-image').css('height', '150px');
+				$('#enemy-image').css('width', '150px');
 				$lowerRightButton.text('');
 				$lowerRightButton.css('visibility', 'hidden');
 				$lowerLeftButton.css('visibility', 'visible');
@@ -914,7 +907,6 @@ const game = {
 				startingZone = true;
 				game.battleRound = 1
 				game.gameStart();
-				clearInterval(pause);
 			}
 			timer++;
 		}, 500);
