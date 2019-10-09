@@ -78,6 +78,14 @@
 		}
 	);
 
+	//Log clear button
+	$('#clearlog').hover(function(){
+		$($commandDescription).text(`Clear log of all text`);
+		}, function(){
+			$($commandDescription).text('');
+		}
+	);
+
 //All click commands
 	//Top left - Attack or fire
 	$($upperLeftButton).click( () => {
