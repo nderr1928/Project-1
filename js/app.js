@@ -207,6 +207,7 @@
 	const snake = new enemies('Snake', 3, "bite", 10, 2, true, true, false, 'url(images/enemies/snake.gif)', 2);
 	const caveGuard = new enemies('Cave Guard', 5, "Slash", 25, 3, false, false, true, 'url(images/enemies/caveGuard.gif)', 5);
 	const bat = new enemies('Bat', 2, "bite", 15, 2, false, false, true, 'url(images/enemies/bat_fast.gif)', 2);
+	const slime = new enemies('Slime', 2, "goop", 20, 5, true, true, true, 'url(images/enemies/slime.gif)', 4);
 
 //Potions
 	const healthPotion = {
@@ -272,7 +273,6 @@
 				$($update).prepend(`<p style="color: rgb(135,206,235)">You attack the enemy and deal ${dmg} points of damage.</p>`);
 			}
 			playerToggle = false;
-			//this.textPause(1);
 			if(game.currentEnemy.HP > 0){
 				game.enemyAttack();
 			}
@@ -288,32 +288,25 @@
 				$('#currentMP').text(player.currentMP);
 				$('#manaBar').css('width', `${(this.currentMP/this.maxMP)*100}%`);
 				let dmg = 4;
-				//console.log(game.currentEnemy.HP - dmg, "1");
 				if(game.currentEnemy.fireWeakness === true){
 					dmg = Math.floor(dmg * 1.5);
-					//console.log(game.currentEnemy.HP - dmg, "2");
 				}
-				//console.log(game.currentEnemy.HP, "current HP");
 				if(game.currentEnemy.HP - dmg <= 0){
 					console.log(game.currentEnemy.HP - dmg, "3");
 					game.currentEnemy.HP = 0;
 					$('#enemyHealth').text(game.currentEnemy.HP);
 					$($update).prepend(`<p style="color: orange">You used the fire spell and deal ${dmg} points of damage.</p>`);
 				} else{
-					//console.log(dmg, "dmg");
 					game.currentEnemy.HP -= dmg;
-					//console.log(game.currentEnemy.HP, "enemy hp");
-					//console.log(game.currentEnemy.HP - dmg, "4");
 					$('#enemyHealth').text(game.currentEnemy.HP);
 					$($update).prepend(`<p style="color: orange">You used the fire spell and deal ${dmg} points of damage.</p>`);
 				}
-				const burnChance = 1;
+				const burnChance = 0.25;
 				if(Math.random() < burnChance){
 					game.currentEnemy.burn = true;
 					$($update).prepend(`<p style="color: gold">The ${game.currentEnemy.name} has been burned.</p>`);
 				}
 				playerToggle = false;
-				// this.textPause(1);
 				magicToggle = false;
 				itemToggle = false;
 				$upperLeftButton.text('Attack');
@@ -339,7 +332,6 @@
 				let dmg = 4;
 				if(game.currentEnemy.iceWeakness === true){
 					dmg = Math.floor(dmg * 1.5);
-					console.log(dmg);
 				}
 				if(game.currentEnemy.HP - dmg <= 0){
 					game.currentEnemy.HP = 0;
@@ -350,13 +342,12 @@
 					$('#enemyHealth').text(game.currentEnemy.HP);
 					$($update).prepend(`<p style="color: teal">You used the ice spell and deal ${dmg} points of damage.</p>`);
 				}
-				const frostbiteChance = 1;
+				const frostbiteChance = 0.25;
 				if(Math.random() < frostbiteChance){
 					game.currentEnemy.frostbite = true;
 					$($update).prepend(`<p style="color: yellow">The ${game.currentEnemy.name} has been frostbitten.</p>`);
 				}
 				playerToggle = false;
-				// this.textPause(1);
 				magicToggle = false;
 				itemToggle = false;
 				$upperLeftButton.text('Attack');
@@ -382,7 +373,6 @@
 				let dmg = 4;
 				if(game.currentEnemy.lightningWeakness === true){
 					dmg = Math.floor(dmg * 1.5);
-					console.log(dmg);
 				}
 				if(game.currentEnemy.HP - dmg <= 0){
 					game.currentEnemy.HP = 0;
@@ -393,13 +383,12 @@
 					$('#enemyHealth').text(game.currentEnemy.HP);
 					$($update).prepend(`<p style="color: purple">You used the lightning spell and deal ${dmg} points of damage.</p>`);
 				}
-				const shockChance = 1;
+				const shockChance = 0.1;
 				if(Math.random() < shockChance){
 					game.currentEnemy.shock = true;
 					$($update).prepend(`<p style="color: yellow">The ${game.currentEnemy.name} is in shock.</p>`);
 				}
 				playerToggle = false;
-				// this.textPause(1);
 				magicToggle = false;
 				itemToggle = false;
 				$upperLeftButton.text('Attack');
@@ -489,7 +478,7 @@ const zones = {
 	cave: {
 		name: 'Archway Cave',
 		numBattles: 4,
-		enemies: [bat],
+		enemies: [bat, slime],
 		imageURL: 'url(images/backgrounds/caveBackground.jpg)'
 	},
 	caveExit: {
@@ -892,6 +881,11 @@ const game = {
 					} else{
 						$($update).prepend(`<p style="color: green">You have defeated the enemy and gained ${game.currentEnemy.exp} experience points.</p>`);
 						$($update).prepend(`<p style="border-bottom: 1px black solid; color: green"> ${player.levelUpEXP - player.currentEXP} point(s) until level up.</p>`);
+					}
+					game.battleRound++;
+					if(game.battleRound > game.totalNumBattleRounds){
+						zones.changeZones();
+						game.battleRound = 1;
 					}
 				}
 				if(player.currentHP <= 0){
