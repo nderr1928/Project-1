@@ -181,9 +181,10 @@
 		}
 	}
 
-	const bat = new enemies('Bat', 2, "bite", 15, 2, false, false, true, 'url(images/enemies/bat_fast.gif)', 2);
+	const rat = new enemies('Rat', 2, "bite", 8, 1, true, false, true, 'url(images/enemies/rat.gif)',1);
 	const snake = new enemies('Snake', 3, "bite", 10, 2, true, true, false, 'url(images/enemies/snake.gif)', 2);
-	const rat = new enemies('Rat', 2, "bite", 8, 1, true, true, true, 'url(images/enemies/rat.gif)',1);
+	const caveGuard = new enemies('Cave Guard', 5, "Slash", 25, 3, false, false, true, 'url(images/enemies/caveGuard.gif)', 5);
+	const bat = new enemies('Bat', 2, "bite", 15, 2, false, false, true, 'url(images/enemies/bat_fast.gif)', 2);
 
 //Potions
 	const healthPotion = {
@@ -453,26 +454,26 @@ const zones = {
 	fields: {
 		name: 'Open Fields',
 		numBattles: 4,
-		enemies: [snake],
-		imageURL: 'url(image/backgrounds/fieldBackground.jpeg)'
+		enemies: [rat, snake],
+		imageURL: 'url(images/backgrounds/fieldBackground.jpeg)'
 	},
 	caveEntrance: {
 		name: 'Archway Cave Entrance',
 		numBattles: 1,
-		enemies: [],
-		imageURL: 'url(image/backgrounds/caveEntranceBackground.jpg)'
+		enemies: [caveGuard],
+		imageURL: 'url(images/backgrounds/caveEntranceBackground.jpg)'
 	},
 	cave: {
 		name: 'Archway Cave',
 		numBattles: 4,
-		enemies: [rat, bat],
-		imageURL: 'url(image/backgrounds/caveBackground.jpg)'
+		enemies: [bat],
+		imageURL: 'url(images/backgrounds/caveBackground.jpg)'
 	},
 	caveExit: {
 		name: 'Archway Cave Exit',
 		numBattles: 1,
 		enemies: [],
-		imageURL: 'url(image/backgrounds/caveExitBackground.jpg)'
+		imageURL: 'url(images/backgrounds/caveExitBackground.jpg)'
 	},
 	graveyard: {
 		name: 'Weeping Bones Necrofield',
@@ -484,19 +485,19 @@ const zones = {
 		name: 'Castle to Hell Entrance',
 		numBattles: 1,
 		enemies: [],
-		imageURL: 'url(image/backgrounds/castleEntranceBackground.jpeg)'
+		imageURL: 'url(images/backgrounds/castleEntranceBackground.jpeg)'
 	},
 	castleInterior: {
 		name: 'Castle to Hell',
 		numBattles: 4,
 		enemies: [],
-		imageURL: 'url(image/backgrounds/castleBackground.jpeg)'
+		imageURL: 'url(images/backgrounds/castleBackground.jpeg)'
 	},
 	castleThroneRoom: {
 		name: 'Castle to Hell Throne Room',
 		numBattles: 1,
 		enemies: [],
-		imageURL: 'url(image/backgrounds/throneBackground2.jpg)'
+		imageURL: 'url(images/backgrounds/throneBackground2.jpg)'
 	},
 	changeZones(){
 		if(startingZone === true){
@@ -504,44 +505,45 @@ const zones = {
 			$('main').css('background-image', this.fields.imageURL);
 			$('#zone-info').text(`Zone: ${this.fields.name}`);
 			game.totalNumBattleRounds = this.fields.numBattles;
-		}
-		if(game.zone === this.fields.name && startingZone === false){
+			game.zone = this.fields.name;
+		} else if(game.zone === this.fields.name && startingZone === false){
 			alert('You have made it to the entrnace of Archway Cave. A guard stands near. You approach the entrance but the guard says that you must defeat them in battle before they can allow you to pass. The only way forward is through them!');
 			$('main').css('background-image', this.caveEntrance.imageURL);
 			$('#zone-info').text(`Zone: ${this.caveEntrance.name}`);
 			game.totalNumBattleRounds = this.caveEntrance.numBattles;
-		}
-		if(game.zone === this.caveEntrance.name && startingZone === false){
+			game.zone = this.caveEntrance.name;
+		}else if(game.zone === this.caveEntrance.name && startingZone === false){
 			alert('You have defeated the guard and he allows you to pass. The journey through Archway Cave has begun.');
 			$('main').css('background-image', this.cave.imageURL);
 			$('#zone-info').text(`Zone: ${this.cave.name}`);
 			game.totalNumBattleRounds = this.cave.numBattles;
-		}
-		if(game.zone === this.cave.name && startingZone === false){
+			game.zone = this.cave.name;
+		}else if(game.zone === this.cave.name && startingZone === false){
 			alert('You see the light of the moon shine through as you approach stairs. ')
 			$('main').css('background-image', this.caveExit.imageURL);
 			$('#zone-info').text(`Zone: ${this.caveExit.name}`);
 			game.totalNumBattleRounds = this.caveExit.numBattles;
-		}
-		if(game.zone === this.caveExit.name && startingZone === false){
+			game.zone = this.caveExit.name;
+		}else if(game.zone === this.caveExit.name && startingZone === false){
 			$('main').css('background-image', this.graveyard.imageURL);
 			$('#zone-info').text(`Zone: ${this.graveyard.name}`);
 			game.totalNumBattleRounds = this.graveyard.numBattles;
-		}
-		if(game.zone === this.graveyard.name && startingZone === false){
+			game.zone = this.graveyard.name;
+		}else if(game.zone === this.graveyard.name && startingZone === false){
 			$('main').css('background-image', this.castleEntrance.imageURL);
 			$('#zone-info').text(`Zone: ${this.castleEntrance.name}`);
 			game.totalNumBattleRounds = this.castleEntrance.numBattles;
-		}
-		if(game.zone === this.castleEntrance.name && startingZone === false){
+			game.zone = this.castleEntrance.name;
+		}else if(game.zone === this.castleEntrance.name && startingZone === false){
 			$('main').css('background-image', this.castleInterior.imageURL);
 			$('#zone-info').text(`Zone: ${this.castleInterior.name}`);
 			game.totalNumBattleRounds = this.castleInterior.numBattles;
-		}
-		if(game.zone === this.castleInterior.name && startingZone === false){
+			game.zone = this.castleInterior.name;
+		}else if(game.zone === this.castleInterior.name && startingZone === false){
 			$('main').css('background-image', this.castleThroneRoom.imageURL);
 			$('#zone-info').text(`Zone: ${this.castleThroneRoom.name}`);
 			game.totalNumBattleRounds = this.castleThroneRoom.numBattles;
+			game.zone = this.castleThroneRoom.name;
 		}
 	}
 }
@@ -563,7 +565,7 @@ const game = {
 	},
 	battleRound: 1,
 	totalNumBattleRounds: null,
-	zone: 'Archway Cave',
+	zone: null,
 	selectEnemy(){
 		if(game.zone === zones.fields.name){
 			const randomIndex = Math.floor(Math.random()*zones.fields.enemies.length);
@@ -591,7 +593,6 @@ const game = {
 			if(game.currentEnemy.lightningWeakness === true){
 				$('#enemyWeakness').append('<p style="color: Purple">Lightning</p>');
 			}
-			$($update).prepend(`<p>An enemy ${fields[randomIndex].name} has appeared!`);
 		}
 		if(game.zone === zones.cave.name){
 			const randomIndex = Math.floor(Math.random()*zones.cave.enemies.length);
@@ -672,6 +673,9 @@ const game = {
 	gameStart(){
 		$('#enemyHealth').empty();
 		$('#enemyWeakness').empty();
+		if(startingZone === true || game.battleRound === game.totalNumBattleRounds){
+			zones.changeZones();
+		}
 		this.selectEnemy();
 		$lowerRightButton.css('visibility', 'hidden');
 		$lowerRightButton.text('');
@@ -721,6 +725,7 @@ const game = {
 		$lowerLeftButton.css('visibility', 'visible');
 		$upperLeftButton.css('visibility', 'visible');
 		$upperRightButton.css('visibility', 'visible');
+		startingZone = true;
 		game.gameStart();
 	}
 }
