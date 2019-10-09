@@ -259,9 +259,6 @@
 			if(game.currentEnemy.HP > 0){
 				game.enemyAttack();
 			}
-			if(player.currentMP < player.maxMP){
-				player.currentMP += player.manaRegen;
-			}
 			game.checkDeath();
 		},
 		fireSpell(){
@@ -304,9 +301,6 @@
 				$lowerRightButton.text('');
 				if(game.currentEnemy.HP > 0){
 					game.enemyAttack();
-				}
-				if(player.currentMP < player.maxMP){
-					player.currentMP += player.manaRegen;
 				}
 				game.checkDeath();
 			}
@@ -351,9 +345,6 @@
 				if(game.currentEnemy.HP > 0){
 					game.enemyAttack();
 				}
-				if(player.currentMP < player.maxMP){
-					player.currentMP += player.manaRegen;
-				}
 				game.checkDeath();
 			}
 		},
@@ -396,9 +387,6 @@
 				$lowerRightButton.text('');
 				if(game.currentEnemy.HP > 0){
 					game.enemyAttack();
-				}
-				if(player.currentMP < player.maxMP){
-					player.currentMP += player.manaRegen;
 				}
 				game.checkDeath();
 			}
@@ -557,6 +545,11 @@ const game = {
 			$('#currentHP').text(player.currentHP);
 			$('#hpBar').css('width', `${(player.currentHP/player.maxHP)*100}%`);
 			$($update).prepend(`<p>You take ${dmg} points of damage.</p>`);
+		}
+		if(player.currentMP < player.maxMP){
+			player.currentMP += player.manaRegen;
+			$('#currentMP').text(player.currentMP);
+			$('#manaBar').css('width', `${(player.currentMP/player.maxMP)*100}%`);
 		}
 		playerToggle = true;
 	},
