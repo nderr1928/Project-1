@@ -839,6 +839,7 @@ const game = {
 		$lowerRightButton.text('');
 		battleToggle = true;
 		playerToggle = true;
+		$('#battle-round').text(`Battle Round: ${game.battleRound}/${game.totalNumBattleRounds}`);
 		$($update).prepend(`<p style="border-top: 1px white solid; color: white">An enemy ${game.currentEnemy.name} has appeared!`)
 	},
 	checkDeath(){
