@@ -11,6 +11,7 @@
 	let battleToggle = false;
 	let playerToggle = false;
 	let gameOverToggle = false;
+	let startingZone = true;
 	
 //Hover functions for all buttons
 	//Top left
@@ -182,10 +183,7 @@
 
 	const bat = new enemies('Bat', 2, "bite", 15, 2, false, false, true, 'url(images/enemies/bat_fast.gif)', 2);
 	const snake = new enemies('Snake', 3, "bite", 10, 2, true, true, false, 'url(images/enemies/snake.gif)', 2);
-
-	const cave = [bat];
-	const field = [snake];
-
+	const rat = new enemies('Rat', 2, "bite", 8, 1, true, true, true, 'url(images/enemies/rat.gif)',1);
 
 //Potions
 	const healthPotion = {
@@ -451,6 +449,103 @@ $($clearLogButton).on('click', (e) => {
 	$($update).empty();
 });
 
+const zones = {
+	fields: {
+		name: 'Open Fields',
+		numBattles: 4,
+		enemies: [snake],
+		imageURL: 'url(image/backgrounds/fieldBackground.jpeg)'
+	},
+	caveEntrance: {
+		name: 'Archway Cave Entrance',
+		numBattles: 1,
+		enemies: [],
+		imageURL: 'url(image/backgrounds/caveEntranceBackground.jpg)'
+	},
+	cave: {
+		name: 'Archway Cave',
+		numBattles: 4,
+		enemies: [rat, bat],
+		imageURL: 'url(image/backgrounds/caveBackground.jpg)'
+	},
+	caveExit: {
+		name: 'Archway Cave Exit',
+		numBattles: 1,
+		enemies: [],
+		imageURL: 'url(image/backgrounds/caveExitBackground.jpg)'
+	},
+	graveyard: {
+		name: 'Weeping Bones Necrofield',
+		numBattles: 4,
+		enemies: [],
+		imageURL: 'url(images/backgrounds/graveyardBackground)'
+	},
+	castleEntrance: {
+		name: 'Castle to Hell Entrance',
+		numBattles: 1,
+		enemies: [],
+		imageURL: 'url(image/backgrounds/castleEntranceBackground.jpeg)'
+	},
+	castleInterior: {
+		name: 'Castle to Hell',
+		numBattles: 4,
+		enemies: [],
+		imageURL: 'url(image/backgrounds/castleBackground.jpeg)'
+	},
+	castleThroneRoom: {
+		name: 'Castle to Hell Throne Room',
+		numBattles: 1,
+		enemies: [],
+		imageURL: 'url(image/backgrounds/throneBackground2.jpg)'
+	},
+	changeZones(){
+		if(startingZone === true){
+			startingZone = false;
+			$('main').css('background-image', this.fields.imageURL);
+			$('#zone-info').text(`Zone: ${this.fields.name}`);
+			game.totalNumBattleRounds = this.fields.numBattles;
+		}
+		if(game.zone === this.fields.name && startingZone === false){
+			alert('You have made it to the entrnace of Archway Cave. A guard stands near. You approach the entrance but the guard says that you must defeat them in battle before they can allow you to pass. The only way forward is through them!');
+			$('main').css('background-image', this.caveEntrance.imageURL);
+			$('#zone-info').text(`Zone: ${this.caveEntrance.name}`);
+			game.totalNumBattleRounds = this.caveEntrance.numBattles;
+		}
+		if(game.zone === this.caveEntrance.name && startingZone === false){
+			alert('You have defeated the guard and he allows you to pass. The journey through Archway Cave has begun.');
+			$('main').css('background-image', this.cave.imageURL);
+			$('#zone-info').text(`Zone: ${this.cave.name}`);
+			game.totalNumBattleRounds = this.cave.numBattles;
+		}
+		if(game.zone === this.cave.name && startingZone === false){
+			alert('You see the light of the moon shine through as you approach stairs. ')
+			$('main').css('background-image', this.caveExit.imageURL);
+			$('#zone-info').text(`Zone: ${this.caveExit.name}`);
+			game.totalNumBattleRounds = this.caveExit.numBattles;
+		}
+		if(game.zone === this.caveExit.name && startingZone === false){
+			$('main').css('background-image', this.graveyard.imageURL);
+			$('#zone-info').text(`Zone: ${this.graveyard.name}`);
+			game.totalNumBattleRounds = this.graveyard.numBattles;
+		}
+		if(game.zone === this.graveyard.name && startingZone === false){
+			$('main').css('background-image', this.castleEntrance.imageURL);
+			$('#zone-info').text(`Zone: ${this.castleEntrance.name}`);
+			game.totalNumBattleRounds = this.castleEntrance.numBattles;
+		}
+		if(game.zone === this.castleEntrance.name && startingZone === false){
+			$('main').css('background-image', this.castleInterior.imageURL);
+			$('#zone-info').text(`Zone: ${this.castleInterior.name}`);
+			game.totalNumBattleRounds = this.castleInterior.numBattles;
+		}
+		if(game.zone === this.castleInterior.name && startingZone === false){
+			$('main').css('background-image', this.castleThroneRoom.imageURL);
+			$('#zone-info').text(`Zone: ${this.castleThroneRoom.name}`);
+			game.totalNumBattleRounds = this.castleThroneRoom.numBattles;
+		}
+	}
+}
+
 const game = {
 	currentEnemy: {
 		name: null,
@@ -467,23 +562,24 @@ const game = {
 		exp: null
 	},
 	battleRound: 1,
-	zone: "Cave",
+	totalNumBattleRounds: null,
+	zone: 'Archway Cave',
 	selectEnemy(){
-		if(game.zone === 'Fields'){
-			const randomIndex = Math.floor(Math.random()*field.length);
-			game.currentEnemy.name = field[randomIndex].name;
-			game.currentEnemy.strength = field[randomIndex].strength;
-			game.currentEnemy.attack = field[randomIndex].attack;
-			game.currentEnemy.HP = field[randomIndex].HP;
-			game.currentEnemy.defense = field[randomIndex].defense;
-			game.currentEnemy.fireWeakness = field[randomIndex].fireWeakness;
-			game.currentEnemy.iceWeakness = field[randomIndex].iceWeakness;
-			game.currentEnemy.lightningWeakness = field[randomIndex].lightningWeakness;
-			game.currentEnemy.burn = field[randomIndex].burn;
-			game.currentEnemy.frostbite = field[randomIndex].frostbite;
-			game.currentEnemy.shock = field[randomIndex].shock;
-			game.currentEnemy.imageURL = field[randomIndex].imageURL;
-			game.currentEnemy.exp = field[randomIndex].expPts;
+		if(game.zone === zones.fields.name){
+			const randomIndex = Math.floor(Math.random()*zones.fields.enemies.length);
+			game.currentEnemy.name = zones.fields.enemies[randomIndex].name;
+			game.currentEnemy.strength = zones.fields.enemies[randomIndex].strength;
+			game.currentEnemy.attack = zones.fields.enemies[randomIndex].attack;
+			game.currentEnemy.HP = zones.fields.enemies[randomIndex].HP;
+			game.currentEnemy.defense = zones.fields.enemies[randomIndex].defense;
+			game.currentEnemy.fireWeakness = zones.fields.enemies[randomIndex].fireWeakness;
+			game.currentEnemy.iceWeakness = zones.fields.enemies[randomIndex].iceWeakness;
+			game.currentEnemy.lightningWeakness = zones.fields.enemies[randomIndex].lightningWeakness;
+			game.currentEnemy.burn = zones.fields.enemies[randomIndex].burn;
+			game.currentEnemy.frostbite = zones.fields.enemies[randomIndex].frostbite;
+			game.currentEnemy.shock = zones.fields.enemies[randomIndex].shock;
+			game.currentEnemy.imageURL = zones.fields.enemies[randomIndex].imageURL;
+			game.currentEnemy.exp = zones.fields.enemies[randomIndex].expPts;
 			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
 			$('#enemyHealth').append(`<h6>${game.currentEnemy.HP}`);
 			if(game.currentEnemy.fireWeakness === true){
@@ -497,21 +593,21 @@ const game = {
 			}
 			$($update).prepend(`<p>An enemy ${fields[randomIndex].name} has appeared!`);
 		}
-		if(game.zone === 'Cave'){
-			const randomIndex = Math.floor(Math.random()*cave.length);
-			game.currentEnemy.name = cave[randomIndex].name;
-			game.currentEnemy.strength = cave[randomIndex].strength;
-			game.currentEnemy.attack = cave[randomIndex].attack;
-			game.currentEnemy.HP = cave[randomIndex].HP;
-			game.currentEnemy.defense = cave[randomIndex].defense;
-			game.currentEnemy.fireWeakness = cave[randomIndex].fireWeakness;
-			game.currentEnemy.iceWeakness = cave[randomIndex].iceWeakness;
-			game.currentEnemy.lightningWeakness = cave[randomIndex].lightningWeakness;
-			game.currentEnemy.burn = cave[randomIndex].burn;
-			game.currentEnemy.frostbite = cave[randomIndex].frostbite;
-			game.currentEnemy.shock = cave[randomIndex].shock;
-			game.currentEnemy.imageURL = cave[randomIndex].imageURL;
-			game.currentEnemy.exp = cave[randomIndex].expPts;
+		if(game.zone === zones.cave.name){
+			const randomIndex = Math.floor(Math.random()*zones.cave.enemies.length);
+			game.currentEnemy.name = zones.cave.enemies[randomIndex].name;
+			game.currentEnemy.strength = zones.cave.enemies[randomIndex].strength;
+			game.currentEnemy.attack = zones.cave.enemies[randomIndex].attack;
+			game.currentEnemy.HP = zones.cave.enemies[randomIndex].HP;
+			game.currentEnemy.defense = zones.cave.enemies[randomIndex].defense;
+			game.currentEnemy.fireWeakness = zones.cave.enemies[randomIndex].fireWeakness;
+			game.currentEnemy.iceWeakness = zones.cave.enemies[randomIndex].iceWeakness;
+			game.currentEnemy.lightningWeakness = zones.cave.enemies[randomIndex].lightningWeakness;
+			game.currentEnemy.burn = zones.cave.enemies[randomIndex].burn;
+			game.currentEnemy.frostbite = zones.cave.enemies[randomIndex].frostbite;
+			game.currentEnemy.shock = zones.cave.enemies[randomIndex].shock;
+			game.currentEnemy.imageURL = zones.cave.enemies[randomIndex].imageURL;
+			game.currentEnemy.exp = zones.cave.enemies[randomIndex].expPts;
 			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
 			$('#enemyHealth').append(`<h6>${game.currentEnemy.HP}`);
 			if(game.currentEnemy.fireWeakness === true){
@@ -628,3 +724,4 @@ const game = {
 		game.gameStart();
 	}
 }
+
