@@ -130,7 +130,7 @@ main{
 		"value element element2 description";
 }
 
-#enemyWeakness > p{
+#enemyWeakness > p, #enemyDebuffs > p{
 	margin: 0;
 }
 

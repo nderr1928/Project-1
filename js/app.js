@@ -271,7 +271,7 @@
 		fireSpell(){
 			const spellCost = 5;
 			if(player.currentMP < spellCost){
-				$($update).prepend(`<p>Not enough MP to cast</p>`);
+				$($update).prepend(`<p style="color: white">Not enough MP to cast</p>`);
 			} else{
 				game.battleAnimation('url(images/attacks/fireball.gif)');
 				player.currentMP -= spellCost;
@@ -291,10 +291,11 @@
 					$('#enemyHealth').text(game.currentEnemy.HP);
 					$($update).prepend(`<p style="color: orange">You used the fire spell and deal ${fireDmg} points of damage.</p>`);
 				}
-				const burnChance = 0.25;
-				if(Math.random() < burnChance){
+				const burnChance = 1;
+				if(Math.random() < burnChance && game.currentEnemy.burn === false){
 					game.currentEnemy.burn = true;
 					$($update).prepend(`<p style="color: gold">The ${game.currentEnemy.name} has been burned.</p>`);
+					$("#enemyDebuffs").append(`<p style="color: orange">Burnt</p>`);
 				}
 				playerToggle = false;
 				magicToggle = false;
@@ -312,7 +313,7 @@
 		iceSpell(){
 			const spellCost = 3;
 			if(player.currentMP < spellCost){
-				$($update).prepend(`<p>Not enough MP to cast</p>`);
+				$($update).prepend(`<p style="color: white">Not enough MP to cast</p>`);
 			} else{
 				game.battleAnimation('url(images/attacks/ice.gif)');
 				player.currentMP -= spellCost;
@@ -332,10 +333,12 @@
 					$('#enemyHealth').text(game.currentEnemy.HP);
 					$($update).prepend(`<p style="color: teal">You used the ice spell and deal ${iceDmg} points of damage.</p>`);
 				}
-				const frostbiteChance = 0.25;
-				if(Math.random() < frostbiteChance){
+				const frostbiteChance = 1;
+				if(Math.random() < frostbiteChance && game.currentEnemy.frostbite === false){
 					game.currentEnemy.frostbite = true;
+					game.currentEnemy.defense = Math.floor(game.currentEnemy.defense * 0.9);
 					$($update).prepend(`<p style="color: yellow">The ${game.currentEnemy.name} has been frostbitten.</p>`);
+					$("#enemyDebuffs").append(`<p style="color: teal">Frostbiten</p>`);
 				}
 				playerToggle = false;
 				magicToggle = false;
@@ -353,7 +356,7 @@
 		lightningSpell(){
 			const spellCost = 4;
 			if(player.currentMP < spellCost){
-				$($update).prepend(`<p>Not enough MP to cast</p>`);
+				$($update).prepend(`<p style="color: white">Not enough MP to cast</p>`);
 			} else{
 				game.battleAnimation('url(images/attacks/lightning.gif)');
 				player.currentMP -= spellCost;
@@ -366,17 +369,18 @@
 				if(game.currentEnemy.HP - lightningDmg <= 0){
 					game.currentEnemy.HP = 0;
 					$('#enemyHealth').text(game.currentEnemy.HP);
-					$($update).prepend(`<pstyle="color: purple">You used the lightning spell and deal ${lightningDmg} points of damage.</p>`);
+					$($update).prepend(`<p style="color: rgb(218,112,214)">You used the lightning spell and deal ${lightningDmg} points of damage.</p>`);
 					game.checkDeath();
 				} else{
 					game.currentEnemy.HP -= lightningDmg;
 					$('#enemyHealth').text(game.currentEnemy.HP);
-					$($update).prepend(`<p style="color: purple">You used the lightning spell and deal ${lightningDmg} points of damage.</p>`);
+					$($update).prepend(`<p style="color: rgb(218,112,214)">You used the lightning spell and deal ${lightningDmg} points of damage.</p>`);
 				}
-				const shockChance = 0.1;
+				const shockChance = 1;
 				if(Math.random() < shockChance){
 					game.currentEnemy.shock = true;
 					$($update).prepend(`<p style="color: yellow">The ${game.currentEnemy.name} is in shock.</p>`);
+					$("#enemyDebuffs").append(`<p style="color: rgb(218,112,214)" id="shockedElement">Shocked</p>`);
 				}
 				playerToggle = false;
 				magicToggle = false;
@@ -789,29 +793,42 @@ const game = {
 		const pause = setInterval(function(){
 			if(timer >= 1){
 				clearInterval(pause);
-				const dmg = Math.ceil(game.currentEnemy.strength - Math.floor(player.defense/2));
-				if(dmg <= 1){
-					player.currentHP--;
-					$('#currentHP').text(player.currentHP);
-					$('#hpBar').css('width', `${(player.currentHP/player.maxHP)*100}%`);
-					$($update).prepend(`<p style="color: rgb(240,128,128)">The enemy attacks you with a ${game.currentEnemy.attack}! You take 1 point of damage.</p>`);
-				} else if(player.currentHP - dmg <= 0){
-					player.currentHP = 0;
-					$('#currentHP').text(player.currentHP);
-					$('#hpBar').css('width', `${(player.currentHP/player.maxHP)*100}%`);
-					$($update).prepend(`<p style="color: rgb(240,128,128)">The enemy attacks you with a ${game.currentEnemy.attack}! You take ${dmg} points of damage.</p>`);
-					game.checkDeath();
-				} 
-				else{
-					player.currentHP -= dmg;
-					$('#currentHP').text(player.currentHP);
-					$('#hpBar').css('width', `${(player.currentHP/player.maxHP)*100}%`);
-					$($update).prepend(`<p style="color: rgb(240,128,128)">The enemy attacks you with a ${game.currentEnemy.attack}! You take ${dmg} points of damage.</p>`);
+				if(game.currentEnemy.burn === true){
+					$($update).prepend(`<p style="color: orange">The enemy feels the burn and takes 1 point of damage.`);
+					game.currentEnemy.HP--;
+					$('#enemyHealth').text(game.currentEnemy.HP);
 				}
-				if(player.currentMP < player.maxMP && player.currentHP > 0){
-					player.currentMP += player.manaRegen;
-					$('#currentMP').text(player.currentMP);
-					$('#manaBar').css('width', `${(player.currentMP/player.maxMP)*100}%`);
+				if(game.currentEnemy.HP <= 0){
+					game.checkDeath();
+				} else if(game.currentEnemy.shock === false){
+					const dmg = Math.ceil(game.currentEnemy.strength - Math.floor(player.defense/2));
+					if(dmg <= 1){
+						player.currentHP--;
+						$('#currentHP').text(player.currentHP);
+						$('#hpBar').css('width', `${(player.currentHP/player.maxHP)*100}%`);
+						$($update).prepend(`<p style="color: rgb(240,128,128)">The enemy attacks you with a ${game.currentEnemy.attack}! You take 1 point of damage.</p>`);
+					} else if(player.currentHP - dmg <= 0){
+						player.currentHP = 0;
+						$('#currentHP').text(player.currentHP);
+						$('#hpBar').css('width', `${(player.currentHP/player.maxHP)*100}%`);
+						$($update).prepend(`<p style="color: rgb(240,128,128)">The enemy attacks you with a ${game.currentEnemy.attack}! You take ${dmg} points of damage.</p>`);
+						game.checkDeath();
+					} 
+					else{
+						player.currentHP -= dmg;
+						$('#currentHP').text(player.currentHP);
+						$('#hpBar').css('width', `${(player.currentHP/player.maxHP)*100}%`);
+						$($update).prepend(`<p style="color: rgb(240,128,128)">The enemy attacks you with a ${game.currentEnemy.attack}! You take ${dmg} points of damage.</p>`);
+					}
+					if(player.currentMP < player.maxMP && player.currentHP > 0){
+						player.currentMP += player.manaRegen;
+						$('#currentMP').text(player.currentMP);
+						$('#manaBar').css('width', `${(player.currentMP/player.maxMP)*100}%`);
+					}
+				} else{
+					$($update).prepend(`<p style="color: rgb(218,112,214)">The enemy is in shock and can't attack this turn.</p>`);
+					game.currentEnemy.shock = false;
+					$('#shockedElement').remove();
 				}
 				playerToggle = true;
 			}
@@ -832,6 +849,7 @@ const game = {
 	gameStart(){
 		$('#enemyHealth').empty();
 		$('#enemyWeakness').empty();
+		$('#enemyDebuffs').empty();
 		$($upperLeftButton).css('visibility', 'visible');
 		$($upperRightButton).css('visibility', 'visible');
 		$($lowerLeftButton).css('visibility', 'visible');
