@@ -1065,6 +1065,7 @@ const game = {
 					$('#enemy-image').css('background-image', 'url(images/gameover.gif)');
 					$('#enemy-image').css('height', '300px');
 					$('#enemy-image').css('width', '300px');
+					$('#enemy-image').css('margin-top', '80px');
 					gameOverToggle = true;
 					battleToggle = false;
 					playerToggle = false;
