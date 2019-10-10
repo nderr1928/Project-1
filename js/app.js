@@ -93,10 +93,21 @@
 	);
 
 	$('#playerLevel').hover(function(){
-		
+		console.log('hover');
+		$('#displayStats').css('display', 'block');
+		$('#displayStats').append(`<p style="color: white">Player Stats:</p>`);
+		$('#displayStats').append(`<p style="color: rgb(135,206,235)">Max HP = ${player.maxHP}</p>`);
+		$('#displayStats').append(`<p style="color: rgb(135,206,235)">Max MP = ${player.maxMP}</p>`);
+		$('#displayStats').append(`<p style="color: rgb(135,206,235)">Strength = ${player.strength}</p>`);
+		$('#displayStats').append(`<p style="color: rgb(135,206,235)">Defense = ${player.defense}</p>`);
+		$('#displayStats').append(`<p style="color: rgb(135,206,235)">MP Regen = ${player.manaRegen}</p>`);
+		$('#displayStats').append(`<p style="color: orange">Fire spell:<br>Cost = ${player.fireSpellProperties.spellCost} MP<br>Damage: ${player.fireSpellProperties.fireDmg}<br>Burn Chance = ${player.fireSpellProperties.burnChance * 100}%</p>`);
+		$('#displayStats').append(`<p style="color: teal">Ice spell:<br>Cost = ${player.iceSpellProperties.spellCost} MP<br>Damage: ${player.iceSpellProperties.iceDmg}<br>Burn Chance = ${player.iceSpellProperties.frostbiteChance * 100}%</p>`);
+		$('#displayStats').append(`<p style="color: rgb(218,112,214)">Lightning spell:<br>Cost = ${player.lightningSpellProperties.spellCost} MP<br>Damage: ${player.lightningSpellProperties.lightningDmg}<br>Burn Chance = ${player.lightningSpellProperties.shockChance * 100}%</p>`);
 	}, function(){
-		$($commandDescription).text('');
-	});
+		$('#displayStats').empty();
+		$('#displayStats').css('display', 'none');
+	})
 
 //All click commands
 	//Top left - Attack or fire
@@ -1062,7 +1073,8 @@ const game = {
 					$lowerLeftButton.css('visibility', 'hidden');
 					$upperLeftButton.css('visibility', 'hidden');
 					$upperRightButton.css('visibility', 'hidden');
-				}	
+				}
+				game.gameWon();	
 			}
 			timer++;
 		}, 800);
@@ -1093,6 +1105,11 @@ const game = {
 			}
 			timer++;
 		}, 500);
+	},
+	gameWon(){
+		if(game.currentEnemy.HP <= 0 && game.zone === 'Castle to Hell Throne Room'){
+			alert(`Congratulations, you have defeated the Demon Overlord and are deemed a Master Wizard! You can fight the Demon Overlord again with all bonus' from the final battle, or you can refresh the page and start completely over!`);
+		}
 	}
 }
 

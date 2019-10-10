@@ -15,16 +15,6 @@ header{
 	grid-row: 1;
 }
 
-/* main{
-	display: grid;
-	grid-template-areas: 
-		"enemy enemy enemy"
-		"player player player"
-		;
-	grid-template-rows: 1fr;
-	grid-template-columns: 1fr;
-} */
-
 footer{
 	margin-bottom: 0px;
 	border: 2px solid black;
@@ -355,10 +345,6 @@ main{
 	overflow: scroll;
 }
 
-#storyBox > p > span{
-	text-align: center;
-}
-
 #startGame{
 	grid-area: button;
 	width: 30%;
@@ -445,4 +431,21 @@ main{
 
 #gameScreen{
 	display: none;
+}
+
+#displayStats{
+	height: 600px;
+	width: 208px;
+	position: absolute;
+	display: none;
+	text-align: left;
+	border: 2px solid black;
+	height: 600px;
+	background-image: url('../images/background1.jpg');
+	background-position: center;
+	background-size: cover;
+}
+
+#displayStats > p{
+	margin-left: 10px;
 }
