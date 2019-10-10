@@ -191,11 +191,26 @@
 		}
 	}
 
+	//Fields
 	const rat = new enemies('Rat', 2, "bite", 8, 1, true, false, true, 'url(images/enemies/rat.gif)',1);
 	const snake = new enemies('Snake', 3, "bite", 10, 2, true, true, false, 'url(images/enemies/snake.gif)', 2);
-	const caveGuard = new enemies('Cave Guard', 5, "Slash", 25, 3, false, false, true, 'url(images/enemies/caveGuard.gif)', 5);
-	const bat = new enemies('Bat', 2, "bite", 15, 2, false, false, true, 'url(images/enemies/bat_fast.gif)', 2);
-	const slime = new enemies('Slime', 2, "goop", 20, 5, true, true, true, 'url(images/enemies/slime.gif)', 4);
+	//Cave entrance
+	const caveGuard = new enemies('Cave Guard', 6, "Slash", 30, 4, false, false, true, 'url(images/enemies/caveGuard.gif)', 5);
+	//Cave
+	const bat = new enemies('Bat', 4, "bite", 20, 2, false, false, true, 'url(images/enemies/bat_fast.gif)', 2);
+	const slime = new enemies('Slime', 3, "goop", 25, 6, true, true, true, 'url(images/enemies/slime.gif)', 4);
+	//Cave Exit
+	const lich = new enemies ('Lich', 8, "soul sap", 35, 8, true, false, false, 'url(images/enemies/lich.gif', 8);
+	//Graveyard
+	const skeleton = new enemies('Skeleton Warrior', 6, "bone crusher", 26, 5, true, false, true, 'url(images/enemies/skeleton.gif)', 6);
+	const zombie = new enemies('Zombie', 4, "rotten punch", 30, 7, true, true, false, 'url(images/enemies/zombie.gif)', 6);
+	//Castle Entrance
+	const ogre = new enemies('Castle Guard', 10, "club smash", 40, 7, false, true, true, 'urk(images/enemies/ogre.gif)', 12);
+	//Castle Interior
+	const assassin = new enemies('Demon Assassin', 12, "back stab", 40, 4, false, true, true, 'url(images/enemies/demonAssassin.gif)', 20);
+	const demon = new enemies('Demon', 15, "fire breath", 38, 6, false, true, false, 'url(images/enemies/demon.gif)', 22);
+	//Throne Room
+	const demonLord = new enemies('Demon Overlord', 25, "soul crusher", 60, 15, false, false, false, 'url(images/enemies/demonLord.gif)', 100);
 
 //Potions
 	const healthPotion = {
@@ -289,7 +304,7 @@
 					$('#enemyHealth').text(game.currentEnemy.HP);
 					$($update).prepend(`<p style="color: orange">You used the fire spell and deal ${fireDmg} points of damage.</p>`);
 				}
-				const burnChance = 1;
+				const burnChance = 0.25;
 				if(Math.random() < burnChance && game.currentEnemy.burn === false){
 					game.currentEnemy.burn = true;
 					$($update).prepend(`<p style="color: gold">The ${game.currentEnemy.name} has been burned.</p>`);
@@ -331,7 +346,7 @@
 					$('#enemyHealth').text(game.currentEnemy.HP);
 					$($update).prepend(`<p style="color: teal">You used the ice spell and deal ${iceDmg} points of damage.</p>`);
 				}
-				const frostbiteChance = 1;
+				const frostbiteChance = 0.25;
 				if(Math.random() < frostbiteChance && game.currentEnemy.frostbite === false){
 					game.currentEnemy.frostbite = true;
 					game.currentEnemy.defense = Math.floor(game.currentEnemy.defense * 0.9);
@@ -374,7 +389,7 @@
 					$('#enemyHealth').text(game.currentEnemy.HP);
 					$($update).prepend(`<p style="color: rgb(218,112,214)">You used the lightning spell and deal ${lightningDmg} points of damage.</p>`);
 				}
-				const shockChance = 1;
+				const shockChance = 0.1;
 				if(Math.random() < shockChance){
 					game.currentEnemy.shock = true;
 					$($update).prepend(`<p style="color: yellow">The ${game.currentEnemy.name} is in shock.</p>`);
@@ -396,7 +411,7 @@
 		healthPotion(){
 			if(this.healthPotions > 0 && this.currentHP < this.maxHP){
 				if(Math.ceil(healthPotion.recovery * this.maxHP) + this.currentHP >= this.maxHP){
-					$($update).prepend(`<p style="color: yellow">You use a health potion and regen ${player.maxHP - player.currentHP} health points.`);
+					$($update).prepend(`<p style="color: yellow">You use a health potion and regen ${player.maxHP - player.currentHP} health point(s).`);
 					this.currentHP = this.maxHP;
 				} else{
 					$($update).prepend(`<p style="color: yellow">You use a health potion and regen ${Math.ceil(healthPotion.recovery * this.maxHP)} health points.`);
@@ -427,7 +442,7 @@
 		manaPotion(){
 			if(this.manaPotions > 0 && this.currentMP < this.maxMP){
 				if(Math.ceil(manaPotion.recovery * this.maxMP) + this.currentMP >= this.maxMP){
-					$($update).prepend(`<p style="color: yellow">You use a mana potion and regen ${player.maxMP - player.currentMP} mana points.`);
+					$($update).prepend(`<p style="color: yellow">You use a mana potion and regen ${player.maxMP - player.currentMP} mana point(s).`);
 					this.currentMP = this.maxMP;
 				} else{
 					$($update).prepend(`<p style="color: yellow">You use a mana potion and regen ${Math.ceil(healthPotion.recovery * this.maxMP)} mana points.`);
@@ -484,36 +499,37 @@ const zones = {
 	caveExit: {
 		name: 'Archway Cave Exit',
 		numBattles: 1,
-		enemies: [],
+		enemies: [lich],
 		imageURL: 'url(images/backgrounds/caveExitBackground.jpg)'
 	},
 	graveyard: {
 		name: 'Weeping Bones Necrofield',
 		numBattles: 4,
-		enemies: [],
+		enemies: [skeleton, zombie],
 		imageURL: 'url(images/backgrounds/graveyardBackground)'
 	},
 	castleEntrance: {
 		name: 'Castle to Hell Entrance',
 		numBattles: 1,
-		enemies: [],
+		enemies: [ogre],
 		imageURL: 'url(images/backgrounds/castleEntranceBackground.jpeg)'
 	},
 	castleInterior: {
 		name: 'Castle to Hell',
 		numBattles: 4,
-		enemies: [],
+		enemies: [assassin, demon],
 		imageURL: 'url(images/backgrounds/castleBackground.jpeg)'
 	},
 	castleThroneRoom: {
 		name: 'Castle to Hell Throne Room',
 		numBattles: 1,
-		enemies: [],
+		enemies: [demonLord],
 		imageURL: 'url(images/backgrounds/throneBackground2.jpg)'
 	},
 	changeZones(){
 		if(startingZone === true){
 			startingZone = false;
+			alert(`You begin your journey by setting course through open fields to reach the Archway Caves. The enemies you will encounter are simple, but keep your guard up - you don't want the journey to end as soon as it has started.`);
 			$('main').css('background-image', this.fields.imageURL);
 			$('#zone-info').text(`Zone: ${this.fields.name}`);
 			game.totalNumBattleRounds = this.fields.numBattles;
@@ -525,18 +541,19 @@ const zones = {
 			game.totalNumBattleRounds = this.caveEntrance.numBattles;
 			game.zone = this.caveEntrance.name;
 		}else if(game.zone === this.caveEntrance.name && startingZone === false){
-			alert('You have defeated the guard and he allows you to pass. The journey through Archway Cave has begun.');
+			alert('You have defeated the guard and he allows you to pass. The journey through Archway Cave is on its way.');
 			$('main').css('background-image', this.cave.imageURL);
 			$('#zone-info').text(`Zone: ${this.cave.name}`);
 			game.totalNumBattleRounds = this.cave.numBattles;
 			game.zone = this.cave.name;
 		}else if(game.zone === this.cave.name && startingZone === false){
-			alert('You see the light of the moon shine through as you approach stairs. ')
+			alert('You see the light of the moon shine through as you approach stairs. As you approach the stairs, a dark figure emerges from the shadows. Without a word it draws its sword and prepares to strike. Look alive!');
 			$('main').css('background-image', this.caveExit.imageURL);
 			$('#zone-info').text(`Zone: ${this.caveExit.name}`);
 			game.totalNumBattleRounds = this.caveExit.numBattles;
 			game.zone = this.caveExit.name;
 		}else if(game.zone === this.caveExit.name && startingZone === false){
+			alert(`You exit the cave to a green haze and the moon providing the only light. You see lines of tombstones and the restless undead walking around. The Castle to Hell lies just beyond`);
 			$('main').css('background-image', this.graveyard.imageURL);
 			$('#zone-info').text(`Zone: ${this.graveyard.name}`);
 			game.totalNumBattleRounds = this.graveyard.numBattles;
@@ -886,10 +903,10 @@ const game = {
 					playerToggle = false;
 					player.currentEXP += game.currentEnemy.exp;
 					if(player.currentEXP >= player.levelUpEXP){
-						$($update).prepend(`<p style="border-bottom: 1px black solid; color: green">You have defeated the enemy and gained ${game.currentEnemy.exp} experience points.</p>`);
+						$($update).prepend(`<p style="border-bottom: 1px black solid; color: green">You have defeated the enemy and gained ${game.currentEnemy.exp} experience point(s).</p>`);
 						player.levelUp();
 					} else{
-						$($update).prepend(`<p style="color: green">You have defeated the enemy and gained ${game.currentEnemy.exp} experience points.</p>`);
+						$($update).prepend(`<p style="color: green">You have defeated the enemy and gained ${game.currentEnemy.exp} experience point(s).</p>`);
 						$($update).prepend(`<p style="border-bottom: 1px black solid; color: green"> ${player.levelUpEXP - player.currentEXP} point(s) until level up.</p>`);
 					}
 					if(player.currentMP < player.maxMP && player.currentHP > 0){
