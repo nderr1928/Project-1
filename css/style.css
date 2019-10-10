@@ -97,6 +97,9 @@ main{
 	grid-area: enemyPic;
 	align-items: center;
 	justify-items: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 
 #enemy-image{
@@ -106,7 +109,6 @@ main{
 	background-image: null;
 	background-size: cover;
 	margin: auto;
-	padding: auto auto;
 	margin-top: 160px;
 	display: flex;
 	flex-direction: column;

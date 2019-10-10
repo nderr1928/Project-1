@@ -174,7 +174,7 @@
 
 //Enemies
 	class enemies{
-		constructor(name, strength, attack, hp, defense, fireWeakness, iceWeakness, lightningWeakness, exp, imageURL, height, width){
+		constructor(name, strength, attack, hp, defense, fireWeakness, iceWeakness, lightningWeakness, exp, imageURL, height, width, topMargin){
 			this.name = name;
 			this.strength = strength;
 			this.attack = attack;
@@ -190,29 +190,30 @@
 			this.expPts = exp;
 			this.height = height;
 			this.width = width;
+			this.topMargin = topMargin;
 		}
 	}
 
 	//Fields
-	const rat = new enemies('Rat', 2, "bite", 8, 1, true, false, true, 1, 'url(images/enemies/rat.gif)', '150px', '150px');
-	const snake = new enemies('Snake', 3, "bite", 10, 2, true, true, false, 2, 'url(images/enemies/snake.gif)', '150px', '225px' );
+	const rat = new enemies('Rat', 2, "bite", 8, 1, true, false, true, 1, 'url(images/enemies/rat.gif)', '150px', '150px', '160px');
+	const snake = new enemies('Snake', 3, "bite", 10, 2, true, true, false, 2, 'url(images/enemies/snake.gif)', '150px', '225px', '160px' );
 	//Cave entrance
-	const caveGuard = new enemies('Cave Guard', 6, "Slash", 30, 4, false, false, true, 5, 'url(images/enemies/caveGuard.gif)', '268px', '150px' );
+	const caveGuard = new enemies('Cave Guard', 6, "Slash", 30, 4, false, false, true, 5, 'url(images/enemies/caveGuard.gif)', '268px', '150px', '80px' );
 	//Cave
-	const bat = new enemies('Bat', 4, "bite", 20, 2, false, false, true, 2, 'url(images/enemies/bat_fast.gif)', '139px', '160px' );
-	const slime = new enemies('Slime', 3, "goop", 25, 6, true, true, true, 4, 'url(images/enemies/slime.gif)', '160px', '160px' );
+	const bat = new enemies('Bat', 4, "bite", 20, 2, false, false, true, 2, 'url(images/enemies/bat_fast.gif)', '160px', '185px', '145px');
+	const slime = new enemies('Slime', 3, "goop", 25, 6, true, true, true, 4, 'url(images/enemies/slime.gif)', '160px', '160px', '160px');
 	//Cave Exit
-	const lich = new enemies ('Lich', 8, "soul sap", 35, 8, true, false, false, 8,  'url(images/enemies/lich.gif', '256px', '256px' );
+	const lich = new enemies ('Lich', 8, "soul sap", 35, 8, true, false, false, 8,  'url(images/enemies/lich.gif', '256px', '256px', '160px');
 	//Graveyard
-	const skeleton = new enemies('Skeleton Warrior', 6, "bone crusher", 26, 5, true, false, true, 6, 'url(images/enemies/skeleton.gif)', '200px', '164px' );
-	const zombie = new enemies('Zombie', 4, "rotten punch", 30, 7, true, true, false, 6,  'url(images/enemies/zombie.gif)', '200px', '171px' );
+	const skeleton = new enemies('Skeleton Warrior', 6, "bone crusher", 26, 5, true, false, true, 6, 'url(images/enemies/skeleton.gif)', '200px', '164px', '150px' );
+	const zombie = new enemies('Zombie', 4, "rotten punch", 30, 7, true, true, false, 6,  'url(images/enemies/zombie.gif)', '200px', '171px', '150px' );
 	//Castle Entrance
-	const ogre = new enemies('Castle Guard', 10, "club smash", 40, 7, false, true, true, 12,  'url(images/enemies/ogre.gif)', '300px', '300px' );
+	const ogre = new enemies('Castle Guard', 10, "club smash", 40, 7, false, true, true, 12,  'url(images/enemies/ogre.gif)', '300px', '300px', '120px' );
 	//Castle Interior
-	const assassin = new enemies('Demon Assassin', 12, "back stab", 40, 4, false, true, true, 20, 'url(images/enemies/demonAssassin.gif)', '210px', '200px' );
+	const assassin = new enemies('Demon Assassin', 12, "back stab", 40, 4, false, true, true, 20, 'url(images/enemies/demonAssassin.gif)', '210px', '200px', '160px' );
 	const demon = new enemies('Demon', 15, "fire breath", 38, 6, false, true, false, 22,  'url(images/enemies/demon.gif)', '200px', '200px');
 	//Throne Room
-	const demonLord = new enemies('Demon Overlord', 25, "soul crusher", 60, 15, false, false, false, 100, 'url(images/enemies/demonLord.gif)', '326px', '350px');
+	const demonLord = new enemies('Demon Overlord', 25, "soul crusher", 60, 15, false, false, false, 100, 'url(images/enemies/demonLord.gif)', '373px', '400px', '90px');
 
 //Potions
 	const healthPotion = {
@@ -540,51 +541,35 @@ const zones = {
 			alert('You have made it to the entrnace of Archway Cave. A guard stands near. You approach the entrance but the guard says that you must defeat them in battle before they can allow you to pass. The only way forward is through them!');
 			$('main').css('background-image', this.caveEntrance.imageURL);
 			$('#zone-info').text(`Zone: ${this.caveEntrance.name}`);
-			$('#enemy-image').css('width', '173px');
-			$('#enemy-image').css('height', '300px');
-			$('#enemy-image').css('margin-top', '80px');
 			game.totalNumBattleRounds = this.caveEntrance.numBattles;
 			game.zone = this.caveEntrance.name;
 		}else if(game.zone === this.caveEntrance.name && startingZone === false){
 			alert('You have defeated the guard and he allows you to pass. The journey through Archway Cave is on its way.');
 			$('main').css('background-image', this.cave.imageURL);
 			$('#zone-info').text(`Zone: ${this.cave.name}`);
-			$('#enemy-image').css('width', '150px');
-			$('#enemy-image').css('height', '150px');
-			$('#enemy-image').css('margin-top', '');
 			game.totalNumBattleRounds = this.cave.numBattles;
 			game.zone = this.cave.name;
 		}else if(game.zone === this.cave.name && startingZone === false){
 			alert('You see the light of the moon shine through as you approach stairs. As you approach the stairs, a dark figure emerges from the shadows. Without a word it draws its sword and prepares to strike. Look alive!');
 			$('main').css('background-image', this.caveExit.imageURL);
 			$('#zone-info').text(`Zone: ${this.caveExit.name}`);
-			$('#enemy-image').css('width', '300px');
-			$('#enemy-image').css('height', '300px');
 			game.totalNumBattleRounds = this.caveExit.numBattles;
 			game.zone = this.caveExit.name;
 		}else if(game.zone === this.caveExit.name && startingZone === false){
 			alert(`You exit the cave to a green haze and the moon providing the only light. You see lines of tombstones and the restless undead walking around. The Castle to Hell lies just beyond`);
 			$('main').css('background-image', this.graveyard.imageURL);
 			$('#zone-info').text(`Zone: ${this.graveyard.name}`);
-			$('#enemy-image').css('width', '145px');
-			$('#enemy-image').css('height', '174px');
 			game.totalNumBattleRounds = this.graveyard.numBattles;
 			game.zone = this.graveyard.name;
 		}else if(game.zone === this.graveyard.name && startingZone === false){
 			alert(`Making it through the graveyard, you stumble across a fortress type castle. This must be the Castle to Hell. A giant ogre with a club starts charging at you,prepare for battle!`);
 			$('main').css('background-image', this.castleEntrance.imageURL);
 			$('#zone-info').text(`Zone: ${this.castleEntrance.name}`);
-			$('#enemy-image').css('width', '350px');
-			$('#enemy-image').css('height', '350px');
-			$('#enemy-image').css('margin-top', '55px');
 			game.totalNumBattleRounds = this.castleEntrance.numBattles;
 			game.zone = this.castleEntrance.name;
 		}else if(game.zone === this.castleEntrance.name && startingZone === false){
 			$('main').css('background-image', this.castleInterior.imageURL);
 			$('#zone-info').text(`Zone: ${this.castleInterior.name}`);
-			$('#enemy-image').css('width', '200px');
-			$('#enemy-image').css('height', '200px');
-			$('#enemy-image').css('margin-top', '');
 			game.totalNumBattleRounds = this.castleInterior.numBattles;
 			game.zone = this.castleInterior.name;
 		}else if(game.zone === this.castleInterior.name && startingZone === false){
@@ -612,7 +597,8 @@ const game = {
 		exp: null,
 		imageURL: null,
 		height: null,
-		width: null
+		width: null,
+		topMargin: null
 	},
 	battleRound: 1,
 	totalNumBattleRounds: null,
@@ -635,6 +621,8 @@ const game = {
 			game.currentEnemy.imageURL = zones.fields.enemies[randomIndex].imageURL;
 			game.currentEnemy.height = zones.fields.enemies[randomIndex].height;
 			game.currentEnemy.width = zones.fields.enemies[randomIndex].width;
+			game.currentEnemy.topMargin = zones.fields.enemies[randomIndex].topMargin;
+			$('#enemy-image').css('margin-top', game.currentEnemy.topMargin);
 			$('#enemy-image').css('height', game.currentEnemy.height);
 			$('#enemy-image').css('width', game.currentEnemy.width);
 			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
@@ -666,6 +654,8 @@ const game = {
 			game.currentEnemy.imageURL = zones.caveEntrance.enemies[randomIndex].imageURL;
 			game.currentEnemy.height = zones.caveEntrance.enemies[randomIndex].height;
 			game.currentEnemy.width = zones.caveEntrance.enemies[randomIndex].width;
+			game.currentEnemy.topMargin = zones.caveEntrance.enemies[randomIndex].topMargin;
+			$('#enemy-image').css('margin-top', game.currentEnemy.topMargin);
 			$('#enemy-image').css('height', game.currentEnemy.height);
 			$('#enemy-image').css('width', game.currentEnemy.width);
 			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
@@ -697,6 +687,8 @@ const game = {
 			game.currentEnemy.imageURL = zones.cave.enemies[randomIndex].imageURL;
 			game.currentEnemy.height = zones.cave.enemies[randomIndex].height;
 			game.currentEnemy.width = zones.cave.enemies[randomIndex].width;
+			game.currentEnemy.topMargin = zones.cave.enemies[randomIndex].topMargin;
+			$('#enemy-image').css('margin-top', game.currentEnemy.topMargin);
 			$('#enemy-image').css('height', game.currentEnemy.height);
 			$('#enemy-image').css('width', game.currentEnemy.width);
 			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
@@ -728,6 +720,8 @@ const game = {
 			game.currentEnemy.imageURL = zones.caveExit.enemies[randomIndex].imageURL;
 			game.currentEnemy.height = zones.caveExit.enemies[randomIndex].height;
 			game.currentEnemy.width = zones.caveExit.enemies[randomIndex].width;
+			game.currentEnemy.topMargin = zones.caveExit.enemies[randomIndex].topMargin;
+			$('#enemy-image').css('margin-top', game.currentEnemy.topMargin);
 			$('#enemy-image').css('height', game.currentEnemy.height);
 			$('#enemy-image').css('width', game.currentEnemy.width);
 			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
@@ -759,6 +753,8 @@ const game = {
 			game.currentEnemy.imageURL = zones.graveyard.enemies[randomIndex].imageURL;
 			game.currentEnemy.height = zones.graveyard.enemies[randomIndex].height;
 			game.currentEnemy.width = zones.graveyard.enemies[randomIndex].width;
+			game.currentEnemy.topMargin = zones.graveyard.enemies[randomIndex].topMargin;
+			$('#enemy-image').css('margin-top', game.currentEnemy.topMargin);
 			$('#enemy-image').css('height', game.currentEnemy.height);
 			$('#enemy-image').css('width', game.currentEnemy.width);
 			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
@@ -790,6 +786,8 @@ const game = {
 			game.currentEnemy.imageURL = zones.castleEntrance.enemies[randomIndex].imageURL;
 			game.currentEnemy.height = zones.castleEntrance.enemies[randomIndex].height;
 			game.currentEnemy.width = zones.castleEntrance.enemies[randomIndex].width;
+			game.currentEnemy.topMargin = zones.castleEntrance.enemies[randomIndex].topMargin;
+			$('#enemy-image').css('margin-top', game.currentEnemy.topMargin);
 			$('#enemy-image').css('height', game.currentEnemy.height);
 			$('#enemy-image').css('width', game.currentEnemy.width);
 			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
@@ -821,6 +819,8 @@ const game = {
 			game.currentEnemy.imageURL = zones.castleInterior.enemies[randomIndex].imageURL;
 			game.currentEnemy.height = zones.castleInterior.enemies[randomIndex].height;
 			game.currentEnemy.width = zones.castleInterior.enemies[randomIndex].width;
+			game.currentEnemy.topMargin = zones.castleInterior.enemies[randomIndex].topMargin;
+			$('#enemy-image').css('margin-top', game.currentEnemy.topMargin);
 			$('#enemy-image').css('height', game.currentEnemy.height);
 			$('#enemy-image').css('width', game.currentEnemy.width);
 			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
@@ -852,6 +852,8 @@ const game = {
 			game.currentEnemy.imageURL = zones.castleThroneRoom.enemies[randomIndex].imageURL;
 			game.currentEnemy.height = zones.castleThroneRoom.enemies[randomIndex].height;
 			game.currentEnemy.width = zones.castleThroneRoom.enemies[randomIndex].width;
+			game.currentEnemy.topMargin = zones.castleThroneRoom.enemies[randomIndex].topMargin;
+			$('#enemy-image').css('margin-top', game.currentEnemy.topMargin);
 			$('#enemy-image').css('height', game.currentEnemy.height);
 			$('#enemy-image').css('width', game.currentEnemy.width);
 			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
@@ -1008,7 +1010,7 @@ const game = {
 				$('#manaBar').css('width', `${(player.currentMP/player.maxMP)*100}%`);
 				$('#enemy-image').css('height', '150px');
 				$('#enemy-image').css('width', '150px');
-				$('#enemy-image').css('margin-top', '0');
+				$('#enemy-image').css('margin-top', '160px');
 				$lowerRightButton.text('');
 				$lowerRightButton.css('visibility', 'hidden');
 				$lowerLeftButton.css('visibility', 'visible');
