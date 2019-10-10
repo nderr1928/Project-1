@@ -307,14 +307,14 @@ main{
 }
 
 #titleScreen{
-	height: 600px;
+	height: 100%;
 	width: 100%;
 	font-family: 'Lobster', cursive;
 	color: orange;
 	text-align: center;
 	display: grid;
 	grid-template-columns: 1fr 5fr 1fr;
-	grid-template-rows: 250px 80px 1fr;
+	grid-template-rows: 250px 80px 300px;
 	justify-content: center;
 	grid-template-areas:
 		"title title title"
@@ -340,7 +340,11 @@ main{
 	grid-area: story;
 	grid-column: 2;
 	grid-row: 3;
+	height: 100%;
+	width: 100%;
 	background-color: rgba(192, 192, 192, 0.8);
+	bottom: 0;
+	overflow: scroll;
 }
 
 #startGame{
