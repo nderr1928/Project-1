@@ -14,6 +14,11 @@
 	let gameOverToggle = false;
 	let startingZone = true;
 
+	let fireDmg;
+	let iceDmg;
+	let lightningDmg;
+
+
 	$($startGame).click(function(){
 		$('#titleScreen').css('display', 'none');
 		$('#gameScreen').css('display', 'block');
@@ -246,6 +251,7 @@
 		levelUp(){
 			$($update).prepend('<p style="border-top: 1px white solid; color: green">You have leveled up!</p>');
 			player.level++;
+			$("#playerLevel").text(`Level: ${player.level}`);
 			player.maxHP +=3;
 			player.maxMP +=2;
 			player.currentHP = player.maxHP;
