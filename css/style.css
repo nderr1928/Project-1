@@ -160,6 +160,10 @@ main{
 	margin: 0;
 }
 
+#enemy-info > div > p{
+	margin: 0;
+} 
+
 #player-container{
 	display: grid;
 	grid-template-columns: 1fr 1fr;

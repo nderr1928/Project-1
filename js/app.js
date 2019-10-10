@@ -14,10 +14,6 @@
 	let gameOverToggle = false;
 	let startingZone = true;
 
-	let fireDmg;
-	let iceDmg;
-	let lightningDmg;
-
 	$($startGame).click(function(){
 		$('#titleScreen').css('display', 'none');
 		$('#gameScreen').css('display', 'block');
@@ -30,7 +26,7 @@
 			$($commandDescription).text(`Attack the enemy`);
 		}
 		if(magicToggle === true && itemToggle === false && battleToggle === true){
-			$($commandDescription).text(`Use fire to deal damage - 25% chance for burn (-1hp per turn for 2-5 turns)`);
+			$($commandDescription).text(`Deal ${player.fireSpellProperties.fireDmg} points of fire damage - ${player.fireSpellProperties.burnChance *100}% chance for burn (-1hp per turn)`);
 		}
 		}, function(){
 			$($commandDescription).text('');
@@ -62,7 +58,7 @@
 			$($commandDescription).text('Double click to return to main command screen');
 		}
 		if(magicToggle === true && itemToggle === false && battleToggle === true){
-			$($commandDescription).text(`Use ice to deal damage - 25% chance of frostbite (enemy atk reduced by 10% for 2-5 turns)`);
+			$($commandDescription).text(`Deal ${player.iceSpellProperties.iceDmg} points of ice damage - ${player.iceSpellProperties.frostbiteChance * 100}% chance of frostbite (enemy atk reduced by 10%)`);
 		}
 		}, function(){
 			$($commandDescription).text('');
@@ -75,7 +71,7 @@
 			$($commandDescription).text('Begin the battle');
 		}
 		if(magicToggle === true && itemToggle === false && battleToggle === true){
-			$($commandDescription).text(`Use lightning to deal damage - 10% chance of shock (enemy cannot attack next turn)`);
+			$($commandDescription).text(`Deal ${player.lightningSpellProperties.lightningDmg} points of lightning damage - ${player.lightningSpellProperties.shockChance}% chance of shock (enemy cannot attack next turn)`);
 		}
 		if(magicToggle === false && itemToggle === true && battleToggle === true){
 			$($commandDescription).text(`Restore 50% of max MP (${Math.ceil(player.maxMP/2)} points)`);
