@@ -3,85 +3,99 @@
 <head>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link href="https://fonts.googleapis.com/css?family=Abril+Fatface|Lobster&display=swap" rel="stylesheet">
 	<title>Wizard's Journey</title>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
 </head>
 <body>
+	<div id='titleScreen'>
+		<div id='titleBox'>
+			<h1>Wizards</h1>
+			<h1>Journey</h1>
+		</div>
+		<button id="startGame">Begin</button>
+		<div id="storyBox">
+			<p>You are a student wizard undergoing trials to prove yourself a master wizard. In this trial, you must venture to the Castle to Hell to defeat the Demon Overlord. The path to the Castle to Hell is long and rigorous. You must walk through the Open Fields to get to the Archway Cave. Past the cave will be the Weeping Bones Necrofield graveyard. The Castle to Hell lies just beyond. Every location will have its own mix of enemies, so use your 3 health and mana potions wisely. Get to the Castle of Hell and defeat the Demon Overlord to prove yourself!</p>
+		</div>
+	</div>
+
 	<!-- General current information -->
-	<header id='stats'>
-		<h5>Money</h5>
-		<h5>Title</h5>
-	</header>
-	<!-- Main animation space -->
-	<section id='main-space'>
-		<!-- Battle log -->
-		<aside id="log">
-			<h1>Log</h1>
-			<button id='clearlog'>Clear Log</button>
-			<div id="updates">
-			</div>
-		</aside>	
-		<!-- Enemy zone -->
-		<main>
-			<div class="zone-info">		
-				<h5 id="zone-info">Zone</h5>
-				<h5 id="battle-round">Battle Round</h5>
-			</div>
-			<div id="enemy-container">
-				<div id ='enemy-image-zone'>
-					<div id='enemy-image'>
-						<div id="attack-animation"></div>
+	<div id="gameScreen">
+		<header id='stats'>
+			<h5>Money</h5>
+			<h5>Title</h5>
+		</header>
+		<!-- Main animation space -->
+		<section id='main-space'>
+			<!-- Battle log -->
+			<aside id="log">
+				<h1>Log</h1>
+				<button id='clearlog'>Clear Log</button>
+				<div id="updates">
+				</div>
+			</aside>	
+			<!-- Enemy zone -->
+			<main>
+				<div class="zone-info">		
+					<h5 id="zone-info">Zone</h5>
+					<h5 id="battle-round">Battle Round</h5>
+				</div>
+				<div id="enemy-container">
+					<div id ='enemy-image-zone'>
+						<div id='enemy-image'>
+							<div id="attack-animation"></div>
+						</div>
+					</div>
+					<div id='enemy-info'>
+						<div>
+							<h6>HP</h6>
+						</div>
+						<div>
+							<h6>Weakness</h6>
+						</div>
+						<div>
+							<h6>Debuffs</h6>
+						</div>
+						<div>
+							<h6 class= "commandBox">Command description</h6>
+						</div>
+						<div id="enemyHealth">
+						</div>
+						<div id="enemyWeakness">
+						</div>
+						<div id="enemyDebuffs">
+						</div>
+						<div>
+							<p id="commandDescription"></p>
+						</div>
 					</div>
 				</div>
-				<div id='enemy-info'>
-					<div>
-						<h6>HP</h6>
+			</main>
+		</section>
+		<!-- Player choices and stats -->
+		<footer id="player-container">
+			<div id="player-stats">
+				<h6>HP</h6>
+				<div class="progress" id='health'>
+					<div id="hpBar" class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+						<p id='currentHP' style="color: black">20</p>
 					</div>
-					<div>
-						<h6>Weakness</h6>
-					</div>
-					<div>
-						<h6>Debuffs</h6>
-					</div>
-					<div>
-						<h6 class= "commandBox">Command description</h6>
-					</div>
-					<div id="enemyHealth">
-					</div>
-					<div id="enemyWeakness">
-					</div>
-					<div id="enemyDebuffs">
-					</div>
-					<div>
-						<p id="commandDescription"></p>
+				</div>
+				<h6>MP</h6>
+				<div class="progress" id='mana'>
+					<div id="manaBar" class="progress-bar bg-info" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+						<p id='currentMP' style="color: black">8</p>
 					</div>
 				</div>
 			</div>
-		</main>
-	</section>
-	<!-- Player choices and stats -->
-	<footer id="player-container">
-		<div id="player-stats">
-			<h6>HP</h6>
-			<div class="progress" id='health'>
-				<div id="hpBar" class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-					<p id='currentHP' style="color: black">20</p>
-				</div>
+			<div id="combat-block">
+				<button id="upperleft-button">Attack</button>
+				<button id="upperright-button">Magic</button>
+				<button id="lowerleft-button">Item</button>
+				<button id="lowerright-button">Start</button>
 			</div>
-			<h6>MP</h6>
-			<div class="progress" id='mana'>
-				<div id="manaBar" class="progress-bar bg-info" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-					<p id='currentMP' style="color: black">8</p>
-				</div>
-			</div>
-		</div>
-		<div id="combat-block">
-			<button id="upperleft-button">Attack</button>
-			<button id="upperright-button">Magic</button>
-			<button id="lowerleft-button">Item</button>
-			<button id="lowerright-button">Start</button>
-		</div>
-	</footer>
+		</footer>
+	</div>
 	<script type="text/javascript" src="js/app.js"></script>
 </body>
 </html>

@@ -6,13 +6,19 @@
 	const $lowerLeftButton = $('#lowerleft-button');
 	const $lowerRightButton = $('#lowerright-button');
 	const $commandDescription = $('#commandDescription');
+	const $startGame = $('#startGame');
 	let magicToggle = false;
 	let itemToggle = false;
 	let battleToggle = false;
 	let playerToggle = false;
 	let gameOverToggle = false;
 	let startingZone = true;
-	
+
+	$($startGame).click(function(){
+		$('#titleScreen').css('display', 'none');
+		$('#gameScreen').css('display', 'block');
+	})
+
 //Hover functions for all buttons
 	//Top left
 	$($upperLeftButton).hover(function(){
