@@ -355,6 +355,10 @@ main{
 	overflow: scroll;
 }
 
+#storyBox > p > span{
+	text-align: center;
+}
+
 #startGame{
 	grid-area: button;
 	width: 30%;

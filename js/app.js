@@ -71,7 +71,7 @@
 			$($commandDescription).text('Begin the battle');
 		}
 		if(magicToggle === true && itemToggle === false && battleToggle === true){
-			$($commandDescription).text(`Deal ${player.lightningSpellProperties.lightningDmg} points of lightning damage - ${player.lightningSpellProperties.shockChance}% chance of shock (enemy cannot attack next turn)`);
+			$($commandDescription).text(`Deal ${player.lightningSpellProperties.lightningDmg} points of lightning damage - ${player.lightningSpellProperties.shockChance * 100}% chance of shock (enemy cannot attack next turn)`);
 		}
 		if(magicToggle === false && itemToggle === true && battleToggle === true){
 			$($commandDescription).text(`Restore 50% of max MP (${Math.ceil(player.maxMP/2)} points)`);
@@ -92,6 +92,12 @@
 		}
 	);
 
+	$('#playerLevel').hover(function(){
+		
+	}, function(){
+		$($commandDescription).text('');
+	});
+
 //All click commands
 	//Top left - Attack or fire
 	$($upperLeftButton).click( () => {
@@ -107,11 +113,11 @@
 	$($upperRightButton).click( () => {
 		if(magicToggle === false && itemToggle === false && battleToggle === true && playerToggle === true){
 			magicToggle = true;
-			$upperLeftButton.text('Fire (MP: 5)');
+			$upperLeftButton.text(`Fire (${player.fireSpellProperties.spellCost} MP)`);
 			$upperRightButton.text('Return');
-			$lowerLeftButton.text('Ice (MP: 3)');
+			$lowerLeftButton.text(`Ice (${player.iceSpellProperties.spellCost} MP)`);
 			$lowerRightButton.css('visibility', 'visible');
-			$lowerRightButton.text('Lightning (MP: 4)');
+			$lowerRightButton.text(`Lightning (${player.lightningSpellProperties.spellCost} MP)`);
 		}
 		if(magicToggle === false && itemToggle === true && battleToggle === true && playerToggle === true){
 			player.healthPotion();
@@ -248,21 +254,57 @@
 			spellCost: 5,
 			burnChance: 0.25,
 			fireDmg: 4,
-			imageURL: 'url(images/attacks/fireball.gif)'
+			imageURL: 'url(images/attacks/fireball.gif)',
+			exp: 0,
+			nextLvl: 2,
+			checkProgress(){
+				if(player.fireSpellProperties.exp >= player.fireSpellProperties.nextLvl){
+					$($update).prepend('<p style="color: orange">Your fire spell has improved!</p>');
+					player.fireSpellProperties.fireDmg++;
+					player.fireSpellProperties.burnChance += 0.01;
+					player.fireSpellProperties.spellCost++;
+					$($update).prepend(`<p style="color: orange">Fire spell:<br>Cost = ${player.fireSpellProperties.spellCost} MP<br>Damage: ${player.fireSpellProperties.fireDmg}<br>Burn Chance = ${player.fireSpellProperties.burnChance * 100}%</p>`);
+					player.fireSpellProperties.nextLvl +=2;
+				}
+			}
 		},
 		iceSpellProperties: {
 			name: 'blizzard',
 			spellCost: 3,
 			frostbiteChance: 0.25,
 			iceDmg: 4,
-			imageURL: 'url(images/attacks/ice.gif)'
+			imageURL: 'url(images/attacks/ice.gif)',
+			exp: 0,
+			nextLvl: 2,
+			checkProgress(){
+				if(player.iceSpellProperties.exp >= player.iceSpellProperties.nextLvl){
+					$($update).prepend('<p style="color: teal">Your ice spell has improved!</p>');
+					player.iceSpellProperties.iceDmg++;
+					player.iceSpellProperties.frostbiteChance += 0.01;
+					player.iceSpellProperties.spellCost++;
+					$($update).prepend(`<p style="color: teal">Ice spell:<br>Cost = ${player.iceSpellProperties.spellCost} MP<br>Damage: ${player.iceSpellProperties.iceDmg}<br>Burn Chance = ${player.iceSpellProperties.frostbiteChance * 100}%</p>`);
+					player.iceSpellProperties.nextLvl +=2;
+				}
+			}
 		},
 		lightningSpellProperties: {
 			name: 'static',
 			spellCost: 4,
 			shockChance: 0.1,
 			lightningDmg: 4,
-			imageURL: 'url(images/attacks/lightning.gif)'
+			imageURL: 'url(images/attacks/lightning.gif)',
+			exp: 0,
+			nextLvl: 2,
+			checkProgress(){
+				if(player.lightningSpellProperties.exp >= player.lightningSpellProperties.nextLvl){
+					$($update).prepend('<p style="color: rgb(218,112,214)">Your lightning spell has improved!</p>');
+					player.lightningSpellProperties.lightningDmg++;
+					player.lightningSpellProperties.shockChance += 0.01;
+					player.lightningSpellProperties.spellCost++;
+					$($update).prepend(`<p style="color: rgb(218,112,214)">Lightning spell:<br>Cost = ${player.lightningSpellProperties.spellCost} MP<br>Damage: ${player.lightningSpellProperties.lightningDmg}<br>Burn Chance = ${player.lightningSpellProperties.shockChance * 100}%</p>`);
+					player.lightningSpellProperties.nextLvl +=2;
+				}
+			}
 		},
 		levelUp(){
 			$($update).prepend('<p style="border-top: 1px white solid; color: green">You have leveled up!</p>');
@@ -283,6 +325,10 @@
 			$($update).prepend(`<p style="color: rgb(135,206,235)">Max MP = ${player.maxMP}</p>`);
 			$($update).prepend(`<p style="color: rgb(135,206,235)">Strength = ${player.strength}</p>`);
 			$($update).prepend(`<p style="color: rgb(135,206,235)">Defense = ${player.defense}</p>`);
+			if(player.level % 2 === 0){
+				player.manaRegen++;
+				$($update).prepend(`<p style="color: rgb(135,206,235)">MP Regen = ${player.manaRegen}</p>`);
+			}
 			$($update).prepend(`<p style="border-bottom: 1px white solid; color: green">EXP to next level: ${player.levelUpEXP - player.currentEXP}</p>`);
 		},
 		attack(){
@@ -313,6 +359,7 @@
 				$($update).prepend(`<p style="color: white">Not enough MP to cast</p>`);
 			} else{
 				game.battleAnimation(player.fireSpellProperties.imageURL);
+				player.fireSpellProperties.exp++;
 				player.currentMP -= player.fireSpellProperties.spellCost;
 				$('#currentMP').text(player.currentMP);
 				$('#manaBar').css('width', `${(this.currentMP/this.maxMP)*100}%`);
@@ -334,6 +381,7 @@
 					$($update).prepend(`<p style="color: gold">The ${game.currentEnemy.name} has been burned.</p>`);
 					$("#enemyDebuffs").append(`<p style="color: orange">Burnt</p>`);
 				}
+				player.fireSpellProperties.checkProgress();
 				playerToggle = false;
 				magicToggle = false;
 				itemToggle = false;
@@ -353,6 +401,7 @@
 				$($update).prepend(`<p style="color: white">Not enough MP to cast</p>`);
 			} else{
 				game.battleAnimation(player.iceSpellProperties.imageURL);
+				player.iceSpellProperties.exp++;
 				player.currentMP -= player.iceSpellProperties.spellCost;
 				$('#currentMP').text(player.currentMP);
 				$('#manaBar').css('width', `${(this.currentMP/this.maxMP)*100}%`);
@@ -375,6 +424,7 @@
 					$($update).prepend(`<p style="color: yellow">The ${game.currentEnemy.name} has become frostbitten.</p>`);
 					$("#enemyDebuffs").append(`<p style="color: teal">Frostbitten</p>`);
 				}
+				player.iceSpellProperties.checkProgress();
 				playerToggle = false;
 				magicToggle = false;
 				itemToggle = false;
@@ -394,6 +444,7 @@
 				$($update).prepend(`<p style="color: white">Not enough MP to cast</p>`);
 			} else{
 				game.battleAnimation(player.lightningSpellProperties.imageURL);
+				player.lightningSpellProperties.exp++;
 				player.currentMP -= player.lightningSpellProperties.spellCost;
 				$('#currentMP').text(player.currentMP);
 				$('#manaBar').css('width', `${(this.currentMP/this.maxMP)*100}%`);
@@ -415,6 +466,7 @@
 					$($update).prepend(`<p style="color: yellow">The ${game.currentEnemy.name} is in shock.</p>`);
 					$("#enemyDebuffs").append(`<p style="color: rgb(218,112,214)" id="shockedElement">Shocked</p>`);
 				}
+				player.lightningSpellProperties.checkProgress();
 				playerToggle = false;
 				magicToggle = false;
 				itemToggle = false;
