@@ -174,7 +174,7 @@
 
 //Enemies
 	class enemies{
-		constructor(name, strength, attack, hp, defense, fireWeakness, iceWeakness, lightningWeakness, imageURL, exp){
+		constructor(name, strength, attack, hp, defense, fireWeakness, iceWeakness, lightningWeakness, exp, imageURL, height, width){
 			this.name = name;
 			this.strength = strength;
 			this.attack = attack;
@@ -188,29 +188,31 @@
 			this.shock = false;
 			this.imageURL = imageURL;
 			this.expPts = exp;
+			this.height = height;
+			this.width = width;
 		}
 	}
 
 	//Fields
-	const rat = new enemies('Rat', 2, "bite", 8, 1, true, false, true, 'url(images/enemies/rat.gif)',1);
-	const snake = new enemies('Snake', 3, "bite", 10, 2, true, true, false, 'url(images/enemies/snake.gif)', 2);
+	const rat = new enemies('Rat', 2, "bite", 8, 1, true, false, true, 1, 'url(images/enemies/rat.gif)', '150px', '150px');
+	const snake = new enemies('Snake', 3, "bite", 10, 2, true, true, false, 2, 'url(images/enemies/snake.gif)', '150px', '225px' );
 	//Cave entrance
-	const caveGuard = new enemies('Cave Guard', 6, "Slash", 30, 4, false, false, true, 'url(images/enemies/caveGuard.gif)', 5);
+	const caveGuard = new enemies('Cave Guard', 6, "Slash", 30, 4, false, false, true, 5, 'url(images/enemies/caveGuard.gif)', '268px', '150px' );
 	//Cave
-	const bat = new enemies('Bat', 4, "bite", 20, 2, false, false, true, 'url(images/enemies/bat_fast.gif)', 2);
-	const slime = new enemies('Slime', 3, "goop", 25, 6, true, true, true, 'url(images/enemies/slime.gif)', 4);
+	const bat = new enemies('Bat', 4, "bite", 20, 2, false, false, true, 2, 'url(images/enemies/bat_fast.gif)', '139px', '160px' );
+	const slime = new enemies('Slime', 3, "goop", 25, 6, true, true, true, 4, 'url(images/enemies/slime.gif)', '160px', '160px' );
 	//Cave Exit
-	const lich = new enemies ('Lich', 8, "soul sap", 35, 8, true, false, false, 'url(images/enemies/lich.gif', 8);
+	const lich = new enemies ('Lich', 8, "soul sap", 35, 8, true, false, false, 8,  'url(images/enemies/lich.gif', '256px', '256px' );
 	//Graveyard
-	const skeleton = new enemies('Skeleton Warrior', 6, "bone crusher", 26, 5, true, false, true, 'url(images/enemies/skeleton.gif)', 6);
-	const zombie = new enemies('Zombie', 4, "rotten punch", 30, 7, true, true, false, 'url(images/enemies/zombie.gif)', 6);
+	const skeleton = new enemies('Skeleton Warrior', 6, "bone crusher", 26, 5, true, false, true, 6, 'url(images/enemies/skeleton.gif)', '200px', '164px' );
+	const zombie = new enemies('Zombie', 4, "rotten punch", 30, 7, true, true, false, 6,  'url(images/enemies/zombie.gif)', '200px', '171px' );
 	//Castle Entrance
-	const ogre = new enemies('Castle Guard', 10, "club smash", 40, 7, false, true, true, 'url(images/enemies/ogre.gif)', 12);
+	const ogre = new enemies('Castle Guard', 10, "club smash", 40, 7, false, true, true, 12,  'url(images/enemies/ogre.gif)', '300px', '300px' );
 	//Castle Interior
-	const assassin = new enemies('Demon Assassin', 12, "back stab", 40, 4, false, true, true, 'url(images/enemies/demonAssassin.gif)', 20);
-	const demon = new enemies('Demon', 15, "fire breath", 38, 6, false, true, false, 'url(images/enemies/demon.gif)', 22);
+	const assassin = new enemies('Demon Assassin', 12, "back stab", 40, 4, false, true, true, 20, 'url(images/enemies/demonAssassin.gif)', '210px', '200px' );
+	const demon = new enemies('Demon', 15, "fire breath", 38, 6, false, true, false, 22,  'url(images/enemies/demon.gif)', '200px', '200px');
 	//Throne Room
-	const demonLord = new enemies('Demon Overlord', 25, "soul crusher", 60, 15, false, false, false, 'url(images/enemies/demonLord.gif)', 100);
+	const demonLord = new enemies('Demon Overlord', 25, "soul crusher", 60, 15, false, false, false, 100, 'url(images/enemies/demonLord.gif)', '326px', '350px');
 
 //Potions
 	const healthPotion = {
@@ -607,8 +609,10 @@ const game = {
 		burn: null,
 		frostbite: null,
 		shock: null,
+		exp: null,
 		imageURL: null,
-		exp: null
+		height: null,
+		width: null
 	},
 	battleRound: 1,
 	totalNumBattleRounds: null,
@@ -627,8 +631,12 @@ const game = {
 			game.currentEnemy.burn = zones.fields.enemies[randomIndex].burn;
 			game.currentEnemy.frostbite = zones.fields.enemies[randomIndex].frostbite;
 			game.currentEnemy.shock = zones.fields.enemies[randomIndex].shock;
-			game.currentEnemy.imageURL = zones.fields.enemies[randomIndex].imageURL;
 			game.currentEnemy.exp = zones.fields.enemies[randomIndex].expPts;
+			game.currentEnemy.imageURL = zones.fields.enemies[randomIndex].imageURL;
+			game.currentEnemy.height = zones.fields.enemies[randomIndex].height;
+			game.currentEnemy.width = zones.fields.enemies[randomIndex].width;
+			$('#enemy-image').css('height', game.currentEnemy.height);
+			$('#enemy-image').css('width', game.currentEnemy.width);
 			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
 			$('#enemyHealth').append(`<h6>${game.currentEnemy.HP}`);
 			if(game.currentEnemy.fireWeakness === true){
@@ -654,8 +662,12 @@ const game = {
 			game.currentEnemy.burn = zones.caveEntrance.enemies[randomIndex].burn;
 			game.currentEnemy.frostbite = zones.caveEntrance.enemies[randomIndex].frostbite;
 			game.currentEnemy.shock = zones.caveEntrance.enemies[randomIndex].shock;
-			game.currentEnemy.imageURL = zones.caveEntrance.enemies[randomIndex].imageURL;
 			game.currentEnemy.exp = zones.caveEntrance.enemies[randomIndex].expPts;
+			game.currentEnemy.imageURL = zones.caveEntrance.enemies[randomIndex].imageURL;
+			game.currentEnemy.height = zones.caveEntrance.enemies[randomIndex].height;
+			game.currentEnemy.width = zones.caveEntrance.enemies[randomIndex].width;
+			$('#enemy-image').css('height', game.currentEnemy.height);
+			$('#enemy-image').css('width', game.currentEnemy.width);
 			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
 			$('#enemyHealth').append(`<h6>${game.currentEnemy.HP}`);
 			if(game.currentEnemy.fireWeakness === true){
@@ -681,8 +693,12 @@ const game = {
 			game.currentEnemy.burn = zones.cave.enemies[randomIndex].burn;
 			game.currentEnemy.frostbite = zones.cave.enemies[randomIndex].frostbite;
 			game.currentEnemy.shock = zones.cave.enemies[randomIndex].shock;
-			game.currentEnemy.imageURL = zones.cave.enemies[randomIndex].imageURL;
 			game.currentEnemy.exp = zones.cave.enemies[randomIndex].expPts;
+			game.currentEnemy.imageURL = zones.cave.enemies[randomIndex].imageURL;
+			game.currentEnemy.height = zones.cave.enemies[randomIndex].height;
+			game.currentEnemy.width = zones.cave.enemies[randomIndex].width;
+			$('#enemy-image').css('height', game.currentEnemy.height);
+			$('#enemy-image').css('width', game.currentEnemy.width);
 			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
 			$('#enemyHealth').append(`<h6>${game.currentEnemy.HP}`);
 			if(game.currentEnemy.fireWeakness === true){
@@ -708,8 +724,12 @@ const game = {
 			game.currentEnemy.burn = zones.caveExit.enemies[randomIndex].burn;
 			game.currentEnemy.frostbite = zones.caveExit.enemies[randomIndex].frostbite;
 			game.currentEnemy.shock = zones.caveExit.enemies[randomIndex].shock;
-			game.currentEnemy.imageURL = zones.caveExit.enemies[randomIndex].imageURL;
 			game.currentEnemy.exp = zones.caveExit.enemies[randomIndex].expPts;
+			game.currentEnemy.imageURL = zones.caveExit.enemies[randomIndex].imageURL;
+			game.currentEnemy.height = zones.caveExit.enemies[randomIndex].height;
+			game.currentEnemy.width = zones.caveExit.enemies[randomIndex].width;
+			$('#enemy-image').css('height', game.currentEnemy.height);
+			$('#enemy-image').css('width', game.currentEnemy.width);
 			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
 			$('#enemyHealth').append(`<h6>${game.currentEnemy.HP}`);
 			if(game.currentEnemy.fireWeakness === true){
@@ -735,8 +755,12 @@ const game = {
 			game.currentEnemy.burn = zones.graveyard.enemies[randomIndex].burn;
 			game.currentEnemy.frostbite = zones.graveyard.enemies[randomIndex].frostbite;
 			game.currentEnemy.shock = zones.graveyard.enemies[randomIndex].shock;
-			game.currentEnemy.imageURL = zones.graveyard.enemies[randomIndex].imageURL;
 			game.currentEnemy.exp = zones.graveyard.enemies[randomIndex].expPts;
+			game.currentEnemy.imageURL = zones.graveyard.enemies[randomIndex].imageURL;
+			game.currentEnemy.height = zones.graveyard.enemies[randomIndex].height;
+			game.currentEnemy.width = zones.graveyard.enemies[randomIndex].width;
+			$('#enemy-image').css('height', game.currentEnemy.height);
+			$('#enemy-image').css('width', game.currentEnemy.width);
 			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
 			$('#enemyHealth').append(`<h6>${game.currentEnemy.HP}`);
 			if(game.currentEnemy.fireWeakness === true){
@@ -762,8 +786,12 @@ const game = {
 			game.currentEnemy.burn = zones.castleEntrance.enemies[randomIndex].burn;
 			game.currentEnemy.frostbite = zones.castleEntrance.enemies[randomIndex].frostbite;
 			game.currentEnemy.shock = zones.castleEntrance.enemies[randomIndex].shock;
-			game.currentEnemy.imageURL = zones.castleEntrance.enemies[randomIndex].imageURL;
 			game.currentEnemy.exp = zones.castleEntrance.enemies[randomIndex].expPts;
+			game.currentEnemy.imageURL = zones.castleEntrance.enemies[randomIndex].imageURL;
+			game.currentEnemy.height = zones.castleEntrance.enemies[randomIndex].height;
+			game.currentEnemy.width = zones.castleEntrance.enemies[randomIndex].width;
+			$('#enemy-image').css('height', game.currentEnemy.height);
+			$('#enemy-image').css('width', game.currentEnemy.width);
 			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
 			$('#enemyHealth').append(`<h6>${game.currentEnemy.HP}`);
 			if(game.currentEnemy.fireWeakness === true){
@@ -789,8 +817,12 @@ const game = {
 			game.currentEnemy.burn = zones.castleInterior.enemies[randomIndex].burn;
 			game.currentEnemy.frostbite = zones.castleInterior.enemies[randomIndex].frostbite;
 			game.currentEnemy.shock = zones.castleInterior.enemies[randomIndex].shock;
-			game.currentEnemy.imageURL = zones.castleInterior.enemies[randomIndex].imageURL;
 			game.currentEnemy.exp = zones.castleInterior.enemies[randomIndex].expPts;
+			game.currentEnemy.imageURL = zones.castleInterior.enemies[randomIndex].imageURL;
+			game.currentEnemy.height = zones.castleInterior.enemies[randomIndex].height;
+			game.currentEnemy.width = zones.castleInterior.enemies[randomIndex].width;
+			$('#enemy-image').css('height', game.currentEnemy.height);
+			$('#enemy-image').css('width', game.currentEnemy.width);
 			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
 			$('#enemyHealth').append(`<h6>${game.currentEnemy.HP}`);
 			if(game.currentEnemy.fireWeakness === true){
@@ -816,8 +848,12 @@ const game = {
 			game.currentEnemy.burn = zones.castleThroneRoom.enemies[randomIndex].burn;
 			game.currentEnemy.frostbite = zones.castleThroneRoom.enemies[randomIndex].frostbite;
 			game.currentEnemy.shock = zones.castleThroneRoom.enemies[randomIndex].shock;
-			game.currentEnemy.imageURL = zones.castleThroneRoom.enemies[randomIndex].imageURL;
 			game.currentEnemy.exp = zones.castleThroneRoom.enemies[randomIndex].expPts;
+			game.currentEnemy.imageURL = zones.castleThroneRoom.enemies[randomIndex].imageURL;
+			game.currentEnemy.height = zones.castleThroneRoom.enemies[randomIndex].height;
+			game.currentEnemy.width = zones.castleThroneRoom.enemies[randomIndex].width;
+			$('#enemy-image').css('height', game.currentEnemy.height);
+			$('#enemy-image').css('width', game.currentEnemy.width);
 			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
 			$('#enemyHealth').append(`<h6>${game.currentEnemy.HP}`);
 			if(game.currentEnemy.fireWeakness === true){
@@ -916,6 +952,9 @@ const game = {
 				if(game.currentEnemy.HP <= 0){
 					$lowerRightButton.text('Start');
 					$lowerRightButton.css('visibility', 'visible');
+					$('#enemy-image').css('height', '193px');
+					$('#enemy-image').css('width', '200px');
+					$('#enemy-image').css('margin-top', '129px');
 					$('#enemy-image').css('background-image', 'url(images/enemies/defeated.png)');
 					battleToggle = false;
 					playerToggle = false;
