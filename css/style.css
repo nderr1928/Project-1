@@ -328,6 +328,8 @@ main{
 }
 
 #titleBox{
+	width: 100%;
+	overflow: scroll;
 	border: 2px black solid;
 	background-color: rgba(192, 192, 192, 0.4);
 	grid-row: 1;

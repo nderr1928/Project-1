@@ -18,7 +18,6 @@
 	let iceDmg;
 	let lightningDmg;
 
-
 	$($startGame).click(function(){
 		$('#titleScreen').css('display', 'none');
 		$('#gameScreen').css('display', 'block');
@@ -248,6 +247,27 @@
 		levelUpEXP: 5,
 		healthPotions: 3,
 		manaPotions: 3,
+		fireSpellProperties: {
+			name: 'fireball',
+			spellCost: 5,
+			burnChance: 0.25,
+			fireDmg: 4,
+			imageURL: 'url(images/attacks/fireball.gif)'
+		},
+		iceSpellProperties: {
+			name: 'blizzard',
+			spellCost: 3,
+			frostbiteChance: 0.25,
+			iceDmg: 4,
+			imageURL: 'url(images/attacks/ice.gif)'
+		},
+		lightningSpellProperties: {
+			name: 'static',
+			spellCost: 4,
+			shockChance: 0.1,
+			lightningDmg: 4,
+			imageURL: 'url(images/attacks/lightning.gif)'
+		},
 		levelUp(){
 			$($update).prepend('<p style="border-top: 1px white solid; color: green">You have leveled up!</p>');
 			player.level++;
@@ -293,29 +313,27 @@
 			}
 		},
 		fireSpell(){
-			const spellCost = 5;
-			if(player.currentMP < spellCost){
+			if(player.currentMP < player.fireSpellProperties.spellCost){
 				$($update).prepend(`<p style="color: white">Not enough MP to cast</p>`);
 			} else{
-				game.battleAnimation('url(images/attacks/fireball.gif)');
-				player.currentMP -= spellCost;
+				game.battleAnimation(player.fireSpellProperties.imageURL);
+				player.currentMP -= player.fireSpellProperties.spellCost;
 				$('#currentMP').text(player.currentMP);
 				$('#manaBar').css('width', `${(this.currentMP/this.maxMP)*100}%`);
-				fireDmg = 4;
+				fireDmg = player.fireSpellProperties.fireDmg;
 				if(game.currentEnemy.fireWeakness === true){
 					fireDmg = Math.floor(fireDmg * 1.5);
 				}
 				if(game.currentEnemy.HP - fireDmg <= 0){
 					game.currentEnemy.HP = 0;
 					$('#enemyHealth').text(game.currentEnemy.HP);
-					$($update).prepend(`<p style="color: orange">You used the fire spell and deal ${fireDmg} points of damage.</p>`);
+					$($update).prepend(`<p style="color: orange">You cast ${player.fireSpellProperties.name} and deal ${fireDmg} points of damage.</p>`);
 				} else{
 					game.currentEnemy.HP -= fireDmg;
 					$('#enemyHealth').text(game.currentEnemy.HP);
-					$($update).prepend(`<p style="color: orange">You used the fire spell and deal ${fireDmg} points of damage.</p>`);
+					$($update).prepend(`<p style="color: orange">You cast ${player.fireSpellProperties.name} and deal ${fireDmg} points of damage.</p>`);
 				}
-				const burnChance = 0.25;
-				if(Math.random() < burnChance && game.currentEnemy.burn === false){
+				if(Math.random() < player.fireSpellProperties.burnChance && game.currentEnemy.burn === false){
 					game.currentEnemy.burn = true;
 					$($update).prepend(`<p style="color: gold">The ${game.currentEnemy.name} has been burned.</p>`);
 					$("#enemyDebuffs").append(`<p style="color: orange">Burnt</p>`);
@@ -335,29 +353,27 @@
 			}
 		},
 		iceSpell(){
-			const spellCost = 3;
-			if(player.currentMP < spellCost){
+			if(player.currentMP < player.iceSpellProperties.spellCost){
 				$($update).prepend(`<p style="color: white">Not enough MP to cast</p>`);
 			} else{
-				game.battleAnimation('url(images/attacks/ice.gif)');
-				player.currentMP -= spellCost;
+				game.battleAnimation(player.iceSpellProperties.imageURL);
+				player.currentMP -= player.iceSpellProperties.spellCost;
 				$('#currentMP').text(player.currentMP);
 				$('#manaBar').css('width', `${(this.currentMP/this.maxMP)*100}%`);
-				iceDmg = 4;
+				iceDmg = player.iceSpellProperties.iceDmg;
 				if(game.currentEnemy.iceWeakness === true){
 					iceDmg = Math.floor(iceDmg * 1.5);
 				}
 				if(game.currentEnemy.HP - iceDmg <= 0){
 					game.currentEnemy.HP = 0;
 					$('#enemyHealth').text(game.currentEnemy.HP);
-					$($update).prepend(`<p style="color: teal">You used the ice spell and deal ${iceDmg} points of damage.</p>`);
+					$($update).prepend(`<p style="color: teal">You used ${player.iceSpellProperties.name} and deal ${iceDmg} points of damage.</p>`);
 				} else{
 					game.currentEnemy.HP -= iceDmg;
 					$('#enemyHealth').text(game.currentEnemy.HP);
-					$($update).prepend(`<p style="color: teal">You used the ice spell and deal ${iceDmg} points of damage.</p>`);
+					$($update).prepend(`<p style="color: teal">You used ${player.iceSpellProperties.name} and deal ${iceDmg} points of damage.</p>`);
 				}
-				const frostbiteChance = 0.25;
-				if(Math.random() < frostbiteChance && game.currentEnemy.frostbite === false){
+				if(Math.random() < player.iceSpellProperties.frostbiteChance && game.currentEnemy.frostbite === false){
 					game.currentEnemy.frostbite = true;
 					game.currentEnemy.defense = Math.floor(game.currentEnemy.defense * 0.9);
 					$($update).prepend(`<p style="color: yellow">The ${game.currentEnemy.name} has become frostbitten.</p>`);
@@ -378,29 +394,27 @@
 			}
 		},
 		lightningSpell(){
-			const spellCost = 4;
-			if(player.currentMP < spellCost){
+			if(player.currentMP < player.lightningSpellProperties.spellCost){
 				$($update).prepend(`<p style="color: white">Not enough MP to cast</p>`);
 			} else{
-				game.battleAnimation('url(images/attacks/lightning.gif)');
-				player.currentMP -= spellCost;
+				game.battleAnimation(player.lightningSpellProperties.imageURL);
+				player.currentMP -= player.lightningSpellProperties.spellCost;
 				$('#currentMP').text(player.currentMP);
 				$('#manaBar').css('width', `${(this.currentMP/this.maxMP)*100}%`);
-				lightningDmg = 4;
+				lightningDmg = player.lightningSpellProperties.lightningDmg;
 				if(game.currentEnemy.lightningWeakness === true){
 					lightningDmg = Math.floor(lightningDmg * 1.5);
 				}
 				if(game.currentEnemy.HP - lightningDmg <= 0){
 					game.currentEnemy.HP = 0;
 					$('#enemyHealth').text(game.currentEnemy.HP);
-					$($update).prepend(`<p style="color: rgb(218,112,214)">You used the lightning spell and deal ${lightningDmg} points of damage.</p>`);
+					$($update).prepend(`<p style="color: rgb(218,112,214)">You used ${player.lightningSpellProperties.name} and deal ${lightningDmg} points of damage.</p>`);
 				} else{
 					game.currentEnemy.HP -= lightningDmg;
 					$('#enemyHealth').text(game.currentEnemy.HP);
-					$($update).prepend(`<p style="color: rgb(218,112,214)">You used the lightning spell and deal ${lightningDmg} points of damage.</p>`);
+					$($update).prepend(`<p style="color: rgb(218,112,214)">You used ${player.lightningSpellProperties.name} and deal ${lightningDmg} points of damage.</p>`);
 				}
-				const shockChance = 0.1;
-				if(Math.random() < shockChance){
+				if(Math.random() < player.lightningSpellProperties.shockChance && game.currentEnemy.shock === false){
 					game.currentEnemy.shock = true;
 					$($update).prepend(`<p style="color: yellow">The ${game.currentEnemy.name} is in shock.</p>`);
 					$("#enemyDebuffs").append(`<p style="color: rgb(218,112,214)" id="shockedElement">Shocked</p>`);
