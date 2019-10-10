@@ -13,10 +13,6 @@
 	let gameOverToggle = false;
 	let startingZone = true;
 	
-	let fireDmg;
-	let iceDmg;
-	let lightningDmg;
-	
 //Hover functions for all buttons
 	//Top left
 	$($upperLeftButton).hover(function(){
@@ -562,18 +558,19 @@ const zones = {
 			game.totalNumBattleRounds = this.graveyard.numBattles;
 			game.zone = this.graveyard.name;
 		}else if(game.zone === this.graveyard.name && startingZone === false){
-			alert(`Making it through the graveyard, you stumble across a fortress type castle. This must be the Castle to Hell. A giant ogre with a club starts charging at you,prepare for battle!`);
+			alert(`Making it through the graveyard, you stumble across a fortress type castle. This must be the Castle to Hell. A giant ogre with a club starts charging at you, prepare for battle!`);
 			$('main').css('background-image', this.castleEntrance.imageURL);
 			$('#zone-info').text(`Zone: ${this.castleEntrance.name}`);
 			game.totalNumBattleRounds = this.castleEntrance.numBattles;
 			game.zone = this.castleEntrance.name;
 		}else if(game.zone === this.castleEntrance.name && startingZone === false){
+			alert(`You make it into the Castle to Hell. You must fight past the demons inside to get through the portal to fight the Demon Overlord!`);
 			$('main').css('background-image', this.castleInterior.imageURL);
 			$('#zone-info').text(`Zone: ${this.castleInterior.name}`);
 			game.totalNumBattleRounds = this.castleInterior.numBattles;
 			game.zone = this.castleInterior.name;
 		}else if(game.zone === this.castleInterior.name && startingZone === false){
-			alert('final boss');
+			alert(`You have finally made it to the Demon Overlord. He's expected you and prepared accordingly. It's now or never - time to end this!`);
 			$('main').css('background-image', this.castleThroneRoom.imageURL);
 			$('#zone-info').text(`Zone: ${this.castleThroneRoom.name}`);
 			game.totalNumBattleRounds = this.castleThroneRoom.numBattles;
