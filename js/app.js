@@ -804,20 +804,20 @@ const game = {
 			}
 		}
 		if(game.zone === zones.castleThroneRoom.name){
-			const randomIndex = Math.floor(Math.random()*zones.fields.enemies.length);
-			game.currentEnemy.name = zones.fields.enemies[randomIndex].name;
-			game.currentEnemy.strength = zones.fields.enemies[randomIndex].strength;
-			game.currentEnemy.attack = zones.fields.enemies[randomIndex].attack;
-			game.currentEnemy.HP = zones.fields.enemies[randomIndex].HP;
-			game.currentEnemy.defense = zones.fields.enemies[randomIndex].defense;
-			game.currentEnemy.fireWeakness = zones.fields.enemies[randomIndex].fireWeakness;
-			game.currentEnemy.iceWeakness = zones.fields.enemies[randomIndex].iceWeakness;
-			game.currentEnemy.lightningWeakness = zones.fields.enemies[randomIndex].lightningWeakness;
-			game.currentEnemy.burn = zones.fields.enemies[randomIndex].burn;
-			game.currentEnemy.frostbite = zones.fields.enemies[randomIndex].frostbite;
-			game.currentEnemy.shock = zones.fields.enemies[randomIndex].shock;
-			game.currentEnemy.imageURL = zones.fields.enemies[randomIndex].imageURL;
-			game.currentEnemy.exp = zones.fields.enemies[randomIndex].expPts;
+			const randomIndex = Math.floor(Math.random()*zones.castleThroneRoom.enemies.length);
+			game.currentEnemy.name = zones.castleThroneRoom.enemies[randomIndex].name;
+			game.currentEnemy.strength = zones.castleThroneRoom.enemies[randomIndex].strength;
+			game.currentEnemy.attack = zones.castleThroneRoom.enemies[randomIndex].attack;
+			game.currentEnemy.HP = zones.castleThroneRoom.enemies[randomIndex].HP;
+			game.currentEnemy.defense = zones.castleThroneRoom.enemies[randomIndex].defense;
+			game.currentEnemy.fireWeakness = zones.castleThroneRoom.enemies[randomIndex].fireWeakness;
+			game.currentEnemy.iceWeakness = zones.castleThroneRoom.enemies[randomIndex].iceWeakness;
+			game.currentEnemy.lightningWeakness = zones.castleThroneRoom.enemies[randomIndex].lightningWeakness;
+			game.currentEnemy.burn = zones.castleThroneRoom.enemies[randomIndex].burn;
+			game.currentEnemy.frostbite = zones.castleThroneRoom.enemies[randomIndex].frostbite;
+			game.currentEnemy.shock = zones.castleThroneRoom.enemies[randomIndex].shock;
+			game.currentEnemy.imageURL = zones.castleThroneRoom.enemies[randomIndex].imageURL;
+			game.currentEnemy.exp = zones.castleThroneRoom.enemies[randomIndex].expPts;
 			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
 			$('#enemyHealth').append(`<h6>${game.currentEnemy.HP}`);
 			if(game.currentEnemy.fireWeakness === true){
@@ -969,6 +969,7 @@ const game = {
 				$('#manaBar').css('width', `${(player.currentMP/player.maxMP)*100}%`);
 				$('#enemy-image').css('height', '150px');
 				$('#enemy-image').css('width', '150px');
+				$('#enemy-image').css('margin-top', '0');
 				$lowerRightButton.text('');
 				$lowerRightButton.css('visibility', 'hidden');
 				$lowerLeftButton.css('visibility', 'visible');
