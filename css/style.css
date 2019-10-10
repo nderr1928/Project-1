@@ -95,8 +95,8 @@ main{
 
 #enemy-image-zone{
 	grid-area: enemyPic;
-	/* align-items: center; */
-	/* justify-items: center; */
+	align-items: center;
+	justify-items: center;
 }
 
 #enemy-image{

@@ -205,7 +205,7 @@
 	const skeleton = new enemies('Skeleton Warrior', 6, "bone crusher", 26, 5, true, false, true, 'url(images/enemies/skeleton.gif)', 6);
 	const zombie = new enemies('Zombie', 4, "rotten punch", 30, 7, true, true, false, 'url(images/enemies/zombie.gif)', 6);
 	//Castle Entrance
-	const ogre = new enemies('Castle Guard', 10, "club smash", 40, 7, false, true, true, 'urk(images/enemies/ogre.gif)', 12);
+	const ogre = new enemies('Castle Guard', 10, "club smash", 40, 7, false, true, true, 'url(images/enemies/ogre.gif)', 12);
 	//Castle Interior
 	const assassin = new enemies('Demon Assassin', 12, "back stab", 40, 4, false, true, true, 'url(images/enemies/demonAssassin.gif)', 20);
 	const demon = new enemies('Demon', 15, "fire breath", 38, 6, false, true, false, 'url(images/enemies/demon.gif)', 22);
@@ -269,7 +269,6 @@
 				game.currentEnemy.HP = 0;
 				$('#enemyHealth').text(game.currentEnemy.HP);
 				$($update).prepend(`<p style="color: rgb(135,206,235)">You attack the enemy and deal ${atkDmg} points of damage.</p>`);
-				game.checkDeath();
 			} 
 			else{
 				game.currentEnemy.HP -= atkDmg;
@@ -277,6 +276,7 @@
 				$($update).prepend(`<p style="color: rgb(135,206,235)">You attack the enemy and deal ${atkDmg} points of damage.</p>`);
 			}
 			playerToggle = false;
+			game.checkDeath();
 			if(game.currentEnemy.HP > 0){
 				game.enemyAttack();
 			}
@@ -298,7 +298,6 @@
 					game.currentEnemy.HP = 0;
 					$('#enemyHealth').text(game.currentEnemy.HP);
 					$($update).prepend(`<p style="color: orange">You used the fire spell and deal ${fireDmg} points of damage.</p>`);
-					game.checkDeath();
 				} else{
 					game.currentEnemy.HP -= fireDmg;
 					$('#enemyHealth').text(game.currentEnemy.HP);
@@ -318,6 +317,7 @@
 				$lowerLeftButton.text('Item');
 				$lowerRightButton.css('visibility', 'hidden');
 				$lowerRightButton.text('');
+				game.checkDeath();
 				if(game.currentEnemy.HP > 0){
 					game.enemyAttack();
 				}
@@ -340,7 +340,6 @@
 					game.currentEnemy.HP = 0;
 					$('#enemyHealth').text(game.currentEnemy.HP);
 					$($update).prepend(`<p style="color: teal">You used the ice spell and deal ${iceDmg} points of damage.</p>`);
-					game.checkDeath();
 				} else{
 					game.currentEnemy.HP -= iceDmg;
 					$('#enemyHealth').text(game.currentEnemy.HP);
@@ -361,6 +360,7 @@
 				$lowerLeftButton.text('Item');
 				$lowerRightButton.css('visibility', 'hidden');
 				$lowerRightButton.text('');
+				game.checkDeath();
 				if(game.currentEnemy.HP > 0){
 					game.enemyAttack();
 				}
@@ -383,7 +383,6 @@
 					game.currentEnemy.HP = 0;
 					$('#enemyHealth').text(game.currentEnemy.HP);
 					$($update).prepend(`<p style="color: rgb(218,112,214)">You used the lightning spell and deal ${lightningDmg} points of damage.</p>`);
-					game.checkDeath();
 				} else{
 					game.currentEnemy.HP -= lightningDmg;
 					$('#enemyHealth').text(game.currentEnemy.HP);
@@ -403,6 +402,7 @@
 				$lowerLeftButton.text('Item');
 				$lowerRightButton.css('visibility', 'hidden');
 				$lowerRightButton.text('');
+				game.checkDeath();
 				if(game.currentEnemy.HP > 0){
 					game.enemyAttack();
 				}
@@ -506,7 +506,7 @@ const zones = {
 		name: 'Weeping Bones Necrofield',
 		numBattles: 4,
 		enemies: [skeleton, zombie],
-		imageURL: 'url(images/backgrounds/graveyardBackground)'
+		imageURL: 'url(images/backgrounds/graveyardBackground.jpeg)'
 	},
 	castleEntrance: {
 		name: 'Castle to Hell Entrance',
@@ -538,37 +538,55 @@ const zones = {
 			alert('You have made it to the entrnace of Archway Cave. A guard stands near. You approach the entrance but the guard says that you must defeat them in battle before they can allow you to pass. The only way forward is through them!');
 			$('main').css('background-image', this.caveEntrance.imageURL);
 			$('#zone-info').text(`Zone: ${this.caveEntrance.name}`);
+			$('#enemy-image').css('width', '173px');
+			$('#enemy-image').css('height', '300px');
+			$('#enemy-image').css('margin-top', '80px');
 			game.totalNumBattleRounds = this.caveEntrance.numBattles;
 			game.zone = this.caveEntrance.name;
 		}else if(game.zone === this.caveEntrance.name && startingZone === false){
 			alert('You have defeated the guard and he allows you to pass. The journey through Archway Cave is on its way.');
 			$('main').css('background-image', this.cave.imageURL);
 			$('#zone-info').text(`Zone: ${this.cave.name}`);
+			$('#enemy-image').css('width', '150px');
+			$('#enemy-image').css('height', '150px');
+			$('#enemy-image').css('margin-top', '');
 			game.totalNumBattleRounds = this.cave.numBattles;
 			game.zone = this.cave.name;
 		}else if(game.zone === this.cave.name && startingZone === false){
 			alert('You see the light of the moon shine through as you approach stairs. As you approach the stairs, a dark figure emerges from the shadows. Without a word it draws its sword and prepares to strike. Look alive!');
 			$('main').css('background-image', this.caveExit.imageURL);
 			$('#zone-info').text(`Zone: ${this.caveExit.name}`);
+			$('#enemy-image').css('width', '300px');
+			$('#enemy-image').css('height', '300px');
 			game.totalNumBattleRounds = this.caveExit.numBattles;
 			game.zone = this.caveExit.name;
 		}else if(game.zone === this.caveExit.name && startingZone === false){
 			alert(`You exit the cave to a green haze and the moon providing the only light. You see lines of tombstones and the restless undead walking around. The Castle to Hell lies just beyond`);
 			$('main').css('background-image', this.graveyard.imageURL);
 			$('#zone-info').text(`Zone: ${this.graveyard.name}`);
+			$('#enemy-image').css('width', '145px');
+			$('#enemy-image').css('height', '174px');
 			game.totalNumBattleRounds = this.graveyard.numBattles;
 			game.zone = this.graveyard.name;
 		}else if(game.zone === this.graveyard.name && startingZone === false){
+			alert(`Making it through the graveyard, you stumble across a fortress type castle. This must be the Castle to Hell. A giant ogre with a club starts charging at you,prepare for battle!`);
 			$('main').css('background-image', this.castleEntrance.imageURL);
 			$('#zone-info').text(`Zone: ${this.castleEntrance.name}`);
+			$('#enemy-image').css('width', '350px');
+			$('#enemy-image').css('height', '350px');
+			$('#enemy-image').css('margin-top', '55px');
 			game.totalNumBattleRounds = this.castleEntrance.numBattles;
 			game.zone = this.castleEntrance.name;
 		}else if(game.zone === this.castleEntrance.name && startingZone === false){
 			$('main').css('background-image', this.castleInterior.imageURL);
 			$('#zone-info').text(`Zone: ${this.castleInterior.name}`);
+			$('#enemy-image').css('width', '200px');
+			$('#enemy-image').css('height', '200px');
+			$('#enemy-image').css('margin-top', '');
 			game.totalNumBattleRounds = this.castleInterior.numBattles;
 			game.zone = this.castleInterior.name;
 		}else if(game.zone === this.castleInterior.name && startingZone === false){
+			alert('final boss');
 			$('main').css('background-image', this.castleThroneRoom.imageURL);
 			$('#zone-info').text(`Zone: ${this.castleThroneRoom.name}`);
 			game.totalNumBattleRounds = this.castleThroneRoom.numBattles;
