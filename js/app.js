@@ -113,7 +113,6 @@
 		}
 		if(magicToggle === false && itemToggle === true && battleToggle === true && playerToggle === true){
 			player.healthPotion();
-			game.enemyAttack();
 		}
 	});
 
@@ -145,7 +144,6 @@
 		}
 		if(magicToggle === false && itemToggle === true && battleToggle === true && playerToggle === true){
 			player.manaPotion();
-			game.enemyAttack();
 		}
 	});
 
@@ -337,8 +335,8 @@
 				if(Math.random() < frostbiteChance && game.currentEnemy.frostbite === false){
 					game.currentEnemy.frostbite = true;
 					game.currentEnemy.defense = Math.floor(game.currentEnemy.defense * 0.9);
-					$($update).prepend(`<p style="color: yellow">The ${game.currentEnemy.name} has been frostbitten.</p>`);
-					$("#enemyDebuffs").append(`<p style="color: teal">Frostbiten</p>`);
+					$($update).prepend(`<p style="color: yellow">The ${game.currentEnemy.name} has become frostbitten.</p>`);
+					$("#enemyDebuffs").append(`<p style="color: teal">Frostbitten</p>`);
 				}
 				playerToggle = false;
 				magicToggle = false;
@@ -398,8 +396,10 @@
 		healthPotion(){
 			if(this.healthPotions > 0 && this.currentHP < this.maxHP){
 				if(Math.ceil(healthPotion.recovery * this.maxHP) + this.currentHP >= this.maxHP){
+					$($update).prepend(`<p style="color: yellow">You use a health potion and regen ${player.maxHP - player.currentHP} health points.`);
 					this.currentHP = this.maxHP;
 				} else{
+					$($update).prepend(`<p style="color: yellow">You use a health potion and regen ${Math.ceil(healthPotion.recovery * this.maxHP)} health points.`);
 					this.currentHP += Math.ceil(healthPotion.recovery * this.maxHP);
 				}
 				$('#currentHP').text(player.currentHP);
@@ -409,24 +409,28 @@
 				magicToggle = false;
 				itemToggle = false;
 				$upperLeftButton.text('Attack');
+				$upperLeftButton.css('visibility', 'visible');
 				$upperRightButton.text('Magic');
 				$lowerLeftButton.text('Item');
-				$lowerRightButton.css('display', 'none');
+				$lowerRightButton.css('visibility', 'hidden');
 				$lowerRightButton.text('');
-			} else{
-				if(this.healthPotions = 0){
-					$($update).prepend('<p>You have no health potions left</p>')
+				playerToggle = false;
+				game.enemyAttack();
+			} else {
+				if(this.healthPotions === 0){
+					$($update).prepend('<p style="color: white">You have no health potions left</p>')
 				} else{
-					$($update).prepend('<p>Health is already at max</p>');
+					$($update).prepend('<p style="color: white">Health is already at max</p>');
 				}
 			}
-			game.checkDeath();
 		},
 		manaPotion(){
 			if(this.manaPotions > 0 && this.currentMP < this.maxMP){
 				if(Math.ceil(manaPotion.recovery * this.maxMP) + this.currentMP >= this.maxMP){
+					$($update).prepend(`<p style="color: yellow">You use a mana potion and regen ${player.maxMP - player.currentMP} mana points.`);
 					this.currentMP = this.maxMP;
 				} else{
+					$($update).prepend(`<p style="color: yellow">You use a mana potion and regen ${Math.ceil(healthPotion.recovery * this.maxMP)} mana points.`);
 					this.currentMP += Math.ceil(healthPotion.recovery * this.maxMP);
 				}
 				$('#currentMP').text(player.currentMP);
@@ -436,16 +440,20 @@
 				magicToggle = false;
 				itemToggle = false;
 				$upperLeftButton.text('Attack');
+				$upperLeftButton.css('visibility','visible');
 				$upperRightButton.text('Magic');
 				$lowerLeftButton.text('Item');
-				$lowerRightButton.css('display', 'none');
+				$lowerRightButton.css('visibility', 'hidden');
 				$lowerRightButton.text('');
-			} else if(this.manaPotions = 0){
-					$($update).prepend('<p>You have no mana potions left</p>')
-			} else{
-				$($update).prepend('<p>Mana is already at max</p>');
+				playerToggle = false;
+				game.enemyAttack();
+			} else {
+				if(this.manaPotions === 0){
+						$($update).prepend('<p style="color: white">You have no mana potions left</p>')
+				} else{
+					$($update).prepend('<p style="color: white">Mana is already at max</p>');
+				}
 			}
-			game.checkDeath();
 		}
 	}
 
