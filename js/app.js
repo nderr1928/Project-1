@@ -96,6 +96,7 @@
 		console.log('hover');
 		$('#displayStats').css('display', 'block');
 		$('#displayStats').append(`<p style="color: white">Player Stats:</p>`);
+		$('#displayStats').append(`<p style="color: rgb(135,206,235)">Level = ${player.level}`);
 		$('#displayStats').append(`<p style="color: rgb(135,206,235)">Max HP = ${player.maxHP}</p>`);
 		$('#displayStats').append(`<p style="color: rgb(135,206,235)">Max MP = ${player.maxMP}</p>`);
 		$('#displayStats').append(`<p style="color: rgb(135,206,235)">Strength = ${player.strength}</p>`);
@@ -320,7 +321,6 @@
 		levelUp(){
 			$($update).prepend('<p style="border-top: 1px white solid; color: green">You have leveled up!</p>');
 			player.level++;
-			$("#playerLevel").text(`Level: ${player.level}`);
 			player.maxHP +=3;
 			player.maxMP +=2;
 			player.currentHP = player.maxHP;
