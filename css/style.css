@@ -1,17 +1,17 @@
-body{
+/* body{
 	background-image: url('../images/defaultBackground.jpg');
 	background-size: cover;
 	background-repeat: no-repeat;
 	height: auto;
 	width: auto;
-}
+} */
 
 header{
 	display: grid;
 	grid-template-rows: 1fr;
 	grid-template-columns: 25% 75%;
 	text-align: center;
-	background-color: rgba(192, 192, 192, 0.4);
+	background-color: rgba(150, 150, 150, 1);
 	grid-row: 1;
 }
 
@@ -305,6 +305,9 @@ main{
 #titleScreen{
 	height: 100%;
 	width: 100%;
+	background-image: url('../images/defaultBackground.jpg');
+	background-size: cover;
+	background-position: center;
 	font-family: 'Lobster', cursive;
 	color: orange;
 	text-align: center;
