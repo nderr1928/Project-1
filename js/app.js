@@ -102,9 +102,9 @@
 		$('#displayStats').append(`<p style="color: rgb(135,206,235)">Strength = ${player.strength}</p>`);
 		$('#displayStats').append(`<p style="color: rgb(135,206,235)">Defense = ${player.defense}</p>`);
 		$('#displayStats').append(`<p style="color: rgb(135,206,235)">MP Regen = ${player.manaRegen}</p>`);
-		$('#displayStats').append(`<p style="color: orange">Fire spell:<br>Cost = ${player.fireSpellProperties.spellCost} MP<br>Damage: ${player.fireSpellProperties.fireDmg}<br>Burn Chance = ${player.fireSpellProperties.burnChance * 100}%</p>`);
-		$('#displayStats').append(`<p style="color: teal">Ice spell:<br>Cost = ${player.iceSpellProperties.spellCost} MP<br>Damage: ${player.iceSpellProperties.iceDmg}<br>Burn Chance = ${player.iceSpellProperties.frostbiteChance * 100}%</p>`);
-		$('#displayStats').append(`<p style="color: rgb(218,112,214)">Lightning spell:<br>Cost = ${player.lightningSpellProperties.spellCost} MP<br>Damage: ${player.lightningSpellProperties.lightningDmg}<br>Burn Chance = ${player.lightningSpellProperties.shockChance * 100}%</p>`);
+		$('#displayStats').append(`<p style="color: orange">Fire spell:<br>Cost = ${player.fireSpellProperties.spellCost} MP<br>Damage: ${player.fireSpellProperties.fireDmg}<br>Burn Chance = ${Math.floor(player.fireSpellProperties.burnChance * 100)}%</p>`);
+		$('#displayStats').append(`<p style="color: teal">Ice spell:<br>Cost = ${player.iceSpellProperties.spellCost} MP<br>Damage: ${player.iceSpellProperties.iceDmg}<br>Burn Chance = ${Math.floor(player.iceSpellProperties.frostbiteChance * 100)}%</p>`);
+		$('#displayStats').append(`<p style="color: rgb(218,112,214)">Lightning spell:<br>Cost = ${player.lightningSpellProperties.spellCost} MP<br>Damage: ${player.lightningSpellProperties.lightningDmg}<br>Burn Chance = ${Math.floor(player.lightningSpellProperties.shockChance * 100)}%</p>`);
 	}, function(){
 		$('#displayStats').empty();
 		$('#displayStats').css('display', 'none');
@@ -277,7 +277,7 @@
 					player.fireSpellProperties.fireDmg++;
 					player.fireSpellProperties.burnChance += 0.01;
 					player.fireSpellProperties.spellCost++;
-					$($update).prepend(`<p style="color: orange">Fire spell:<br>Cost = ${player.fireSpellProperties.spellCost} MP<br>Damage: ${player.fireSpellProperties.fireDmg}<br>Burn Chance = ${player.fireSpellProperties.burnChance * 100}%</p>`);
+					$($update).prepend(`<p style="color: orange">Fire spell:<br>Cost = ${player.fireSpellProperties.spellCost} MP<br>Damage: ${player.fireSpellProperties.fireDmg}<br>Burn Chance = ${Math.floor(player.fireSpellProperties.burnChance * 100)}%</p>`);
 					player.fireSpellProperties.nextLvl +=2;
 				}
 			}
@@ -296,7 +296,7 @@
 					player.iceSpellProperties.iceDmg++;
 					player.iceSpellProperties.frostbiteChance += 0.01;
 					player.iceSpellProperties.spellCost++;
-					$($update).prepend(`<p style="color: teal">Ice spell:<br>Cost = ${player.iceSpellProperties.spellCost} MP<br>Damage: ${player.iceSpellProperties.iceDmg}<br>Frostbite Chance = ${player.iceSpellProperties.frostbiteChance * 100}%</p>`);
+					$($update).prepend(`<p style="color: teal">Ice spell:<br>Cost = ${player.iceSpellProperties.spellCost} MP<br>Damage: ${player.iceSpellProperties.iceDmg}<br>Frostbite Chance = ${Math.floor(player.iceSpellProperties.frostbiteChance * 100)}%</p>`);
 					player.iceSpellProperties.nextLvl +=2;
 				}
 			}
@@ -315,7 +315,7 @@
 					player.lightningSpellProperties.lightningDmg++;
 					player.lightningSpellProperties.shockChance += 0.01;
 					player.lightningSpellProperties.spellCost++;
-					$($update).prepend(`<p style="color: rgb(218,112,214)">Lightning spell:<br>Cost = ${player.lightningSpellProperties.spellCost} MP<br>Damage: ${player.lightningSpellProperties.lightningDmg}<br>Shock Chance = ${player.lightningSpellProperties.shockChance * 100}%</p>`);
+					$($update).prepend(`<p style="color: rgb(218,112,214)">Lightning spell:<br>Cost = ${player.lightningSpellProperties.spellCost} MP<br>Damage: ${player.lightningSpellProperties.lightningDmg}<br>Shock Chance = ${Math.floor(player.lightningSpellProperties.shockChance * 100)}%</p>`);
 					player.lightningSpellProperties.nextLvl +=2;
 				}
 			}
