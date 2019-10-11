@@ -153,10 +153,12 @@
 
 	//Bottom right - start battle or lightning or mana potion
 	$lowerRightButton.click(function() {
-		if(gameOverToggle === true){
+		if(magicToggle === false && itemToggle === false && battleToggle === false && playerToggle === false && gameOverToggle === true ){
+			console.log('restart');
 			game.startOver();
 		}
 		if(magicToggle === false && itemToggle === false && battleToggle === false && playerToggle === false && gameOverToggle === false){
+			console.log('start');
 			game.gameStart();
 		}
 		if(magicToggle === true && itemToggle === false && battleToggle === true && playerToggle === true){
@@ -170,7 +172,7 @@
 //dblclcik return commands
 	//Commands to return to main command screen from magic menu
 	$($upperRightButton).on('dblclick', () => {
-		if(magicToggle === true && itemToggle === false ){
+		if(magicToggle === true && itemToggle === false){
 			magicToggle = false;
 			$upperLeftButton.text('Attack');
 			$upperRightButton.text('Magic');
@@ -1082,6 +1084,7 @@ const game = {
 	},
 	startOver(){
 		let timer = 0;
+		$lowerRightButton.css('visibility', 'hidden');
 		const pause = setInterval(function(){
 			if(timer >= 1){
 				gameOverToggle = false;
@@ -1096,7 +1099,6 @@ const game = {
 				$('#enemy-image').css('width', '150px');
 				$('#enemy-image').css('margin-top', '160px');
 				$lowerRightButton.text('');
-				$lowerRightButton.css('visibility', 'hidden');
 				$lowerLeftButton.css('visibility', 'visible');
 				$upperLeftButton.css('visibility', 'visible');
 				$upperRightButton.css('visibility', 'visible');
