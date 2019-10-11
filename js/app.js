@@ -42,7 +42,7 @@
 			$($commandDescription).text('Double click to return to main command screen');
 		}
 		if(magicToggle === false && itemToggle === true && battleToggle === true){
-			$($commandDescription).text(`Restore 50% of max health (${Math.ceil(player.maxHP/2)} points)`);
+			$($commandDescription).text(`Restore 50% of max HP (${Math.ceil(player.maxHP/2)} points)`);
 		}
 		}, function(){
 			$($commandDescription).text('');
@@ -296,7 +296,7 @@
 					player.iceSpellProperties.iceDmg++;
 					player.iceSpellProperties.frostbiteChance += 0.01;
 					player.iceSpellProperties.spellCost++;
-					$($update).prepend(`<p style="color: teal">Ice spell:<br>Cost = ${player.iceSpellProperties.spellCost} MP<br>Damage: ${player.iceSpellProperties.iceDmg}<br>Burn Chance = ${player.iceSpellProperties.frostbiteChance * 100}%</p>`);
+					$($update).prepend(`<p style="color: teal">Ice spell:<br>Cost = ${player.iceSpellProperties.spellCost} MP<br>Damage: ${player.iceSpellProperties.iceDmg}<br>Frostbite Chance = ${player.iceSpellProperties.frostbiteChance * 100}%</p>`);
 					player.iceSpellProperties.nextLvl +=2;
 				}
 			}
@@ -315,7 +315,7 @@
 					player.lightningSpellProperties.lightningDmg++;
 					player.lightningSpellProperties.shockChance += 0.01;
 					player.lightningSpellProperties.spellCost++;
-					$($update).prepend(`<p style="color: rgb(218,112,214)">Lightning spell:<br>Cost = ${player.lightningSpellProperties.spellCost} MP<br>Damage: ${player.lightningSpellProperties.lightningDmg}<br>Burn Chance = ${player.lightningSpellProperties.shockChance * 100}%</p>`);
+					$($update).prepend(`<p style="color: rgb(218,112,214)">Lightning spell:<br>Cost = ${player.lightningSpellProperties.spellCost} MP<br>Damage: ${player.lightningSpellProperties.lightningDmg}<br>Shock Chance = ${player.lightningSpellProperties.shockChance * 100}%</p>`);
 					player.lightningSpellProperties.nextLvl +=2;
 				}
 			}
