@@ -16,7 +16,7 @@
 
 	$($startGame).click(function(){
 		$('#titleScreen').css('display', 'none');
-		$('#gameScreen').css('display', 'block');
+		$('#gameScreen').css('display', 'grid');
 	})
 
 //Hover functions for all buttons
