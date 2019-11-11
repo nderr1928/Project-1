@@ -13,9 +13,18 @@
 	let playerToggle = false;
 	let gameOverToggle = false;
 	let startingZone = true;
+	let titleScreen = true;
 
+	$('html').click(function(){
+		if(titleScreen === true){
+			$('#titleScreen').css('display', "none");
+			titleScreen = false;
+			$('#instructionsScreen').css('display', 'block');
+		}
+	})
+	
 	$($startGame).click(function(){
-		$('#titleScreen').css('display', 'none');
+		$('#instructionsScreen').css('display', 'none');
 		$('#gameScreen').css('display', 'grid');
 	})
 
@@ -30,6 +39,21 @@
 		}
 		}, function(){
 			$($commandDescription).text('');
+		}
+	);
+
+	$($upperLeftButton).on('touchstart', function(){
+		if(magicToggle === false && itemToggle === false && battleToggle === true){
+			$($commandDescription).text(`Attack the enemy`);
+		}
+		if(magicToggle === true && itemToggle === false && battleToggle === true){
+			$($commandDescription).text(`Deal ${player.fireSpellProperties.fireDmg} points of fire damage - ${player.fireSpellProperties.burnChance *100}% chance for burn (-1hp per turn)`);
+		}
+	});
+
+	$($upperLeftButton).on('touchcancel', function(){
+		console.log('event cancelled.');
+		$($commandDescription).text(``);
 		}
 	);
 	
@@ -103,8 +127,8 @@
 		$('#displayStats').append(`<p style="color: rgb(135,206,235)">Defense = ${player.defense}</p>`);
 		$('#displayStats').append(`<p style="color: rgb(135,206,235)">MP Regen = ${player.manaRegen}</p>`);
 		$('#displayStats').append(`<p style="color: orange">Fire spell:<br>Cost = ${player.fireSpellProperties.spellCost} MP<br>Damage: ${player.fireSpellProperties.fireDmg}<br>Burn Chance = ${Math.floor(player.fireSpellProperties.burnChance * 100)}%</p>`);
-		$('#displayStats').append(`<p style="color: teal">Ice spell:<br>Cost = ${player.iceSpellProperties.spellCost} MP<br>Damage: ${player.iceSpellProperties.iceDmg}<br>Burn Chance = ${Math.floor(player.iceSpellProperties.frostbiteChance * 100)}%</p>`);
-		$('#displayStats').append(`<p style="color: rgb(218,112,214)">Lightning spell:<br>Cost = ${player.lightningSpellProperties.spellCost} MP<br>Damage: ${player.lightningSpellProperties.lightningDmg}<br>Burn Chance = ${Math.floor(player.lightningSpellProperties.shockChance * 100)}%</p>`);
+		$('#displayStats').append(`<p style="color: teal">Ice spell:<br>Cost = ${player.iceSpellProperties.spellCost} MP<br>Damage: ${player.iceSpellProperties.iceDmg}<br>Frostbite Chance = ${Math.floor(player.iceSpellProperties.frostbiteChance * 100)}%</p>`);
+		$('#displayStats').append(`<p style="color: rgb(218,112,214)">Lightning spell:<br>Cost = ${player.lightningSpellProperties.spellCost} MP<br>Damage: ${player.lightningSpellProperties.lightningDmg}<br>Shock Chance = ${Math.floor(player.lightningSpellProperties.shockChance * 100)}%</p>`);
 	}, function(){
 		$('#displayStats').empty();
 		$('#displayStats').css('display', 'none');
@@ -349,16 +373,19 @@
 			game.battleAnimation('url(images/attacks/slash_slow.gif)')
 			if(atkDmg <= 1){
 				game.currentEnemy.HP--;
-				$('#enemyHealth').text(game.currentEnemy.HP);
+				$('#enemyHpBar').css('width', `${(game.currentEnemy.HP/game.currentEnemy.maxHP)*100}%`);
+				$('#enemyCurrentHP').text(game.currentEnemy.HP);
 				$($update).prepend(`<p style="color: rgb(135,206,235)">You attack the enemy and deal 1 point of damage.</p>`);
 			} else if(game.currentEnemy.HP - atkDmg <= 0){
 				game.currentEnemy.HP = 0;
-				$('#enemyHealth').text(game.currentEnemy.HP);
+				$('#enemyHpBar').css('width', `${(game.currentEnemy.HP/game.currentEnemy.maxHP)*100}%`);
+				$('#enemyCurrentHP').text(game.currentEnemy.HP);
 				$($update).prepend(`<p style="color: rgb(135,206,235)">You attack the enemy and deal ${atkDmg} points of damage.</p>`);
 			} 
 			else{
 				game.currentEnemy.HP -= atkDmg;
-				$('#enemyHealth').text(game.currentEnemy.HP);
+				$('#enemyHpBar').css('width', `${(game.currentEnemy.HP/game.currentEnemy.maxHP)*100}%`);
+				$('#enemyCurrentHP').text(game.currentEnemy.HP);
 				$($update).prepend(`<p style="color: rgb(135,206,235)">You attack the enemy and deal ${atkDmg} points of damage.</p>`);
 			}
 			playerToggle = false;
@@ -382,11 +409,13 @@
 				}
 				if(game.currentEnemy.HP - fireDmg <= 0){
 					game.currentEnemy.HP = 0;
-					$('#enemyHealth').text(game.currentEnemy.HP);
+					$('#enemyHpBar').css('width', `${(game.currentEnemy.HP/game.currentEnemy.maxHP)*100}%`);
+					$('#enemyCurrentHP').text(game.currentEnemy.HP);
 					$($update).prepend(`<p style="color: orange">You cast ${player.fireSpellProperties.name} and deal ${fireDmg} points of damage.</p>`);
 				} else{
 					game.currentEnemy.HP -= fireDmg;
-					$('#enemyHealth').text(game.currentEnemy.HP);
+					$('#enemyHpBar').css('width', `${(game.currentEnemy.HP/game.currentEnemy.maxHP)*100}%`);
+					$('#enemyCurrentHP').text(game.currentEnemy.HP);
 					$($update).prepend(`<p style="color: orange">You cast ${player.fireSpellProperties.name} and deal ${fireDmg} points of damage.</p>`);
 				}
 				if(Math.random() < player.fireSpellProperties.burnChance && game.currentEnemy.burn === false){
@@ -424,11 +453,13 @@
 				}
 				if(game.currentEnemy.HP - iceDmg <= 0){
 					game.currentEnemy.HP = 0;
-					$('#enemyHealth').text(game.currentEnemy.HP);
+					$('#enemyHpBar').css('width', `${(game.currentEnemy.HP/game.currentEnemy.maxHP)*100}%`);
+					$('#enemyCurrentHP').text(game.currentEnemy.HP);
 					$($update).prepend(`<p style="color: teal">You used ${player.iceSpellProperties.name} and deal ${iceDmg} points of damage.</p>`);
 				} else{
 					game.currentEnemy.HP -= iceDmg;
-					$('#enemyHealth').text(game.currentEnemy.HP);
+					$('#enemyHpBar').css('width', `${(game.currentEnemy.HP/game.currentEnemy.maxHP)*100}%`);
+					$('#enemyCurrentHP').text(game.currentEnemy.HP);
 					$($update).prepend(`<p style="color: teal">You used ${player.iceSpellProperties.name} and deal ${iceDmg} points of damage.</p>`);
 				}
 				if(Math.random() < player.iceSpellProperties.frostbiteChance && game.currentEnemy.frostbite === false){
@@ -467,11 +498,13 @@
 				}
 				if(game.currentEnemy.HP - lightningDmg <= 0){
 					game.currentEnemy.HP = 0;
-					$('#enemyHealth').text(game.currentEnemy.HP);
+					$('#enemyHpBar').css('width', `${(game.currentEnemy.HP/game.currentEnemy.maxHP)*100}%`);
+					$('#enemyCurrentHP').text(game.currentEnemy.HP);
 					$($update).prepend(`<p style="color: rgb(218,112,214)">You used ${player.lightningSpellProperties.name} and deal ${lightningDmg} points of damage.</p>`);
 				} else{
 					game.currentEnemy.HP -= lightningDmg;
-					$('#enemyHealth').text(game.currentEnemy.HP);
+					$('#enemyHpBar').css('width', `${(game.currentEnemy.HP/game.currentEnemy.maxHP)*100}%`);
+					$('#enemyCurrentHP').text(game.currentEnemy.HP);
 					$($update).prepend(`<p style="color: rgb(218,112,214)">You used ${player.lightningSpellProperties.name} and deal ${lightningDmg} points of damage.</p>`);
 				}
 				if(Math.random() < player.lightningSpellProperties.shockChance && game.currentEnemy.shock === false){
@@ -671,6 +704,7 @@ const game = {
 		name: null,
 		strength: null,
 		attack: null,
+		maxHP: null,
 		HP: null,
 		fireWeakness: null,
 		iceWeakness: null,
@@ -688,11 +722,13 @@ const game = {
 	totalNumBattleRounds: null,
 	zone: null,
 	selectEnemy(){
+		$('#enemyHealth').css('display: flex;')
 		if(game.zone === zones.fields.name){
 			const randomIndex = Math.floor(Math.random()*zones.fields.enemies.length);
 			game.currentEnemy.name = zones.fields.enemies[randomIndex].name;
 			game.currentEnemy.strength = zones.fields.enemies[randomIndex].strength;
 			game.currentEnemy.attack = zones.fields.enemies[randomIndex].attack;
+			game.currentEnemy.HP = zones.fields.enemies[randomIndex].maxHP;
 			game.currentEnemy.HP = zones.fields.enemies[randomIndex].HP;
 			game.currentEnemy.defense = zones.fields.enemies[randomIndex].defense;
 			game.currentEnemy.fireWeakness = zones.fields.enemies[randomIndex].fireWeakness;
@@ -706,11 +742,12 @@ const game = {
 			game.currentEnemy.height = zones.fields.enemies[randomIndex].height;
 			game.currentEnemy.width = zones.fields.enemies[randomIndex].width;
 			game.currentEnemy.topMargin = zones.fields.enemies[randomIndex].topMargin;
-			$('#enemy-image').css('margin-top', game.currentEnemy.topMargin);
+			// $('#enemy-image').css('margin-top', game.currentEnemy.topMargin);
 			$('#enemy-image').css('height', game.currentEnemy.height);
 			$('#enemy-image').css('width', game.currentEnemy.width);
 			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
 			$('#enemyHealth').append(`<h6>${game.currentEnemy.HP}`);
+			$('#enemyHpBar').css('width', `${(game.currentEnemy.HP/game.currentEnemy.maxHP)*100}%`);
 			if(game.currentEnemy.fireWeakness === true){
 				$('#enemyWeakness').append('<p style="color: orange">Fire</p>');
 			}
@@ -726,6 +763,7 @@ const game = {
 			game.currentEnemy.name = zones.caveEntrance.enemies[randomIndex].name;
 			game.currentEnemy.strength = zones.caveEntrance.enemies[randomIndex].strength;
 			game.currentEnemy.attack = zones.caveEntrance.enemies[randomIndex].attack;
+			game.currentEnemy.HP = zones.caveEntrance.enemies[randomIndex].maxHP;
 			game.currentEnemy.HP = zones.caveEntrance.enemies[randomIndex].HP;
 			game.currentEnemy.defense = zones.caveEntrance.enemies[randomIndex].defense;
 			game.currentEnemy.fireWeakness = zones.caveEntrance.enemies[randomIndex].fireWeakness;
@@ -739,11 +777,12 @@ const game = {
 			game.currentEnemy.height = zones.caveEntrance.enemies[randomIndex].height;
 			game.currentEnemy.width = zones.caveEntrance.enemies[randomIndex].width;
 			game.currentEnemy.topMargin = zones.caveEntrance.enemies[randomIndex].topMargin;
-			$('#enemy-image').css('margin-top', game.currentEnemy.topMargin);
+			// $('#enemy-image').css('margin-top', game.currentEnemy.topMargin);
 			$('#enemy-image').css('height', game.currentEnemy.height);
 			$('#enemy-image').css('width', game.currentEnemy.width);
 			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
 			$('#enemyHealth').append(`<h6>${game.currentEnemy.HP}`);
+			$('#enemyHpBar').css('width', `${(game.currentEnemy.HP/game.currentEnemy.maxHP)*100}%`);
 			if(game.currentEnemy.fireWeakness === true){
 				$('#enemyWeakness').append('<p style="color: orange">Fire</p>');
 			}
@@ -759,6 +798,7 @@ const game = {
 			game.currentEnemy.name = zones.cave.enemies[randomIndex].name;
 			game.currentEnemy.strength = zones.cave.enemies[randomIndex].strength;
 			game.currentEnemy.attack = zones.cave.enemies[randomIndex].attack;
+			game.currentEnemy.HP = zones.cave.enemies[randomIndex].maxHP;
 			game.currentEnemy.HP = zones.cave.enemies[randomIndex].HP;
 			game.currentEnemy.defense = zones.cave.enemies[randomIndex].defense;
 			game.currentEnemy.fireWeakness = zones.cave.enemies[randomIndex].fireWeakness;
@@ -772,11 +812,12 @@ const game = {
 			game.currentEnemy.height = zones.cave.enemies[randomIndex].height;
 			game.currentEnemy.width = zones.cave.enemies[randomIndex].width;
 			game.currentEnemy.topMargin = zones.cave.enemies[randomIndex].topMargin;
-			$('#enemy-image').css('margin-top', game.currentEnemy.topMargin);
+			// $('#enemy-image').css('margin-top', game.currentEnemy.topMargin);
 			$('#enemy-image').css('height', game.currentEnemy.height);
 			$('#enemy-image').css('width', game.currentEnemy.width);
 			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
 			$('#enemyHealth').append(`<h6>${game.currentEnemy.HP}`);
+			$('#enemyHpBar').css('width', `${(game.currentEnemy.HP/game.currentEnemy.maxHP)*100}%`);
 			if(game.currentEnemy.fireWeakness === true){
 				$('#enemyWeakness').append('<p style="color: orange">Fire</p>');
 			}
@@ -792,6 +833,7 @@ const game = {
 			game.currentEnemy.name = zones.caveExit.enemies[randomIndex].name;
 			game.currentEnemy.strength = zones.caveExit.enemies[randomIndex].strength;
 			game.currentEnemy.attack = zones.caveExit.enemies[randomIndex].attack;
+			game.currentEnemy.HP = zones.caveExit.enemies[randomIndex].maxHP;
 			game.currentEnemy.HP = zones.caveExit.enemies[randomIndex].HP;
 			game.currentEnemy.defense = zones.caveExit.enemies[randomIndex].defense;
 			game.currentEnemy.fireWeakness = zones.caveExit.enemies[randomIndex].fireWeakness;
@@ -805,11 +847,12 @@ const game = {
 			game.currentEnemy.height = zones.caveExit.enemies[randomIndex].height;
 			game.currentEnemy.width = zones.caveExit.enemies[randomIndex].width;
 			game.currentEnemy.topMargin = zones.caveExit.enemies[randomIndex].topMargin;
-			$('#enemy-image').css('margin-top', game.currentEnemy.topMargin);
+			// $('#enemy-image').css('margin-top', game.currentEnemy.topMargin);
 			$('#enemy-image').css('height', game.currentEnemy.height);
 			$('#enemy-image').css('width', game.currentEnemy.width);
 			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
 			$('#enemyHealth').append(`<h6>${game.currentEnemy.HP}`);
+			$('#enemyHpBar').css('width', `${(game.currentEnemy.HP/game.currentEnemy.maxHP)*100}%`);
 			if(game.currentEnemy.fireWeakness === true){
 				$('#enemyWeakness').append('<p style="color: orange">Fire</p>');
 			}
@@ -825,6 +868,7 @@ const game = {
 			game.currentEnemy.name = zones.graveyard.enemies[randomIndex].name;
 			game.currentEnemy.strength = zones.graveyard.enemies[randomIndex].strength;
 			game.currentEnemy.attack = zones.graveyard.enemies[randomIndex].attack;
+			game.currentEnemy.HP = zones.graveyard.enemies[randomIndex].maxHP;
 			game.currentEnemy.HP = zones.graveyard.enemies[randomIndex].HP;
 			game.currentEnemy.defense = zones.graveyard.enemies[randomIndex].defense;
 			game.currentEnemy.fireWeakness = zones.graveyard.enemies[randomIndex].fireWeakness;
@@ -838,11 +882,12 @@ const game = {
 			game.currentEnemy.height = zones.graveyard.enemies[randomIndex].height;
 			game.currentEnemy.width = zones.graveyard.enemies[randomIndex].width;
 			game.currentEnemy.topMargin = zones.graveyard.enemies[randomIndex].topMargin;
-			$('#enemy-image').css('margin-top', game.currentEnemy.topMargin);
+			// $('#enemy-image').css('margin-top', game.currentEnemy.topMargin);
 			$('#enemy-image').css('height', game.currentEnemy.height);
 			$('#enemy-image').css('width', game.currentEnemy.width);
 			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
 			$('#enemyHealth').append(`<h6>${game.currentEnemy.HP}`);
+			$('#enemyHpBar').css('width', `${(game.currentEnemy.HP/game.currentEnemy.maxHP)*100}%`);
 			if(game.currentEnemy.fireWeakness === true){
 				$('#enemyWeakness').append('<p style="color: orange">Fire</p>');
 			}
@@ -858,6 +903,7 @@ const game = {
 			game.currentEnemy.name = zones.castleEntrance.enemies[randomIndex].name;
 			game.currentEnemy.strength = zones.castleEntrance.enemies[randomIndex].strength;
 			game.currentEnemy.attack = zones.castleEntrance.enemies[randomIndex].attack;
+			game.currentEnemy.HP = zones.castleEntrance.enemies[randomIndex].maxHP;
 			game.currentEnemy.HP = zones.castleEntrance.enemies[randomIndex].HP;
 			game.currentEnemy.defense = zones.castleEntrance.enemies[randomIndex].defense;
 			game.currentEnemy.fireWeakness = zones.castleEntrance.enemies[randomIndex].fireWeakness;
@@ -871,11 +917,12 @@ const game = {
 			game.currentEnemy.height = zones.castleEntrance.enemies[randomIndex].height;
 			game.currentEnemy.width = zones.castleEntrance.enemies[randomIndex].width;
 			game.currentEnemy.topMargin = zones.castleEntrance.enemies[randomIndex].topMargin;
-			$('#enemy-image').css('margin-top', game.currentEnemy.topMargin);
+			// $('#enemy-image').css('margin-top', game.currentEnemy.topMargin);
 			$('#enemy-image').css('height', game.currentEnemy.height);
 			$('#enemy-image').css('width', game.currentEnemy.width);
 			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
 			$('#enemyHealth').append(`<h6>${game.currentEnemy.HP}`);
+			$('#enemyHpBar').css('width', `${(game.currentEnemy.HP/game.currentEnemy.maxHP)*100}%`);
 			if(game.currentEnemy.fireWeakness === true){
 				$('#enemyWeakness').append('<p style="color: orange">Fire</p>');
 			}
@@ -891,6 +938,7 @@ const game = {
 			game.currentEnemy.name = zones.castleInterior.enemies[randomIndex].name;
 			game.currentEnemy.strength = zones.castleInterior.enemies[randomIndex].strength;
 			game.currentEnemy.attack = zones.castleInterior.enemies[randomIndex].attack;
+			game.currentEnemy.HP = zones.castleInterior.enemies[randomIndex].maxHP;
 			game.currentEnemy.HP = zones.castleInterior.enemies[randomIndex].HP;
 			game.currentEnemy.defense = zones.castleInterior.enemies[randomIndex].defense;
 			game.currentEnemy.fireWeakness = zones.castleInterior.enemies[randomIndex].fireWeakness;
@@ -904,11 +952,12 @@ const game = {
 			game.currentEnemy.height = zones.castleInterior.enemies[randomIndex].height;
 			game.currentEnemy.width = zones.castleInterior.enemies[randomIndex].width;
 			game.currentEnemy.topMargin = zones.castleInterior.enemies[randomIndex].topMargin;
-			$('#enemy-image').css('margin-top', game.currentEnemy.topMargin);
+			// $('#enemy-image').css('margin-top', game.currentEnemy.topMargin);
 			$('#enemy-image').css('height', game.currentEnemy.height);
 			$('#enemy-image').css('width', game.currentEnemy.width);
 			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
 			$('#enemyHealth').append(`<h6>${game.currentEnemy.HP}`);
+			$('#enemyHpBar').css('width', `${(game.currentEnemy.HP/game.currentEnemy.maxHP)*100}%`);
 			if(game.currentEnemy.fireWeakness === true){
 				$('#enemyWeakness').append('<p style="color: orange">Fire</p>');
 			}
@@ -924,6 +973,7 @@ const game = {
 			game.currentEnemy.name = zones.castleThroneRoom.enemies[randomIndex].name;
 			game.currentEnemy.strength = zones.castleThroneRoom.enemies[randomIndex].strength;
 			game.currentEnemy.attack = zones.castleThroneRoom.enemies[randomIndex].attack;
+			game.currentEnemy.HP = zones.castleThroneRoom.enemies[randomIndex].maxHP;
 			game.currentEnemy.HP = zones.castleThroneRoom.enemies[randomIndex].HP;
 			game.currentEnemy.defense = zones.castleThroneRoom.enemies[randomIndex].defense;
 			game.currentEnemy.fireWeakness = zones.castleThroneRoom.enemies[randomIndex].fireWeakness;
@@ -937,11 +987,12 @@ const game = {
 			game.currentEnemy.height = zones.castleThroneRoom.enemies[randomIndex].height;
 			game.currentEnemy.width = zones.castleThroneRoom.enemies[randomIndex].width;
 			game.currentEnemy.topMargin = zones.castleThroneRoom.enemies[randomIndex].topMargin;
-			$('#enemy-image').css('margin-top', game.currentEnemy.topMargin);
+			// $('#enemy-image').css('margin-top', game.currentEnemy.topMargin);
 			$('#enemy-image').css('height', game.currentEnemy.height);
 			$('#enemy-image').css('width', game.currentEnemy.width);
 			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
 			$('#enemyHealth').append(`<h6>${game.currentEnemy.HP}`);
+			$('#enemyHpBar').css('width', `${(game.currentEnemy.HP/game.currentEnemy.maxHP)*100}%`);
 			if(game.currentEnemy.fireWeakness === true){
 				$('#enemyWeakness').append('<p style="color: orange">Fire</p>');
 			}
@@ -958,14 +1009,14 @@ const game = {
 		const pause = setInterval(function(){
 			if(timer >= 1){
 				clearInterval(pause);
-				if(game.currentEnemy.burn === true){
+				if(game.currentEnemy.burn === true && game.currentEnemy.HP > 0){
 					$($update).prepend(`<p style="color: orange">The enemy feels the burn and takes 1 point of damage.`);
 					game.currentEnemy.HP--;
 					$('#enemyHealth').text(game.currentEnemy.HP);
 				}
 				if(game.currentEnemy.HP <= 0){
 					game.checkDeath();
-				} else if(game.currentEnemy.shock === false){
+				} else if(game.currentEnemy.shock === false && game.currentEnemy.HP > 0){
 					const dmg = Math.ceil(game.currentEnemy.strength - Math.floor(player.defense/2));
 					if(dmg <= 1){
 						player.currentHP--;
@@ -1040,13 +1091,13 @@ const game = {
 					$lowerRightButton.css('visibility', 'visible');
 					$('#enemy-image').css('height', '193px');
 					$('#enemy-image').css('width', '200px');
-					$('#enemy-image').css('margin-top', '129px');
+					// $('#enemy-image').css('margin-top', '129px');
 					$('#enemy-image').css('background-image', 'url(images/enemies/defeated.png)');
 					battleToggle = false;
 					playerToggle = false;
 					player.currentEXP += game.currentEnemy.exp;
 					if(player.currentEXP >= player.levelUpEXP){
-						$($update).prepend(`<p style="border-bottom: 1px black solid; color: green">You have defeated the enemy and gained ${game.currentEnemy.exp} experience point(s).</p>`);
+						$($update).prepend(`<p style="border-bottom: 1px white solid; color: green">You have defeated the enemy and gained ${game.currentEnemy.exp} experience point(s).</p>`);
 						player.levelUp();
 					} else{
 						$($update).prepend(`<p style="color: green">You have defeated the enemy and gained ${game.currentEnemy.exp} experience point(s).</p>`);
@@ -1067,10 +1118,12 @@ const game = {
 					$('#enemy-image').css('background-image', 'url(images/gameover.gif)');
 					$('#enemy-image').css('height', '300px');
 					$('#enemy-image').css('width', '300px');
-					$('#enemy-image').css('margin-top', '80px');
+					// $('#enemy-image').css('margin-top', '80px');
 					gameOverToggle = true;
 					battleToggle = false;
 					playerToggle = false;
+					magicToggle = false;
+					itemToggle = false;
 					$lowerRightButton.css('visibility', 'visible');
 					$lowerRightButton.text('Start Over');
 					$lowerLeftButton.css('visibility', 'hidden');
@@ -1097,7 +1150,7 @@ const game = {
 				$('#manaBar').css('width', `${(player.currentMP/player.maxMP)*100}%`);
 				$('#enemy-image').css('height', '150px');
 				$('#enemy-image').css('width', '150px');
-				$('#enemy-image').css('margin-top', '160px');
+				// $('#enemy-image').css('margin-top', '160px');
 				$lowerRightButton.text('');
 				$lowerLeftButton.css('visibility', 'visible');
 				$upperLeftButton.css('visibility', 'visible');
