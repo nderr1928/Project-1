@@ -421,7 +421,7 @@
 				if(Math.random() < player.fireSpellProperties.burnChance && game.currentEnemy.burn === false){
 					game.currentEnemy.burn = true;
 					$($update).prepend(`<p style="color: gold">The ${game.currentEnemy.name} has been burned.</p>`);
-					$("#enemyDebuffs").append(`<p style="color: orange">Burnt</p>`);
+					$("#enemyDebuffs").append(`<img src="./images/icons/enemyBurnt.png" alt="Enemy Burnt">`);
 				}
 				player.fireSpellProperties.checkProgress();
 				playerToggle = false;
@@ -466,7 +466,7 @@
 					game.currentEnemy.frostbite = true;
 					game.currentEnemy.defense = Math.floor(game.currentEnemy.defense * 0.9);
 					$($update).prepend(`<p style="color: yellow">The ${game.currentEnemy.name} has become frostbitten.</p>`);
-					$("#enemyDebuffs").append(`<p style="color: teal">Frostbitten</p>`);
+					$("#enemyDebuffs").append(`<img src="./images/icons/enemyFrostbite.png" alt="Enemy Frostbitten">`);
 				}
 				player.iceSpellProperties.checkProgress();
 				playerToggle = false;
@@ -510,7 +510,7 @@
 				if(Math.random() < player.lightningSpellProperties.shockChance && game.currentEnemy.shock === false){
 					game.currentEnemy.shock = true;
 					$($update).prepend(`<p style="color: yellow">The ${game.currentEnemy.name} is in shock.</p>`);
-					$("#enemyDebuffs").append(`<p style="color: rgb(218,112,214)" id="shockedElement">Shocked</p>`);
+					$("#enemyDebuffs").append(`<img id="shockedElement" src="./images/icons/enemyShocked.png" alt="Enemy Shocked">`);
 				}
 				player.lightningSpellProperties.checkProgress();
 				playerToggle = false;
@@ -722,13 +722,12 @@ const game = {
 	totalNumBattleRounds: null,
 	zone: null,
 	selectEnemy(){
-		$('#enemyHealth').css('display: flex;')
 		if(game.zone === zones.fields.name){
 			const randomIndex = Math.floor(Math.random()*zones.fields.enemies.length);
 			game.currentEnemy.name = zones.fields.enemies[randomIndex].name;
 			game.currentEnemy.strength = zones.fields.enemies[randomIndex].strength;
 			game.currentEnemy.attack = zones.fields.enemies[randomIndex].attack;
-			game.currentEnemy.HP = zones.fields.enemies[randomIndex].maxHP;
+			game.currentEnemy.maxHP = zones.fields.enemies[randomIndex].HP;
 			game.currentEnemy.HP = zones.fields.enemies[randomIndex].HP;
 			game.currentEnemy.defense = zones.fields.enemies[randomIndex].defense;
 			game.currentEnemy.fireWeakness = zones.fields.enemies[randomIndex].fireWeakness;
@@ -746,16 +745,16 @@ const game = {
 			$('#enemy-image').css('height', game.currentEnemy.height);
 			$('#enemy-image').css('width', game.currentEnemy.width);
 			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
-			$('#enemyHealth').append(`<h6>${game.currentEnemy.HP}`);
+			$('#enemyCurrentHP').text(`${game.currentEnemy.HP}`);
 			$('#enemyHpBar').css('width', `${(game.currentEnemy.HP/game.currentEnemy.maxHP)*100}%`);
 			if(game.currentEnemy.fireWeakness === true){
-				$('#enemyWeakness').append('<p style="color: orange">Fire</p>');
+				$('#enemyWeakness').append('<img src="./images/icons/fireWeakness.png" alt="Fire Weakness">');
 			}
 			if(game.currentEnemy.iceWeakness === true){
-				$('#enemyWeakness').append('<p style="color: teal">Ice</p>');
+				$('#enemyWeakness').append('<img src="./images/icons/iceWeakness.png" alt="Ice Weakness">');
 			}
 			if(game.currentEnemy.lightningWeakness === true){
-				$('#enemyWeakness').append('<p style="color: Purple">Lightning</p>');
+				$('#enemyWeakness').append('<img src="./images/icons/lightningWeakness.png" alt="Lightning Weakness">');
 			}
 		}
 		if(game.zone === zones.caveEntrance.name){
@@ -763,7 +762,7 @@ const game = {
 			game.currentEnemy.name = zones.caveEntrance.enemies[randomIndex].name;
 			game.currentEnemy.strength = zones.caveEntrance.enemies[randomIndex].strength;
 			game.currentEnemy.attack = zones.caveEntrance.enemies[randomIndex].attack;
-			game.currentEnemy.HP = zones.caveEntrance.enemies[randomIndex].maxHP;
+			game.currentEnemy.maxHP = zones.caveEntrance.enemies[randomIndex].HP;
 			game.currentEnemy.HP = zones.caveEntrance.enemies[randomIndex].HP;
 			game.currentEnemy.defense = zones.caveEntrance.enemies[randomIndex].defense;
 			game.currentEnemy.fireWeakness = zones.caveEntrance.enemies[randomIndex].fireWeakness;
@@ -781,16 +780,16 @@ const game = {
 			$('#enemy-image').css('height', game.currentEnemy.height);
 			$('#enemy-image').css('width', game.currentEnemy.width);
 			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
-			$('#enemyHealth').append(`<h6>${game.currentEnemy.HP}`);
+			$('#enemyCurrentHP').text(`${game.currentEnemy.HP}`);
 			$('#enemyHpBar').css('width', `${(game.currentEnemy.HP/game.currentEnemy.maxHP)*100}%`);
 			if(game.currentEnemy.fireWeakness === true){
-				$('#enemyWeakness').append('<p style="color: orange">Fire</p>');
+				$('#enemyWeakness').append('<img src="./images/icons/fireWeakness.png" alt="Fire Weakness">');
 			}
 			if(game.currentEnemy.iceWeakness === true){
-				$('#enemyWeakness').append('<p style="color: teal">Ice</p>');
+				$('#enemyWeakness').append('<img src="./images/icons/iceWeakness.png" alt="Ice Weakness">');
 			}
 			if(game.currentEnemy.lightningWeakness === true){
-				$('#enemyWeakness').append('<p style="color: Purple">Lightning</p>');
+				$('#enemyWeakness').append('<img src="./images/icons/lightningWeakness.png" alt="Lightning Weakness">');
 			}
 		}
 		if(game.zone === zones.cave.name){
@@ -798,7 +797,7 @@ const game = {
 			game.currentEnemy.name = zones.cave.enemies[randomIndex].name;
 			game.currentEnemy.strength = zones.cave.enemies[randomIndex].strength;
 			game.currentEnemy.attack = zones.cave.enemies[randomIndex].attack;
-			game.currentEnemy.HP = zones.cave.enemies[randomIndex].maxHP;
+			game.currentEnemy.maxHP = zones.cave.enemies[randomIndex].HP;
 			game.currentEnemy.HP = zones.cave.enemies[randomIndex].HP;
 			game.currentEnemy.defense = zones.cave.enemies[randomIndex].defense;
 			game.currentEnemy.fireWeakness = zones.cave.enemies[randomIndex].fireWeakness;
@@ -816,16 +815,16 @@ const game = {
 			$('#enemy-image').css('height', game.currentEnemy.height);
 			$('#enemy-image').css('width', game.currentEnemy.width);
 			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
-			$('#enemyHealth').append(`<h6>${game.currentEnemy.HP}`);
+			$('#enemyCurrentHP').text(`${game.currentEnemy.HP}`);
 			$('#enemyHpBar').css('width', `${(game.currentEnemy.HP/game.currentEnemy.maxHP)*100}%`);
 			if(game.currentEnemy.fireWeakness === true){
-				$('#enemyWeakness').append('<p style="color: orange">Fire</p>');
+				$('#enemyWeakness').append('<img src="./images/icons/fireWeakness.png" alt="Fire Weakness">');
 			}
 			if(game.currentEnemy.iceWeakness === true){
-				$('#enemyWeakness').append('<p style="color: teal">Ice</p>');
+				$('#enemyWeakness').append('<img src="./images/icons/iceWeakness.png" alt="Ice Weakness">');
 			}
 			if(game.currentEnemy.lightningWeakness === true){
-				$('#enemyWeakness').append('<p style="color: Purple">Lightning</p>');
+				$('#enemyWeakness').append('<img src="./images/icons/lightningWeakness.png" alt="Lightning Weakness">');
 			}
 		}
 		if(game.zone === zones.caveExit.name){
@@ -833,7 +832,7 @@ const game = {
 			game.currentEnemy.name = zones.caveExit.enemies[randomIndex].name;
 			game.currentEnemy.strength = zones.caveExit.enemies[randomIndex].strength;
 			game.currentEnemy.attack = zones.caveExit.enemies[randomIndex].attack;
-			game.currentEnemy.HP = zones.caveExit.enemies[randomIndex].maxHP;
+			game.currentEnemy.maxHP = zones.caveExit.enemies[randomIndex].HP;
 			game.currentEnemy.HP = zones.caveExit.enemies[randomIndex].HP;
 			game.currentEnemy.defense = zones.caveExit.enemies[randomIndex].defense;
 			game.currentEnemy.fireWeakness = zones.caveExit.enemies[randomIndex].fireWeakness;
@@ -851,16 +850,16 @@ const game = {
 			$('#enemy-image').css('height', game.currentEnemy.height);
 			$('#enemy-image').css('width', game.currentEnemy.width);
 			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
-			$('#enemyHealth').append(`<h6>${game.currentEnemy.HP}`);
+			$('#enemyCurrentHP').text(`${game.currentEnemy.HP}`);
 			$('#enemyHpBar').css('width', `${(game.currentEnemy.HP/game.currentEnemy.maxHP)*100}%`);
 			if(game.currentEnemy.fireWeakness === true){
-				$('#enemyWeakness').append('<p style="color: orange">Fire</p>');
+				$('#enemyWeakness').append('<img src="./images/icons/fireWeakness.png" alt="Fire Weakness">');
 			}
 			if(game.currentEnemy.iceWeakness === true){
-				$('#enemyWeakness').append('<p style="color: teal">Ice</p>');
+				$('#enemyWeakness').append('<img src="./images/icons/iceWeakness.png" alt="Ice Weakness">');
 			}
 			if(game.currentEnemy.lightningWeakness === true){
-				$('#enemyWeakness').append('<p style="color: Purple">Lightning</p>');
+				$('#enemyWeakness').append('<img src="./images/icons/lightningWeakness.png" alt="Lightning Weakness">');
 			}
 		}
 		if(game.zone === zones.graveyard.name){
@@ -868,7 +867,7 @@ const game = {
 			game.currentEnemy.name = zones.graveyard.enemies[randomIndex].name;
 			game.currentEnemy.strength = zones.graveyard.enemies[randomIndex].strength;
 			game.currentEnemy.attack = zones.graveyard.enemies[randomIndex].attack;
-			game.currentEnemy.HP = zones.graveyard.enemies[randomIndex].maxHP;
+			game.currentEnemy.maxHP = zones.graveyard.enemies[randomIndex].HP;
 			game.currentEnemy.HP = zones.graveyard.enemies[randomIndex].HP;
 			game.currentEnemy.defense = zones.graveyard.enemies[randomIndex].defense;
 			game.currentEnemy.fireWeakness = zones.graveyard.enemies[randomIndex].fireWeakness;
@@ -886,16 +885,16 @@ const game = {
 			$('#enemy-image').css('height', game.currentEnemy.height);
 			$('#enemy-image').css('width', game.currentEnemy.width);
 			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
-			$('#enemyHealth').append(`<h6>${game.currentEnemy.HP}`);
+			$('#enemyCurrentHP').text(`${game.currentEnemy.HP}`);
 			$('#enemyHpBar').css('width', `${(game.currentEnemy.HP/game.currentEnemy.maxHP)*100}%`);
 			if(game.currentEnemy.fireWeakness === true){
-				$('#enemyWeakness').append('<p style="color: orange">Fire</p>');
+				$('#enemyWeakness').append('<img src="./images/icons/fireWeakness.png" alt="Fire Weakness">');
 			}
 			if(game.currentEnemy.iceWeakness === true){
-				$('#enemyWeakness').append('<p style="color: teal">Ice</p>');
+				$('#enemyWeakness').append('<img src="./images/icons/iceWeakness.png" alt="Ice Weakness">');
 			}
 			if(game.currentEnemy.lightningWeakness === true){
-				$('#enemyWeakness').append('<p style="color: Purple">Lightning</p>');
+				$('#enemyWeakness').append('<img src="./images/icons/lightningWeakness.png" alt="Lightning Weakness">');
 			}
 		}
 		if(game.zone === zones.castleEntrance.name){
@@ -903,7 +902,7 @@ const game = {
 			game.currentEnemy.name = zones.castleEntrance.enemies[randomIndex].name;
 			game.currentEnemy.strength = zones.castleEntrance.enemies[randomIndex].strength;
 			game.currentEnemy.attack = zones.castleEntrance.enemies[randomIndex].attack;
-			game.currentEnemy.HP = zones.castleEntrance.enemies[randomIndex].maxHP;
+			game.currentEnemy.maxHP = zones.castleEntrance.enemies[randomIndex].HP;
 			game.currentEnemy.HP = zones.castleEntrance.enemies[randomIndex].HP;
 			game.currentEnemy.defense = zones.castleEntrance.enemies[randomIndex].defense;
 			game.currentEnemy.fireWeakness = zones.castleEntrance.enemies[randomIndex].fireWeakness;
@@ -921,16 +920,16 @@ const game = {
 			$('#enemy-image').css('height', game.currentEnemy.height);
 			$('#enemy-image').css('width', game.currentEnemy.width);
 			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
-			$('#enemyHealth').append(`<h6>${game.currentEnemy.HP}`);
+			$('#enemyCurrentHP').text(`${game.currentEnemy.HP}`);
 			$('#enemyHpBar').css('width', `${(game.currentEnemy.HP/game.currentEnemy.maxHP)*100}%`);
 			if(game.currentEnemy.fireWeakness === true){
-				$('#enemyWeakness').append('<p style="color: orange">Fire</p>');
+				$('#enemyWeakness').append('<img src="./images/icons/fireWeakness.png" alt="Fire Weakness">');
 			}
 			if(game.currentEnemy.iceWeakness === true){
-				$('#enemyWeakness').append('<p style="color: teal">Ice</p>');
+				$('#enemyWeakness').append('<img src="./images/icons/iceWeakness.png" alt="Ice Weakness">');
 			}
 			if(game.currentEnemy.lightningWeakness === true){
-				$('#enemyWeakness').append('<p style="color: Purple">Lightning</p>');
+				$('#enemyWeakness').append('<img src="./images/icons/lightningWeakness.png" alt="Lightning Weakness">');
 			}
 		}
 		if(game.zone === zones.castleInterior.name){
@@ -938,7 +937,7 @@ const game = {
 			game.currentEnemy.name = zones.castleInterior.enemies[randomIndex].name;
 			game.currentEnemy.strength = zones.castleInterior.enemies[randomIndex].strength;
 			game.currentEnemy.attack = zones.castleInterior.enemies[randomIndex].attack;
-			game.currentEnemy.HP = zones.castleInterior.enemies[randomIndex].maxHP;
+			game.currentEnemy.maxHP = zones.castleInterior.enemies[randomIndex].HP;
 			game.currentEnemy.HP = zones.castleInterior.enemies[randomIndex].HP;
 			game.currentEnemy.defense = zones.castleInterior.enemies[randomIndex].defense;
 			game.currentEnemy.fireWeakness = zones.castleInterior.enemies[randomIndex].fireWeakness;
@@ -956,16 +955,16 @@ const game = {
 			$('#enemy-image').css('height', game.currentEnemy.height);
 			$('#enemy-image').css('width', game.currentEnemy.width);
 			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
-			$('#enemyHealth').append(`<h6>${game.currentEnemy.HP}`);
+			$('#enemyCurrentHP').text(`${game.currentEnemy.HP}`);
 			$('#enemyHpBar').css('width', `${(game.currentEnemy.HP/game.currentEnemy.maxHP)*100}%`);
 			if(game.currentEnemy.fireWeakness === true){
-				$('#enemyWeakness').append('<p style="color: orange">Fire</p>');
+				$('#enemyWeakness').append('<img src="./images/icons/fireWeakness.png" alt="Fire Weakness">');
 			}
 			if(game.currentEnemy.iceWeakness === true){
-				$('#enemyWeakness').append('<p style="color: teal">Ice</p>');
+				$('#enemyWeakness').append('<img src="./images/icons/iceWeakness.png" alt="Ice Weakness">');
 			}
 			if(game.currentEnemy.lightningWeakness === true){
-				$('#enemyWeakness').append('<p style="color: Purple">Lightning</p>');
+				$('#enemyWeakness').append('<img src="./images/icons/lightningWeakness.png" alt="Lightning Weakness">');
 			}
 		}
 		if(game.zone === zones.castleThroneRoom.name){
@@ -973,7 +972,7 @@ const game = {
 			game.currentEnemy.name = zones.castleThroneRoom.enemies[randomIndex].name;
 			game.currentEnemy.strength = zones.castleThroneRoom.enemies[randomIndex].strength;
 			game.currentEnemy.attack = zones.castleThroneRoom.enemies[randomIndex].attack;
-			game.currentEnemy.HP = zones.castleThroneRoom.enemies[randomIndex].maxHP;
+			game.currentEnemy.maxHP = zones.castleThroneRoom.enemies[randomIndex].HP;
 			game.currentEnemy.HP = zones.castleThroneRoom.enemies[randomIndex].HP;
 			game.currentEnemy.defense = zones.castleThroneRoom.enemies[randomIndex].defense;
 			game.currentEnemy.fireWeakness = zones.castleThroneRoom.enemies[randomIndex].fireWeakness;
@@ -991,16 +990,16 @@ const game = {
 			$('#enemy-image').css('height', game.currentEnemy.height);
 			$('#enemy-image').css('width', game.currentEnemy.width);
 			$('#enemy-image').css('background-image', game.currentEnemy.imageURL);
-			$('#enemyHealth').append(`<h6>${game.currentEnemy.HP}`);
+			$('#enemyCurrentHP').text(`${game.currentEnemy.HP}`);
 			$('#enemyHpBar').css('width', `${(game.currentEnemy.HP/game.currentEnemy.maxHP)*100}%`);
 			if(game.currentEnemy.fireWeakness === true){
-				$('#enemyWeakness').append('<p style="color: orange">Fire</p>');
+				$('#enemyWeakness').append('<img src="./images/icons/fireWeakness.png" alt="Fire Weakness">');
 			}
 			if(game.currentEnemy.iceWeakness === true){
-				$('#enemyWeakness').append('<p style="color: teal">Ice</p>');
+				$('#enemyWeakness').append('<img src="./images/icons/iceWeakness.png" alt="Ice Weakness">');
 			}
 			if(game.currentEnemy.lightningWeakness === true){
-				$('#enemyWeakness').append('<p style="color: Purple">Lightning</p>');
+				$('#enemyWeakness').append('<img src="./images/icons/lightningWeakness.png" alt="Lightning Weakness">');
 			}
 		}
 	},
@@ -1012,12 +1011,13 @@ const game = {
 				if(game.currentEnemy.burn === true && game.currentEnemy.HP > 0){
 					$($update).prepend(`<p style="color: orange">The enemy feels the burn and takes 1 point of damage.`);
 					game.currentEnemy.HP--;
-					$('#enemyHealth').text(game.currentEnemy.HP);
+					$('#enemyHpBar').css('width', `${(game.currentEnemy.HP/game.currentEnemy.maxHP)*100}%`);
 				}
 				if(game.currentEnemy.HP <= 0){
 					game.checkDeath();
 				} else if(game.currentEnemy.shock === false && game.currentEnemy.HP > 0){
 					const dmg = Math.ceil(game.currentEnemy.strength - Math.floor(player.defense/2));
+					$('#shockedElement').remove();
 					if(dmg <= 1){
 						player.currentHP--;
 						$('#currentHP').text(player.currentHP);
@@ -1044,7 +1044,6 @@ const game = {
 				} else{
 					$($update).prepend(`<p style="color: rgb(218,112,214)">The enemy is in shock and can't attack this turn.</p>`);
 					game.currentEnemy.shock = false;
-					$('#shockedElement').remove();
 				}
 				playerToggle = true;
 			}
@@ -1063,7 +1062,8 @@ const game = {
 		}, 1200);
 	},
 	gameStart(){
-		$('#enemyHealth').empty();
+		// $('#enemyHealth').empty();
+		$('#enemyHealth').css('display', 'flex')
 		$('#enemyWeakness').empty();
 		$('#enemyDebuffs').empty();
 		$($upperLeftButton).css('visibility', 'visible');
@@ -1091,7 +1091,6 @@ const game = {
 					$lowerRightButton.css('visibility', 'visible');
 					$('#enemy-image').css('height', '193px');
 					$('#enemy-image').css('width', '200px');
-					// $('#enemy-image').css('margin-top', '129px');
 					$('#enemy-image').css('background-image', 'url(images/enemies/defeated.png)');
 					battleToggle = false;
 					playerToggle = false;
@@ -1118,7 +1117,9 @@ const game = {
 					$('#enemy-image').css('background-image', 'url(images/gameover.gif)');
 					$('#enemy-image').css('height', '300px');
 					$('#enemy-image').css('width', '300px');
-					// $('#enemy-image').css('margin-top', '80px');
+					$('#enemyWeakness').empty();
+					$('#enemyDebuffs').empty();
+					$('#enemyHealth').css('display', 'none')
 					gameOverToggle = true;
 					battleToggle = false;
 					playerToggle = false;

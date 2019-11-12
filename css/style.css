@@ -249,14 +249,32 @@ footer{
 						justify-content: space-around;
 					}
 
+						#enemyDebuffs > img, #enemyWeakness > img{
+							height: 33%;
+							width: 100%;
+						}
+
 					#enemyHealth{
 						grid-row: 3;
 						grid-column: 2;
 						display: none;
 						flex-direction: column;
-						justify-content: start;
-
+						justify-content: center;
+						align-content: center;
+						width: 80%;
+						height: 40%;
+						align-self: top;
+						justify-self: center;
 					}
+
+						#enemyHpBar {
+							width: 100%;
+							height: 100%;
+						}
+
+							#enemyCurrentHP{
+								margin: 0;
+							}
 
 					#enemy-image-zone{
 						align-items: center;
@@ -327,7 +345,7 @@ footer{
 		font-size: 70%;
 	}
 
-	.progress{
+	#health, #mana{
 		width: 80%;
 		height: 40%;
 		text-align: center;
