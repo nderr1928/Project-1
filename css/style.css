@@ -18,15 +18,6 @@ h5{
 	justify-content: center;
 }
 
-footer{
-	margin-bottom: 0px;
-	border: 2px solid black;
-	position: relative;
-	bottom: 0;
-	width: 100%;
-	height: 10%;
-}
-
 /* Title screen */
 	#titleScreen{
 		height: 100%;
@@ -40,31 +31,31 @@ footer{
 		display: block;
 	}
 
-	#titleBox{
-		top: 15%;
-		position: relative;
-		background-color: rgba(192, 192, 192, 0.4);
-		border: black 2px solid;
-	}
+		#titleBox{
+			top: 15%;
+			position: relative;
+			background-color: rgba(192, 192, 192, 0.4);
+			border: black 2px solid;
+		}
 
-	#titleScreen > div> h1{
-		font-size: 80px;
-		margin: 0;
-	}
+			#titleScreen > div> h1{
+				font-size: 80px;
+				margin: 0;
+			}
 
-	#titleScreen > h4{
-		bottom: 0;
-		margin-bottom: 10vh;
-		position: absolute;
-		text-align: center;
-		display: block;
-		width: 100%;
-		animation-duration: 4s;
-		font-size: 60px;
-	}
+		#titleScreen > h4{
+			bottom: 0;
+			margin-bottom: 10vh;
+			position: absolute;
+			text-align: center;
+			display: block;
+			width: 100%;
+			animation-duration: 4s;
+			font-size: 60px;
+		}
 
 /* Instructions/Story Screen */
-	#instructionsScreen{
+	#instructionsScreen {
 		background-image: url('../images/defaultBackground.jpg');
 		background-size: cover;
 		background-position: center;
@@ -73,43 +64,41 @@ footer{
 		display: none;
 	}
 
-	#storyBox{
-		background-color: rgba(192, 192, 192, 0.8);
-		border: black 2px solid;
-		margin: 0 10px 0 10px;
-		overflow: scroll;
-		font-family: 'Abril Fatface', cursive;
-		top: 2%;
-		position: absolute;
-		display: flex;
-		justify-content: center;
-		flex-direction: column;
-		max-height: 80%;
-		/* height: 600px; */
-	}
+		#storyBox {
+			background-color: rgba(192, 192, 192, 0.8);
+			border: black 2px solid;
+			margin: 0 10% 0 10%;
+			font-family: 'Abril Fatface', cursive;
+			top: 10%;
+			position: absolute;
+			display: flex;
+			justify-content: center;
+			flex-direction: column;
+			max-height: 80%;
+			width: 80%;
+		}
 
-	#storyBox > h3{
-		text-align: center;
-		margin: 0;
-	}
+			#storyBox > h3 {
+				text-align: center;
+				margin: 0;
+			}
 
-	#storyBox > p{
-		margin: 8px 8px 8px 8px;
-		font-size: 20px;
-	}
+			#storyBox > p {
+				margin: 8px 8px 8px 8px;
+				font-size: 20px;
+			}
 
-	#startGame{
-		/* margin: 0 auto 0px auto; */
-		display: block;
-		position: absolute;
-		bottom: 5%;
-		width: 40%;
-		height: 10%;
-		left: 30%;
-		background-color: gray;
-		color: black;
-		animation-duration: 4s;
-	}
+		#startGame {
+			display: block;
+			position: absolute;
+			bottom: 5%;
+			width: 40%;
+			height: 10%;
+			left: 30%;
+			background-color: gray;
+			color: black;
+			animation-duration: 4s;
+		}
 
 /* Game Screen */
 	#gameScreen{
@@ -130,6 +119,18 @@ footer{
 			background-color: rgba(150, 150, 150, 1);
 			grid-row: 1;
 		}	
+
+			#playerLevel{
+				margin: auto 0 auto 5px;
+				width: 120px;
+				height: 90%;
+			}
+
+			#helpButton{
+				margin: auto 5px auto 0;
+				width: 120px;
+				height: 90%;
+			}
 
 		#main-space{
 			display: grid;
@@ -237,6 +238,7 @@ footer{
 						display: flex;
 						flex-direction: column;
 						justify-content: space-around;
+						align-content: center;
 					}
 
 					#enemyDebuffs{
@@ -247,6 +249,7 @@ footer{
 						display: flex;
 						flex-direction: column;
 						justify-content: space-around;
+						align-content: center;
 					}
 
 						#enemyDebuffs > img, #enemyWeakness > img{
@@ -315,69 +318,46 @@ footer{
 		justify-content: center;
 	}
 
-	#player-stats{
-		display: grid;
-		grid-template-columns: 1fr 3fr;
-		grid-template-rows: 1fr 1fr;
-		justify-content: center;
-		align-items: center;
-		text-align: center;
-		place-items: center;
-		background-image: url('../images/logBackground3.gif');
-		background-position: center;
-		background-size: cover;
-	}
+		#player-stats{
+			display: grid;
+			grid-template-columns: 1fr 3fr;
+			grid-template-rows: 1fr 1fr;
+			justify-content: center;
+			align-items: center;
+			text-align: center;
+			place-items: center;
+			background-image: url('../images/logBackground3.gif');
+			background-position: center;
+			background-size: cover;
+		}
 
-	#player-stats > h6{
-		background-color: rgba(0,0,0, 0.7);
-		color: white;
-		height: 40%;
-		margin: 0;
-		text-align: center;
-		/* margin-right: 10px; */
-		align-self: center;
-		justify-self: end;
-		border-top-left-radius: 45%;
-		border-bottom-left-radius: 45%;
-		border-top-right-radius: 15%;
-		border-bottom-right-radius: 15%;
-		width: 80%;
-		font-size: 70%;
-	}
+			#player-stats > h6{
+				background-color: rgba(0,0,0, 0.7);
+				color: white;
+				height: 40%;
+				margin: 0;
+				text-align: center;
+				/* margin-right: 10px; */
+				align-self: center;
+				justify-self: end;
+				border-top-left-radius: 45%;
+				border-bottom-left-radius: 45%;
+				border-top-right-radius: 15%;
+				border-bottom-right-radius: 15%;
+				width: 80%;
+				font-size: 70%;
+			}
 
-	#health, #mana{
-		width: 80%;
-		height: 40%;
-		text-align: center;
-		justify-self: start;
-	}
+			#health, #mana{
+				width: 80%;
+				height: 40%;
+				text-align: center;
+				justify-self: start;
+			}
 
-	#currentHP, #currentMP{
-		margin: 0;
-	}
-
-	#upperleft-button, #upperright-button, #lowerleft-button{
-		visibility: hidden;
-	}
-
-	#displayStats{
-		height: 600px;
-		width: 208px;
-		position: absolute;
-		display: none;
-		text-align: left;
-		border: 2px solid black;
-		height: 600px;
-		background-image: url('../images/background1.jpg');
-		background-position: center;
-		background-size: cover;
-	}
-
-	#displayStats > p {
-		margin-left: 10px;
-		margin-top: 5px;
-		margin-bottom: 5px;
-	}
+				#currentHP, #currentMP{
+					margin: 0;
+				}
 
 	#combat-block{
 		margin-right: auto;
@@ -400,20 +380,66 @@ footer{
 		align-items: center;
 	}
 
-	#combat-block > h2{
-		background-color: white;
-		height: 100%;
-		width: 100%;
-		text-align: center;
-		vertical-align: 100%;
-		margin: 0;
-		place-items: center;
-		justify-content: center;
-		font-size: 25px;
+		#combat-block > h2{
+			background-color: white;
+			height: 100%;
+			width: 100%;
+			text-align: center;
+			vertical-align: 100%;
+			margin: 0;
+			place-items: center;
+			justify-content: center;
+			font-size: 25px;
+		}
+
+		#combat-block > button{
+			width: 100%;
+			height: 100%;
+			font-size: 100%;
+		}
+
+		#upperleft-button, #upperright-button, #lowerleft-button {
+			visibility: hidden;
+		}
+
+	#displayStats{
+		max-height: 80vh;
+		width: 208px;
+		display: none;
+		position: absolute;
+		margin: auto auto;
+		text-align: left;
+		border: 2px solid black;
+		background-image: url('../images/background1.jpg');
+		background-position: center;
+		background-size: cover;
+		overflow: auto;
+		align-self: center;
+		justify-self: center;
 	}
 
-	#combat-block > button{
-		width: 100%;
-		height: 100%;
-		font-size: 100%;
+		#displayStats > p {
+			margin-left: 10px;
+			margin-top: 5px;
+			margin-bottom: 5px;
+		}
+
+	#storyPopUp{
+		display: none;
+		position: absolute;
+		align-self: center;
+		justify-self: center;
+		flex-direction: column;
+		justify-content: space-around;
+		align-content: center;
+		text-align: center;
+		width: 60vw;
+		height: 60vh;
+		overflow: auto;
+		background-color: rgb(204, 199, 199);
+		border: 2px black solid;
 	}
+
+		#storyPopUp > h4, #storyPopUp > p{
+			margin: 0 5px 0 5px;
+		}

@@ -7,13 +7,16 @@
 	const $lowerRightButton = $('#lowerright-button');
 	const $commandDescription = $('#commandDescription');
 	const $startGame = $('#startGame');
-	let magicToggle = false;
-	let itemToggle = false;
+	const $storyPopUp = $('#storyPopUp');
+	let titleScreen = true;
+	let storyPop = false;
+	let startingZone = true;
 	let battleToggle = false;
 	let playerToggle = false;
+	let magicToggle = false;
+	let itemToggle = false;
 	let gameOverToggle = false;
-	let startingZone = true;
-	let titleScreen = true;
+	let playerDisplay = false;
 
 	$('html').click(function(){
 		if(titleScreen === true){
@@ -26,6 +29,14 @@
 	$($startGame).click(function(){
 		$('#instructionsScreen').css('display', 'none');
 		$('#gameScreen').css('display', 'grid');
+	})
+
+	$($storyPopUp).click(() => {
+		if(storyPop === true){
+			storyPop = false;
+			$storyPopUp.empty();
+			$storyPopUp.css('display', 'none');
+		}
 	})
 
 //Hover functions for all buttons
@@ -116,22 +127,25 @@
 		}
 	);
 
-	$('#playerLevel').hover(function(){
-		console.log('hover');
-		$('#displayStats').css('display', 'block');
-		$('#displayStats').append(`<p style="color: white">Player Stats:</p>`);
-		$('#displayStats').append(`<p style="color: rgb(135,206,235)">Level = ${player.level}`);
-		$('#displayStats').append(`<p style="color: rgb(135,206,235)">Max HP = ${player.maxHP}</p>`);
-		$('#displayStats').append(`<p style="color: rgb(135,206,235)">Max MP = ${player.maxMP}</p>`);
-		$('#displayStats').append(`<p style="color: rgb(135,206,235)">Strength = ${player.strength}</p>`);
-		$('#displayStats').append(`<p style="color: rgb(135,206,235)">Defense = ${player.defense}</p>`);
-		$('#displayStats').append(`<p style="color: rgb(135,206,235)">MP Regen = ${player.manaRegen}</p>`);
-		$('#displayStats').append(`<p style="color: orange">Fire spell:<br>Cost = ${player.fireSpellProperties.spellCost} MP<br>Damage: ${player.fireSpellProperties.fireDmg}<br>Burn Chance = ${Math.floor(player.fireSpellProperties.burnChance * 100)}%</p>`);
-		$('#displayStats').append(`<p style="color: teal">Ice spell:<br>Cost = ${player.iceSpellProperties.spellCost} MP<br>Damage: ${player.iceSpellProperties.iceDmg}<br>Frostbite Chance = ${Math.floor(player.iceSpellProperties.frostbiteChance * 100)}%</p>`);
-		$('#displayStats').append(`<p style="color: rgb(218,112,214)">Lightning spell:<br>Cost = ${player.lightningSpellProperties.spellCost} MP<br>Damage: ${player.lightningSpellProperties.lightningDmg}<br>Shock Chance = ${Math.floor(player.lightningSpellProperties.shockChance * 100)}%</p>`);
-	}, function(){
-		$('#displayStats').empty();
-		$('#displayStats').css('display', 'none');
+	$('#playerLevel').click(function(){
+		if(playerDisplay === false){
+			playerDisplay = true;
+			$('#displayStats').css('display', 'block');
+			$('#displayStats').append(`<p style="color: white">Player Stats:</p>`);
+			$('#displayStats').append(`<p style="color: rgb(135,206,235)">Level = ${player.level}`);
+			$('#displayStats').append(`<p style="color: rgb(135,206,235)">Max HP = ${player.maxHP}</p>`);
+			$('#displayStats').append(`<p style="color: rgb(135,206,235)">Max MP = ${player.maxMP}</p>`);
+			$('#displayStats').append(`<p style="color: rgb(135,206,235)">Strength = ${player.strength}</p>`);
+			$('#displayStats').append(`<p style="color: rgb(135,206,235)">Defense = ${player.defense}</p>`);
+			$('#displayStats').append(`<p style="color: rgb(135,206,235)">MP Regen = ${player.manaRegen}</p>`);
+			$('#displayStats').append(`<p style="color: orange">Fire spell:<br>Cost = ${player.fireSpellProperties.spellCost} MP<br>Damage: ${player.fireSpellProperties.fireDmg}<br>Burn Chance = ${Math.floor(player.fireSpellProperties.burnChance * 100)}%</p>`);
+			$('#displayStats').append(`<p style="color: teal">Ice spell:<br>Cost = ${player.iceSpellProperties.spellCost} MP<br>Damage: ${player.iceSpellProperties.iceDmg}<br>Frostbite Chance = ${Math.floor(player.iceSpellProperties.frostbiteChance * 100)}%</p>`);
+			$('#displayStats').append(`<p style="color: rgb(218,112,214)">Lightning spell:<br>Cost = ${player.lightningSpellProperties.spellCost} MP<br>Damage: ${player.lightningSpellProperties.lightningDmg}<br>Shock Chance = ${Math.floor(player.lightningSpellProperties.shockChance * 100)}%</p>`);
+		} else{
+			playerDisplay = false;
+			$('#displayStats').empty();
+			$('#displayStats').css('display', 'none');
+		}
 	})
 
 //All click commands
@@ -648,49 +662,73 @@ const zones = {
 	changeZones(){
 		if(startingZone === true){
 			startingZone = false;
-			alert(`You begin your journey by setting course through open fields to reach the Archway Caves. The enemies you will encounter are simple, but keep your guard up - you don't want the journey to end as soon as it has started.`);
+			storyPop = true;
+			$storyPopUp.css('display', 'flex');
+			$storyPopUp.append(`<h4>You begin your journey by setting course through open fields to reach the Archway Caves. The enemies you will encounter are simple, but keep your guard up - you don't want the journey to end as soon as it has started.</h4>`);
+			$storyPopUp.append(`<p>Click to continue forward</p>`)
 			$('main').css('background-image', this.fields.imageURL);
 			$('#zone-info').text(`Zone: ${this.fields.name}`);
 			game.totalNumBattleRounds = this.fields.numBattles;
 			game.zone = this.fields.name;
 		} else if(game.zone === this.fields.name && startingZone === false){
-			alert('You have made it to the entrnace of Archway Cave. A guard stands near. You approach the entrance but the guard says that you must defeat them in battle before they can allow you to pass. The only way forward is through them!');
+			storyPop = true;
+			$storyPopUp.css('display', 'flex');
+			$storyPopUp.append(`<h4>You have made it to the entrnace of Archway Cave. A guard stands near. You approach the entrance but the guard says that you must defeat them in battle before they can allow you to pass. The only way forward is through them!</h4>`);
+			$storyPopUp.append(`<p>Click to continue forward</p>`)
 			$('main').css('background-image', this.caveEntrance.imageURL);
 			$('#zone-info').text(`Zone: ${this.caveEntrance.name}`);
 			game.totalNumBattleRounds = this.caveEntrance.numBattles;
 			game.zone = this.caveEntrance.name;
 		}else if(game.zone === this.caveEntrance.name && startingZone === false){
-			alert('You have defeated the guard and he allows you to pass. The journey through Archway Cave is on its way.');
+			storyPop = true;
+			$storyPopUp.css('display', 'flex');
+			$storyPopUp.append(`<h4>You have defeated the guard and he allows you to pass. The journey through Archway Cave is on its way.</h4>`);
+			$storyPopUp.append(`<p>Click to continue forward</p>`)
 			$('main').css('background-image', this.cave.imageURL);
 			$('#zone-info').text(`Zone: ${this.cave.name}`);
 			game.totalNumBattleRounds = this.cave.numBattles;
 			game.zone = this.cave.name;
 		}else if(game.zone === this.cave.name && startingZone === false){
-			alert('You see the light of the moon shine through as you approach stairs. As you approach the stairs, a dark figure emerges from the shadows. Without a word it draws its sword and prepares to strike. Look alive!');
+			storyPop = true;
+			$storyPopUp.css('display', 'flex');
+			$storyPopUp.append(`<h4>You see the light of the moon shine through as you approach stairs. As you approach the stairs, a dark figure emerges from the shadows. Without a word it draws its sword and prepares to strike. Look alive!</h4>`);
+			$storyPopUp.append(`<p>Click to continue forward</p>`);
 			$('main').css('background-image', this.caveExit.imageURL);
 			$('#zone-info').text(`Zone: ${this.caveExit.name}`);
 			game.totalNumBattleRounds = this.caveExit.numBattles;
 			game.zone = this.caveExit.name;
 		}else if(game.zone === this.caveExit.name && startingZone === false){
-			alert(`You exit the cave to a green haze and the moon providing the only light. You see lines of tombstones and the restless undead walking around. The Castle to Hell lies just beyond`);
+			storyPop = true;
+			$storyPopUp.css('display', 'flex');
+			$storyPopUp.append(`<h4>You exit the cave to a green haze and the moon providing the only light. You see lines of tombstones and the restless undead walking around. The Castle to Hell lies just beyond</h4>`);
+			$storyPopUp.append(`<p>Click to continue forward</p>`);
 			$('main').css('background-image', this.graveyard.imageURL);
 			$('#zone-info').text(`Zone: ${this.graveyard.name}`);
 			game.totalNumBattleRounds = this.graveyard.numBattles;
 			game.zone = this.graveyard.name;
 		}else if(game.zone === this.graveyard.name && startingZone === false){
-			alert(`Making it through the graveyard, you stumble across a fortress type castle. This must be the Castle to Hell. A giant ogre with a club starts charging at you, prepare for battle!`);
+			storyPop = true;
+			$storyPopUp.css('display', 'flex');
+			$storyPopUp.append(`<h4>Making it through the graveyard, you stumble across a fortress type castle. This must be the Castle to Hell. A giant ogre with a club starts charging at you, prepare for battle!</h4>`);
+			$storyPopUp.append(`<p>Click to continue forward</p>`);
 			$('main').css('background-image', this.castleEntrance.imageURL);
 			$('#zone-info').text(`Zone: ${this.castleEntrance.name}`);
 			game.totalNumBattleRounds = this.castleEntrance.numBattles;
 			game.zone = this.castleEntrance.name;
 		}else if(game.zone === this.castleEntrance.name && startingZone === false){
-			alert(`You make it into the Castle to Hell. You must fight past the demons inside to get through the portal to fight the Demon Overlord!`);
+			storyPop = true;
+			$storyPopUp.css('display', 'flex');
+			$storyPopUp.append(`<h4>You make it into the Castle to Hell. You must fight past the demons inside to get through the portal to fight the Demon Overlord!</h4>`);
+			$storyPopUp.append(`<p>Click to continue forward</p>`);
 			$('main').css('background-image', this.castleInterior.imageURL);
 			$('#zone-info').text(`Zone: ${this.castleInterior.name}`);
 			game.totalNumBattleRounds = this.castleInterior.numBattles;
 			game.zone = this.castleInterior.name;
 		}else if(game.zone === this.castleInterior.name && startingZone === false){
-			alert(`You have finally made it to the Demon Overlord. He's expected you and prepared accordingly. It's now or never - time to end this!`);
+			storyPop = true;
+			$storyPopUp.css('display', 'flex');
+			$storyPopUp.append(`<h4>You have finally made it to the Demon Overlord. He's expected you and prepared accordingly. It's now or never - time to end this!</h4>`);
+			$storyPopUp.append(`<p>Click to continue forward</p>`);
 			$('main').css('background-image', this.castleThroneRoom.imageURL);
 			$('#zone-info').text(`Zone: ${this.castleThroneRoom.name}`);
 			game.totalNumBattleRounds = this.castleThroneRoom.numBattles;
@@ -1100,7 +1138,7 @@ const game = {
 						player.levelUp();
 					} else{
 						$($update).prepend(`<p style="color: green">You have defeated the enemy and gained ${game.currentEnemy.exp} experience point(s).</p>`);
-						$($update).prepend(`<p style="border-bottom: 1px black solid; color: green"> ${player.levelUpEXP - player.currentEXP} point(s) until level up.</p>`);
+						$($update).prepend(`<p style="border-bottom: 1px white solid; color: green"> ${player.levelUpEXP - player.currentEXP} point(s) until level up.</p>`);
 					}
 					if(player.currentMP < player.maxMP && player.currentHP > 0){
 						player.currentMP += player.manaRegen;
@@ -1165,7 +1203,10 @@ const game = {
 	},
 	gameWon(){
 		if(game.currentEnemy.HP <= 0 && game.zone === 'Castle to Hell Throne Room'){
-			alert(`Congratulations, you have defeated the Demon Overlord and are deemed a Master Wizard! You can fight the Demon Overlord again with all bonus' from the final battle, or you can refresh the page and start completely over!`);
+			storyPop = true;
+			$storyPopUp.css('display', 'flex');
+			$storyPopUp.append(`<h4>You have finally made it to the Demon Overlord. He's expected you and prepared accordingly. It's now or never - time to end this!</h4>`);
+			$storyPopUp.append(`<p>Click to continue forward</p>`);
 		}
 	}
 }
