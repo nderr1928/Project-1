@@ -4,455 +4,442 @@ body{
 	background-repeat: no-repeat;
 	height: 100vh;
 	width: 100vw;
-}
-
-header{
-	display: grid;
-	grid-template-rows: 1fr;
-	grid-template-columns: 25% 75%;
-	text-align: center;
-	background-color: rgba(150, 150, 150, 1);
-	grid-row: 1;
-}
-
-footer{
-	margin-bottom: 0px;
-	border: 2px solid black;
-	position: relative;
-	bottom: 0;
-	width: 100%;
-	height: 10%;
-}
-
-main{
-	background-image: url('../images/defaultBackground.jpg');
-	background-size: cover;
-	background-position: center;
-}
-
-#combat-block{
-	margin-right: auto;
-	margin-left: auto;
-	place-items: center;
-	vertical-align: middle;
-	height: 100%;
-	width: 100%;
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	grid-template-rows: 1fr 1fr;
+	display: flex;
+	flex-direction: row;
 	justify-content: center;
-	background-image: url(../images/statsBackground.jpg);
-	background-size: cover;
-	background-position: center;
-	opacity: 1;
-	border-left: 2px solid black;
-	color: black;
-	grid-gap: 2px;
-	align-items: center;
+	align-content: center;
+	overflow: auto;
 }
 
-#combat-block > h2{
-	background-color: white;
-	height: 100%;
-	width: 100%;
-	text-align: center;
-	vertical-align: 100%;
+h5{
 	margin: 0;
-	place-items: center;
-	justify-content: center;
-	font-size: 25px;
-}
-
-#combat-block > button{
-	width: 100%;
-	height: 100%;
-	font-size: 100%;
-}
-
-#enemy-container{
-	grid-area: enemy;
-	height: 571px;
-	width: 100%;
-	justify-content: center;
-	text-align: center;
-	display: grid;
-	grid-template-rows: 1fr 120px;
-	grid-template-columns: 1fr;
-	grid-template-areas:
-		"enemyPic"
-		"enemyStats";
-}
-
-#enemy-image-zone{
-	grid-area: enemyPic;
-	align-items: center;
-	justify-items: center;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 }
 
-#enemy-image{
-	position: relative;
-	height: 150px;
-	width: 150px;
-	background-image: null;
-	background-size: cover;
-	margin: auto;
-	margin-top: 160px;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	/* align-self: center; */
-}
-
-#attack-animation{
-	height: 150px;
-	width: 150px;
-	background-size: cover;
-	margin: auto auto;
-	/* background-image: null; */
-}
-
-#enemy-info{
-	grid-area: enemyStats;
-	background-color: rgba(245, 245, 245, 0.95);
-	border: 2px black solid;
-	display: grid;
-	grid-template-columns: 1fr 1.5fr 1.5fr 2fr;
-	grid-template-rows:	40px 80px;
-	grid-template-areas: 
-		"HP weak resist command"
-		"value element element2 description";
-}
-
-#enemyWeakness > p, #enemyDebuffs > p{
-	margin: 0;
-}
-
-#enemy-info > div{
-	text-align: center;
-	width: 100%;
-	height: 100%;
-	/* line-height: 100%; */
-	margin: 0;
-	border: black 1px solid;
-	/* display: flexbox; */
-	align-items: center;
-	/* place-items:  center; */
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-}
-
-#enemy-info > div > h6{
-	/* height: 100%; */
-	margin: 0;
-}
-
-#enemy-info > div > p{
-	margin: 0;
-} 
-
-#player-container{
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	grid-template-rows: 1fr;
-	justify-content: center;
-	/* height: 200px; */
-	/* width: 100%; */
-	/* align-items: center;
-	place-items: center; */
-}
-
-#player-stats{
-	display: grid;
-	grid-template-columns: 1fr 3fr;
-	grid-template-rows: 1fr 1fr;
-	justify-content: center;
-	align-items: center;
-	text-align: center;
-	place-items: center;
-	background-image: url('../images/logBackground3.gif');
-	background-position: center;
-	background-size: cover;
-}
-
-#player-stats > h6{
-	background-color: rgba(0,0,0, 0.7);
-	color: white;
-	height: 40%;
-	margin: 0;
-	text-align: center;
-	/* margin-right: 10px; */
-	align-self: center;
-	justify-self: end;
-	border-top-left-radius: 45%;
-	border-bottom-left-radius: 45%;
-	border-top-right-radius: 15%;
-	border-bottom-right-radius: 15%;
-	width: 80%;
-	font-size: 70%;
-}
-
-#main-space{
-	display: grid;
-	grid-template-columns: 1fr 4fr;
-	grid-template-rows: 1fr;
-	
-}
-
-.zone-info{
-	background-color: rgba(225, 225, 225, 0.4);
-	border-bottom: 2px black solid;
-	border-top: 2px black solid;
-}
-
-.zone-info > h5{
-	display: inline-block;
-}
-
-#zone-info{
-	text-align: left;
-	width: 49%;
-	margin: 0;
-	justify-self: start;
-	margin-left: 2px;
-}
-
-#battle-round{
-	text-align: right;
-	width: 49%;
-	margin: 0;
-	justify-self: end;
-	margin-right: 2px;
-}
-
-#log{
-	text-align: left;
-	border: 2px solid black;
-	height: 600px;
-	background-image: url('../images/background1.jpg');
-	background-position: center;
-	background-size: cover;
-	display: grid;
-	justify-items: center;
-	grid-template-rows: 50px 30px 1fr;
-	grid-template-columns: 1fr;
-	grid-template-areas: 
-		"header"
-		"clearbutton"
-		"text";
-}
-
-#log > h1 {
-	text-align: center;
-	width: 100%;
-	border-bottom: 2px solid black;
-	margin-bottom: 5px;
-	grid-area: header;
-	background-color: rgba(192, 192, 192, 0.7);
-}
-
-#log > button{
-	min-width: 104px;
-	grid-area: clearbutton;
-	width: 50%;
-	/* display: flex; */
-	justify-self: center;
-	text-align: center;
-	height: 100%;
-}
-
-.progress{
-	width: 80%;
-	height: 40%;
-	text-align: center;
-	justify-self: start;
-}
-
-#updates{
-	/* align-self: center end; */
-	grid-area: text;
-	max-height: 558px;
-	width: 100%;
-	height: 100%;
-	text-align: left;
-	flex-direction: column-reverse;
-	overflow: scroll;
-	display: flex;
-	/* margin-top: 10px; */
-}
-
-#updates > p{
-	width: 100% - 10px;
-	/* vertical-align: bottom; */
-	align-self: bottom;
-	margin-left: 5px;
-	margin-top: 4px;
-	margin-bottom: 4px;
-	margin-right: 5px;
-}
-
-#currentHP, #currentMP{
-	margin:0;
-}
-
-#upperleft-button, #upperright-button, #lowerleft-button{
-	visibility: hidden;
-}
-
-#titleScreen{
-	height: 100%;
-	width: 100%;
-	background-image: url('../images/defaultBackground.jpg');
-	background-size: cover;
-	background-position: center;
-	font-family: 'Lobster', cursive;
-	color: orange;
-	text-align: center;
-	display: grid;
-	grid-template-columns: 1fr 5fr 1fr;
-	grid-template-rows: 250px 80px 300px;
-	justify-content: center;
-	grid-template-areas:
-		"title title title"
-		"blank1L button blank1R"
-		"blankL story blankR"
-}
-
-#titleScreen > div> h1{
-	font-size: 100px;
-	margin: 0;
-}
-
-#titleBox{
-	width: 100%;
-	overflow: scroll;
-	border: 2px black solid;
-	background-color: rgba(192, 192, 192, 0.4);
-	grid-row: 1;
-	grid-column: 1/ span 2/ span 3;
-	grid-area: title;
-}
-
-#storyBox{
-	border: 2px black solid;
-	grid-area: story;
-	grid-column: 2;
-	grid-row: 3;
-	height: 100%;
-	width: 100%;
-	background-color: rgba(192, 192, 192, 0.8);
-	bottom: 0;
-	overflow: scroll;
-}
-
-#startGame{
-	grid-area: button;
-	width: 30%;
-	height: 80%;
-	margin: auto auto;
-	background-color: rgba(245, 245, 245, 0.95);
-	-webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */
-		   -moz-animation: fadein 2s; /* Firefox < 16 */
-			-ms-animation: fadein 2s; /* Internet Explorer */
-			 -o-animation: fadein 2s; /* Opera < 12.1 */
-				animation: fadein 2s;
-	}
-	
-	@keyframes fadein {
-		from { opacity: 0; }
-		to   { opacity: 1; }
-	}
-	
-	/* Firefox < 16 */
-	@-moz-keyframes fadein {
-		from { opacity: 0; }
-		to   { opacity: 1; }
-	}
-	
-	/* Safari, Chrome and Opera > 12.1 */
-	@-webkit-keyframes fadein {
-		from { opacity: 0; }
-		to   { opacity: 1; }
-	}
-	
-	/* Internet Explorer */
-	@-ms-keyframes fadein {
-		from { opacity: 0; }
-		to   { opacity: 1; }
-	}
-	
-	/* Opera < 12.1 */
-	@-o-keyframes fadein {
-		from { opacity: 0; }
-		to   { opacity: 1; }
+/* Title screen */
+	#titleScreen{
+		height: 100%;
+		width: 100%;
+		background-image: url('../images/defaultBackground.jpg');
+		background-size: cover;
+		background-position: center;
+		font-family: 'Lobster', cursive;
+		color: orange;
+		text-align: center;
+		display: block;
 	}
 
-#storyBox >  p {
+		#titleBox{
+			top: 15%;
+			position: relative;
+			background-color: rgba(192, 192, 192, 0.4);
+			border: black 2px solid;
+		}
+
+			#titleScreen > div> h1{
+				font-size: 80px;
+				margin: 0;
+			}
+
+		#titleScreen > h4{
+			bottom: 0;
+			margin-bottom: 10vh;
+			position: absolute;
+			text-align: center;
+			display: block;
+			width: 100%;
+			animation-duration: 4s;
+			font-size: 60px;
+		}
+
+/* Instructions/Story Screen */
+	#instructionsScreen {
+		background-image: url('../images/defaultBackground.jpg');
+		background-size: cover;
+		background-position: center;
+		height: 100%;
+		width: 100%;
+		display: none;
+	}
+
+		#storyBox {
+			background-color: rgba(192, 192, 192, 0.8);
+			border: black 2px solid;
+			margin: 0 10% 0 10%;
+			font-family: 'Abril Fatface', cursive;
+			top: 10%;
+			position: absolute;
+			display: flex;
+			justify-content: center;
+			flex-direction: column;
+			max-height: 80%;
+			width: 80%;
+		}
+
+			#storyBox > h3 {
+				text-align: center;
+				margin: 0;
+			}
+
+			#storyBox > p {
+				margin: 8px 8px 8px 8px;
+				font-size: 20px;
+			}
+
+		#startGame {
+			display: block;
+			position: absolute;
+			bottom: 5%;
+			width: 40%;
+			height: 10%;
+			left: 30%;
+			background-color: gray;
+			color: black;
+			animation-duration: 4s;
+		}
+
+/* Game Screen */
+	#gameScreen{
+		display: none;
+		height: 100vh;
+		width: 80vw;
+		grid-template-columns: 1fr;
+		grid-template-rows: 5vh 80vh 15vh;
+		border: 3px solid black;
+	}
+
+		header{
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			align-content: center;
+			text-align: center;
+			background-color: rgba(150, 150, 150, 1);
+			grid-row: 1;
+		}	
+
+			#playerLevel{
+				margin: auto 0 auto 5px;
+				width: 120px;
+				height: 90%;
+			}
+
+			#helpButton{
+				margin: auto 5px auto 0;
+				width: 120px;
+				height: 90%;
+			}
+
+		#main-space{
+			display: grid;
+			grid-template-columns: 1.5fr 3fr;
+			grid-template-rows: 1fr;	
+		}
+
+			#log{
+				text-align: left;
+				border: 2px solid black;
+				height: 100%;
+				background-image: url('../images/background1.jpg');
+				background-position: center;
+				background-size: cover;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+			}
+
+				#logHeader{
+					display: flex;
+					flex-direction: row;
+					justify-content: space-between;
+				}
+
+				#logHeader > h1 {
+					text-align: center;
+					width: 100%;
+					border-bottom: 2px solid black;
+					background-color: rgba(192, 192, 192, 0.7);
+					margin: 0;
+				}
+
+				#logHeader > button{
+					min-width: 104px;
+					width: 50%;
+					/* display: flex; */
+					justify-self: center;
+					text-align: center;
+					height: 100%;
+					border-bottom: 2px solid black;
+				}
+
+				#updates{
+					max-height: 70vh;
+					width: 100%;
+					height: 100%;
+					text-align: left;
+					flex-direction: column-reverse;
+					overflow: scroll;
+					display: flex;
+					position: relative;
+					bottom: 0;
+				}
+
+				#updates > p {
+					width: 100% - 10px;
+					/* vertical-align: bottom; */
+					align-self: bottom;
+					margin-left: 5px;
+					margin-top: 4px;
+					margin-bottom: 4px;
+					margin-right: 5px;
+				}
+
+			main{
+				background-image: url('../images/defaultBackground.jpg');
+				background-size: cover;
+				background-position: center;
+			}
+
+				.zone-info{
+					display: flex;
+					flex-direction: row;
+					justify-content: space-between;
+					background-color: rgba(225, 225, 225, 0.4);
+					border-bottom: 2px black solid;
+					border-top: 2px black solid;
+					height: 5%;
+				}
+			
+					#zone-info{
+						margin-left: 2px;
+					}
+				
+					#battle-round{
+						margin-right: 2px;
+					}
+
+				#enemy-container{
+					height: 95%;
+					width: 100%;
+					justify-content: center;
+					text-align: center;
+					display: grid;
+					grid-template-rows: 1fr 4fr 1fr;
+					grid-template-columns: 1fr 4fr 1fr;
+				}
+
+					#enemyWeakness{
+						grid-row: 2;
+						grid-column: 1;
+						height: 100%;
+						width: 100%;
+						display: flex;
+						flex-direction: column;
+						justify-content: space-around;
+						align-content: center;
+					}
+
+					#enemyDebuffs{
+						grid-row: 2;
+						grid-column: 3;
+						height: 100%;
+						width: 100%;
+						display: flex;
+						flex-direction: column;
+						justify-content: space-around;
+						align-content: center;
+					}
+
+						#enemyDebuffs > img, #enemyWeakness > img{
+							height: 33%;
+							width: 100%;
+						}
+
+					#enemyHealth{
+						grid-row: 3;
+						grid-column: 2;
+						display: none;
+						flex-direction: column;
+						justify-content: center;
+						align-content: center;
+						width: 80%;
+						height: 40%;
+						align-self: top;
+						justify-self: center;
+					}
+
+						#enemyHpBar {
+							width: 100%;
+							height: 100%;
+						}
+
+							#enemyCurrentHP{
+								margin: 0;
+							}
+
+					#enemy-image-zone{
+						align-items: center;
+						justify-items: center;
+						display: flex;
+						flex-direction: column;
+						justify-content: center;
+						align-content: center;
+						height: 100%;
+						width: 100%;
+						grid-row: 2;
+						grid-column: 2;
+					}
+
+						#enemy-image{
+							position: relative;
+							height: 150px;
+							width: 150px;
+							background-image: null;
+							background-size: cover;
+							margin: auto;
+							display: flex;
+							flex-direction: column;
+							justify-content: center;
+						}
+
+							#attack-animation{
+								height: 150px;
+								width: 150px;
+								background-size: cover;
+								margin: auto auto;
+							}
+
+	#player-container{
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		grid-template-rows: 1fr;
+		justify-content: center;
+	}
+
+		#player-stats{
+			display: grid;
+			grid-template-columns: 1fr 3fr;
+			grid-template-rows: 1fr 1fr;
+			justify-content: center;
+			align-items: center;
+			text-align: center;
+			place-items: center;
+			background-image: url('../images/logBackground3.gif');
+			background-position: center;
+			background-size: cover;
+		}
+
+			#player-stats > h6{
+				background-color: rgba(0,0,0, 0.7);
+				color: white;
+				height: 40%;
+				margin: 0;
+				text-align: center;
+				/* margin-right: 10px; */
+				align-self: center;
+				justify-self: end;
+				border-top-left-radius: 45%;
+				border-bottom-left-radius: 45%;
+				border-top-right-radius: 15%;
+				border-bottom-right-radius: 15%;
+				width: 80%;
+				font-size: 70%;
+			}
+
+			#health, #mana{
+				width: 80%;
+				height: 40%;
+				text-align: center;
+				justify-self: start;
+			}
+
+				#currentHP, #currentMP{
+					margin: 0;
+				}
+
+	#combat-block{
+		margin-right: auto;
+		margin-left: auto;
+		place-items: center;
+		vertical-align: middle;
+		height: 100%;
+		width: 100%;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		grid-template-rows: 1fr 1fr;
+		justify-content: center;
+		background-image: url(../images/statsBackground.jpg);
+		background-size: cover;
+		background-position: center;
+		opacity: 1;
+		border-left: 2px solid black;
 		color: black;
-		margin: 10px 10px 10px 10px;
-		font-size: 21px;
+		grid-gap: 2px;
+		align-items: center;
+	}
+
+		#combat-block > h2{
+			background-color: white;
+			height: 100%;
+			width: 100%;
+			text-align: center;
+			vertical-align: 100%;
+			margin: 0;
+			place-items: center;
+			justify-content: center;
+			font-size: 25px;
+		}
+
+		#combat-block > button{
+			width: 100%;
+			height: 100%;
+			font-size: 100%;
+		}
+
+		#upperleft-button, #upperright-button, #lowerleft-button {
+			visibility: hidden;
+		}
+
+	#displayStats{
+		max-height: 80vh;
+		width: 208px;
+		display: none;
+		position: absolute;
+		margin: auto auto;
 		text-align: left;
-		font-family: 'Abril Fatface', cursive;
-		-webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */
-		   -moz-animation: fadein 2s; /* Firefox < 16 */
-			-ms-animation: fadein 2s; /* Internet Explorer */
-			 -o-animation: fadein 2s; /* Opera < 12.1 */
-				animation: fadein 2s;
-	}
-	
-	@keyframes fadein {
-		from { opacity: 0; }
-		to   { opacity: 1; }
-	}
-	
-	/* Firefox < 16 */
-	@-moz-keyframes fadein {
-		from { opacity: 0; }
-		to   { opacity: 1; }
-	}
-	
-	/* Safari, Chrome and Opera > 12.1 */
-	@-webkit-keyframes fadein {
-		from { opacity: 0; }
-		to   { opacity: 1; }
-	}
-	
-	/* Internet Explorer */
-	@-ms-keyframes fadein {
-		from { opacity: 0; }
-		to   { opacity: 1; }
-	}
-	
-	/* Opera < 12.1 */
-	@-o-keyframes fadein {
-		from { opacity: 0; }
-		to   { opacity: 1; }
+		border: 2px solid black;
+		background-image: url('../images/background1.jpg');
+		background-position: center;
+		background-size: cover;
+		overflow: auto;
+		align-self: center;
+		justify-self: center;
 	}
 
-#gameScreen{
-	display: none;
-	height: 100%;
-	width: 100%;
-}
+		#displayStats > p {
+			margin-left: 10px;
+			margin-top: 5px;
+			margin-bottom: 5px;
+		}
 
-#displayStats{
-	height: 600px;
-	width: 208px;
-	position: absolute;
-	display: none;
-	text-align: left;
-	border: 2px solid black;
-	height: 600px;
-	background-image: url('../images/background1.jpg');
-	background-position: center;
-	background-size: cover;
-}
+	#storyPopUp{
+		display: none;
+		position: absolute;
+		align-self: center;
+		justify-self: center;
+		flex-direction: column;
+		justify-content: space-around;
+		align-content: center;
+		text-align: center;
+		width: 60vw;
+		height: 60vh;
+		overflow: auto;
+		background-color: rgb(204, 199, 199);
+		border: 2px black solid;
+	}
 
-#displayStats > p{
-	margin-left: 10px;
-	margin-top: 5px;
-	margin-bottom: 5px;
-}
+		#storyPopUp > h4, #storyPopUp > p{
+			margin: 0 5px 0 5px;
+		}

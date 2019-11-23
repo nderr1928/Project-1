@@ -1,0 +1,27 @@
+{
+  "name": "project-1",
+  "version": "1.0.0",
+  "description": "Wizard text game \tStory: \t\tYoung wizard proving himself to the wizard school - has to undergo trials",
+  "main": "index.js",
+  "dependencies": {
+    "animate.css": "^3.7.2",
+    "bootstrap": "^4.3.1",
+    "jquery": "^3.4.1",
+    "node": "^13.1.0",
+    "pepjs": "^0.5.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nderr1928/Project-1.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nderr1928/Project-1/issues"
+  },
+  "homepage": "https://github.com/nderr1928/Project-1#readme"
+}
